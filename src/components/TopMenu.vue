@@ -12,7 +12,7 @@ const menuAberto = ref(false);
     <header>
       <div class="header--logo">
         <img src="@/assets/gpter.png" alt="Logo" />
-        <h1 class="">Agarre</h1>
+        <h1 class="h1">Agarre</h1>
       </div>
       <nav>
         <ul :class="menuAberto ? 'menu' : ''">
@@ -32,6 +32,11 @@ const menuAberto = ref(false);
   </template>
 
 <style scoped>
+.h1{
+  color: #5e5e5e;
+  margin-top: 5%;
+  font-size:larger;
+}
 header {
   background: #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);

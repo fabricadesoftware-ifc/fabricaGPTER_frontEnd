@@ -14,12 +14,14 @@ const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
 
 <template>
   <div>
-    <h1>Pacientes</h1>
+    <h1 class="h1">Lista de pacientes</h1>
     <div class="container">
       <div class="card" v-for="patient in patients" :key="patient.id">
-        <h1 class="card--title">{{ patient.title }}</h1>
-        <p>{{ patient.description }}</p>
-        <p>{{ formatPrice(patient.price) }}</p>
+        <h1 class="card--title">{{ patient.name }}</h1>
+        <p>{{ patient.cpf }}</p>
+        <p>{{ patient.email }}</p>
+        <p>{{ patient.birth_date }}</p>
+        <p>{{ patient.gender }}</p>
         <img class="card--avatar" :src="patient.image" :alt="patient.title" />
       </div>
     </div>
@@ -27,6 +29,11 @@ const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
 </template>
 
 <style scoped>
+h1{
+  margin-top: 5%;
+  margin-left: 2%;
+  color: black;
+}
 .container {
   display: flex;
   flex-wrap: wrap;
