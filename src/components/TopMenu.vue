@@ -11,7 +11,7 @@ const menuAberto = ref(false);
 <template>
   <header>
     <div class="header--logo">
-      <img src="@/assets/gpter.png" alt="Logo" />
+      <img src="@/assets/logo.png" alt="Logo" />
       <h1 class="h1">Agarre</h1>
     </div>
     <nav>
