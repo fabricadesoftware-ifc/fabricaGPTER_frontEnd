@@ -1,7 +1,9 @@
 <script setup>
+  import PatientList from '@/components/PatientList.vue';
 </script>
 
 <template>
-  <main>
-  </main>
+  <PatientList />
 </template>
+
+<style scoped></style>
