@@ -1,11 +1,7 @@
-<script setup>
-import PatientList from '@/components/PatientList.vue';
-import TopMenu from '@/components/TopMenu.vue';
-
-</script>
+<script setup></script>
 
 <template>
-  <TopMenu />
-  <PatientList />
+  <RouterView />
 </template>
 
+<style scoped></style>
