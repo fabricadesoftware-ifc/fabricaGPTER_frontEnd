@@ -1,5 +1,7 @@
-<script setup></script>
+<script setup>
+import PatientList from '@/components/PatientList.vue';
+</script>
 
 <template>
-  <h1>Loja Virtual</h1>
+  <patient-list />
 </template>
