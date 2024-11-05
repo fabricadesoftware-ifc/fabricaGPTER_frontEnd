@@ -2,8 +2,6 @@
 import { onMounted } from 'vue';
 import { usePatientStore } from '@/stores/patient';
 
-import { formatDescription, formatPrice, formatTitle } from '@/helpers/format';
-
 const patientStore = usePatientStore();
 
 async function getPatients() {
@@ -18,41 +16,24 @@ onMounted(async () => {
 <template>
   <div class="product-list">
     <div v-if="patientStore.patients.length === 0">
-      <p>Pacientes não encontrados!!!</p>
+      <h3 class="spam">Produtos não encontrados!</h3>
     </div>
-    <div>
-    v-for="patient in patientStore.patients"
-      :key="patient.id"
+    <div v-for="patient in patientStore.patients"
+      :key="patient.id">
     </div>
     <div
       v-for="patient in patientStore.patients"
       :key="patient.id"
       class="produto-card"
     >
-      <div class="product-img-wrapper">
-        <img :src="patient.image?.url" alt="patient.name" />
-        <i class="mdi mdi-heart-outline" />
+    <div class="product-card">
+        <p>{{ patient.name }}</p><br>
+        <p>{{ patient.cpf }}</p><br>
+        <p>{{ patient.email }}</p>        
+        <p>{{ patient.birth_date }}</p>        
       </div>
-      <div class="product-title-price">
-        
-        <p>{{ formatTitle(patient.title) }}</p>
-        <p>{{ formatPrice(patient.price * 1) }}</p>
-        
-      </div>
-      <div class="product-description-stars">
-        
-        <p>{{ formatDescription(patient.description) }}</p>
-        
-        <div class="stars">
-          <i class="mdi mdi-star" size="20" />
-          <i class="mdi mdi-star" size="20" />
-          <i class="mdi mdi-star" size="20" />
-          <i class="mdi mdi-star" size="20" />
-          <i class="mdi mdi-star" size="20" />
-        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
@@ -67,6 +48,10 @@ onMounted(async () => {
 .product-card {
   width: 225px;
   font-family: 'Belleza', sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+
 }
 
 .product-img-wrapper {
@@ -99,14 +84,4 @@ onMounted(async () => {
   color: #010101;
 }
 
-.product-description-stars {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-}
-
-.product-description-stars p {
-  font-size: 12px;
-  color: #535050;
-}
 </style>
