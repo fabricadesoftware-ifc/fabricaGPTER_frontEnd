@@ -27,10 +27,9 @@ onMounted(async () => {
       class="produto-card"
     >
     <div class="product-card">
-        <p>{{ patient.name }}</p><br>
-        <p>{{ patient.cpf }}</p><br>
-        <p>{{ patient.email }}</p>        
-        <p>{{ patient.birth_date }}</p>        
+      <router-link to="/patient">
+          <button class="contact-button mr">{{ patient.name }}</button>
+        </router-link>
       </div>
       </div>
     </div>

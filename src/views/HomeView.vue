@@ -11,7 +11,7 @@ const getUserInfo = async () => {
   try {
     const authToken = localStorage.getItem('psg_auth_token');
     const passage = new Passage("p16xowieXpeF8v7ibn6dKkhH")
-    // const passageUser = new PassageUser(authToken);
+    const passageUser = new PassageUser(authToken);
     const user = await passage.currentUser.info()
     if (user) {
       await authStore.setToken(authToken);

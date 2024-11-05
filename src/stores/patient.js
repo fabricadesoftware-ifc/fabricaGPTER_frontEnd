@@ -11,9 +11,9 @@ export const usePatientStore = defineStore('patient', () => {
     patients.value = await patientService.getPatients();
   }
 
-  async function getPatientsByCategory(category_id) {
-    patients.value = await patientService.getPatientByCategory(category_id);
+  async function getPatientsById(patient_id) {
+    patients.value = await patientService.getPatientById(patient_id);
   }
 
-  return { patients, getPatients, getPatientsByCategory };
+  return { patients, getPatients, getPatientsById };
 });

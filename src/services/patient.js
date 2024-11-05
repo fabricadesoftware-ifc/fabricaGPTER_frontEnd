@@ -6,8 +6,8 @@ export default class PatientService {
     return response.data.results;
   }
 
-  async getPatientByCategory(category_id) {
-    const response = await axios.get(`/patients/?category__id=${category_id}`);
+  async getPatientById(patient_id) {
+    const response = await axios.get(`/patients/?patient__id=${patient__id}`);
     return response.data.results;
   }
 }
