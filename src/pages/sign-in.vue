@@ -9,7 +9,6 @@
         >Bem-vindo</v-card-title
       >
       <v-text-field
-        type="email"
         label="Usuario"
         variant="outlined"
         class="mb-3"
