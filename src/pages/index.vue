@@ -1,7 +1,6 @@
 <template>
   <v-container class="d-flex flex-column justify-center align-center pa-0 px-8">
     <AppLogo class="mb-16" />
-
     <h1 class="text-h4 font-weight-bold text-primary mr-auto mb-6">
       Entrar como
     </h1>
