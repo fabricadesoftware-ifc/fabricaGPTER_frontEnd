@@ -1,8 +1,6 @@
 <template>
   <v-container class="fill-height d-flex flex-column align-center">
-    <div class="w-100">
-      <v-text tag="h1" class="text-h5 font-weight-medium">Novo teste</v-text>
-    </div>
+    <PageTitle title="Novo teste" />
 
     <div
       class="d-flex flex-grow-1 flex-column align-center justify-center w-100"
@@ -52,6 +50,8 @@
 <script setup>
 import { ref } from "vue";
 import { Play } from "lucide-vue-next";
+
+import PageTitle from "@/components/PageTitle.vue";
 
 const pacientes = ref(["Paciente 1", "Paciente 2", "Paciente 3"]);
 const tempos = ref([30, 60, 120]);
