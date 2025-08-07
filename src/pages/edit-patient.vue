@@ -1,6 +1,6 @@
 <template>
   <v-container class="h-100">
-    <SubpageTitle title="Cadastrar pacientes" />
+    <SubpageTitle title="Editar paciente" />
 
     <v-row justify="center" align="center" class="h-100">
       <v-col cols="12" md="8">

@@ -16,6 +16,7 @@ declare module 'vue' {
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     NewPatientForm: typeof import('./src/components/NewPatientForm.vue')['default']
     PageTitle: typeof import('./src/components/PageTitle.vue')['default']
+    PatientForm: typeof import('./src/components/PatientForm.vue')['default']
     PatientsList: typeof import('./src/components/PatientsList.vue')['default']
     PatientsTable: typeof import('./src/components/PatientsTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

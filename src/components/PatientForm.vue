@@ -96,7 +96,7 @@
       </v-col>
       <v-col cols="8" class="pr-0 py-0">
         <ConfirmButton
-          text="Cadastrar"
+          text="Salvar"
         />
       </v-col>
     </v-row>
