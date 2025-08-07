@@ -3,12 +3,17 @@
     flat
     height="40"
     class="darken-blue-gradient text-white w-100 rounded-lg"
-    >{{ text }}</v-btn
+    ><slot /> {{ text }}</v-btn
   >
 </template>
 
 <script setup>
-defineProps(['text'])
+defineProps({
+  text: {
+    type: String,
+    required: true,
+  },
+});
 </script>
 
 <style scoped>
