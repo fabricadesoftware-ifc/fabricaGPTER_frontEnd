@@ -33,15 +33,12 @@
           label="Selecione o número de repetições"
         ></v-text-field>
 
-        <v-btn
-          color="primary"
-          width="100%"
+        <ConfirmButton
+          text="Iniciar teste"
           height="50"
           class="rounded-lg font-weight-bold"
-        >
-          <Play :size="16" />
-          Iniciar teste</v-btn
-        >
+          ><Play :size="16" />
+        </ConfirmButton>
       </v-form>
     </div>
   </v-container>
@@ -52,6 +49,7 @@ import { ref } from "vue";
 import { Play } from "lucide-vue-next";
 
 import PageTitle from "@/components/PageTitle.vue";
+import ConfirmButton from "@/components/ConfirmButton.vue";
 
 const pacientes = ref(["Paciente 1", "Paciente 2", "Paciente 3"]);
 const tempos = ref([30, 60, 120]);
