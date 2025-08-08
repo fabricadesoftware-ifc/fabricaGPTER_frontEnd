@@ -1,0 +1,16 @@
+<template>
+  <v-container class="h-100">
+    <SubpageTitle title="Editar paciente" />
+
+    <v-row justify="center" align="center" class="h-100">
+      <v-col cols="12" md="8">
+        <PatientForm />
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script setup>
+import SubpageTitle from "@/components/SubpageTitle.vue";
+import PatientForm from "@/components/PatientForm.vue";
+</script>
