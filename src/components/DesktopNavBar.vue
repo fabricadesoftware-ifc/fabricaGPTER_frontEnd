@@ -8,7 +8,7 @@
       <v-btn
         value="Pacientes"
         router
-        :to="'/pacientes'"
+        :to="'/patients'"
         class="text-none"
         variant="text"
       >
