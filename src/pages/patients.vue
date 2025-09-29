@@ -10,7 +10,7 @@
       <v-col align-self="end" class="text-right d-flex justify-end align-end py-0 mb-2">
         <v-btn
           v-if="xs"
-          @click="goToRegisterPatient()"
+          @click="goToRoute('register-patient')"
           icon
           variant="text"
           class="d-flex align-center"
@@ -18,7 +18,7 @@
         /></v-btn>
         <v-btn
           v-else
-          @click="goToRegisterPatient()"
+          @click="goToRoute('register-patient')"
           width="160"
           height="60"
           flat
@@ -100,7 +100,7 @@ const patients = ref([
   },
 ]);
 
-const goToRegisterPatient = () => {
-  router.push("/register-patient");
+const goToRoute = (route) => {
+  router.push(`/${route}`);
 };
 </script>
