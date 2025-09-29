@@ -7,15 +7,18 @@
           >Lista de pacientes</v-text
         >
       </v-col>
-      <v-col
-        align-self="end"
-        class="text-right d-flex justify-end align-end py-0 mb-2"
-      >
-        <v-btn v-if="xs" icon variant="text" class="d-flex align-end"
+      <v-col align-self="end" class="text-right d-flex justify-end align-end py-0 mb-2">
+        <v-btn
+          v-if="xs"
+          @click="goToRegisterPatient()"
+          icon
+          variant="text"
+          class="d-flex align-center"
           ><CirclePlus :size="24"
         /></v-btn>
         <v-btn
           v-else
+          @click="goToRegisterPatient()"
           width="160"
           height="60"
           flat
@@ -38,11 +41,7 @@
       </v-col>
       <v-col>
         <PatientsTable :patients="patients" />
-        <v-pagination
-          :length="4"
-          v-model="currentPage"
-          @click="showPage"
-        ></v-pagination>
+        <v-pagination :length="4" v-model="currentPage" @click="showPage"></v-pagination>
       </v-col>
     </v-row>
 
@@ -54,12 +53,14 @@
 // Funções reais (create, edit, delete, pagination, details) serão implementadas posteriormente, com o backend
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
+import {useRouter} from "vue-router";
 
 import PageTitle from "@/components/PageTitle.vue";
 import PatientsTable from "@/components/PatientsList.vue";
 
 import { CirclePlus } from "lucide-vue-next";
 
+const router = useRouter()
 const { mdAndUp, smAndDown, xs } = useDisplay();
 
 const currentPage = ref(1);
@@ -98,4 +99,8 @@ const patients = ref([
     name: "Marr Candré",
   },
 ]);
+
+const goToRegisterPatient = () => {
+  router.push("/register-patient");
+};
 </script>
