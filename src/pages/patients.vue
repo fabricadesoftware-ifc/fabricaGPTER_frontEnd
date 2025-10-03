@@ -40,7 +40,7 @@
         />
       </v-col>
       <v-col>
-        <PatientsTable :patients="patients" />
+        <PatientsList :patients="patients" />
         <v-pagination :length="4" v-model="currentPage" @click="showPage"></v-pagination>
       </v-col>
     </v-row>
@@ -56,7 +56,7 @@ import { useDisplay } from "vuetify";
 import {useRouter} from "vue-router";
 
 import PageTitle from "@/components/PageTitle.vue";
-import PatientsTable from "@/components/PatientsList.vue";
+import PatientsList from "@/components/PatientsList.vue";
 
 import { CirclePlus } from "lucide-vue-next";
 
