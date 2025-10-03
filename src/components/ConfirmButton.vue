@@ -2,6 +2,7 @@
   <v-btn
     flat
     :height="smAndDown ? '40' : '50'"
+    :class="smAndDown ? 'rounded-lg' : 'rounded-xl'"
     class="darken-blue-gradient text-white w-100 rounded-lg text-none"
     ><slot /> {{ text }}</v-btn
   >
