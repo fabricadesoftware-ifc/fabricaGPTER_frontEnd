@@ -1,7 +1,7 @@
 <template>
   <v-list border="md" class="w-100 rounded-xl pa-0">
     <template v-for="(patient, i) in patients" :key="patient.id">
-      <v-list-item :title="patient.name">
+      <v-list-item :title="patient.name" link @click="goToRoute('patient-details')">
         <template v-slot:append>
           <v-btn variant="text" icon @click="router.push('edit-patient')"><Pencil /></v-btn>
           <v-btn variant="text" icon><Trash2 /></v-btn>
