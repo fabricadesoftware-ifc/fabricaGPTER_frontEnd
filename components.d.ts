@@ -14,6 +14,7 @@ declare module 'vue' {
     ConfirmButton: typeof import('./src/components/ConfirmButton.vue')['default']
     DesktopNavBar: typeof import('./src/components/DesktopNavBar.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    InfoCard: typeof import('./src/components/InfoCard.vue')['default']
     MobileNavBar: typeof import('./src/components/MobileNavBar.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     NewPatientForm: typeof import('./src/components/NewPatientForm.vue')['default']
@@ -24,5 +25,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubpageTitle: typeof import('./src/components/SubpageTitle.vue')['default']
+    TestsList: typeof import('./src/components/TestsList.vue')['default']
+    TestsTable: typeof import('./src/components/TestsTable.vue')['default']
   }
 }
