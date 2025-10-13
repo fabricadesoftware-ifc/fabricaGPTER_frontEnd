@@ -1,7 +1,8 @@
 <template>
   <v-card
-    class="mx-auto pa-4"
+    :class="['mx-auto', {'pa-4' : smAndDown, 'pa-6': mdAndUp}]"
     max-width="450"
+    :min-height="mdAndUp ? '300' : undefined"
     elevation="2"
     rounded="xl"
   >
@@ -17,8 +18,8 @@
             <component :is="info.icon" :size="20" class="text-blue"/>
           </div>
           <div>
-            <span class="font-weight-bold">{{ info.name }}:</span>
-            <span :class="info.name === 'Status' ? 'ml-1 bg-blue-lighten-4 text-blue-darken-4 rounded-xl px-2 py-1' : 'ml-1'">{{ info.prop }}</span>
+            <span class="font-weight-bold text-subtitle-1">{{ info.name }}:</span>
+            <span :class="info.name === 'Status' ? 'ml-1 text-subtitle-1 bg-blue-lighten-4 text-blue-darken-4 rounded-xl px-2 py-1' : 'ml-1 text-subtitle-1'">{{ info.prop }}</span>
           </div>
         </div>
       </div>
