@@ -8,19 +8,17 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppLogo: typeof import('./src/components/AppLogo.vue')['default']
     CancelButton: typeof import('./src/components/CancelButton.vue')['default']
     ConfirmButton: typeof import('./src/components/ConfirmButton.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
-    NewPatientForm: typeof import('./src/components/NewPatientForm.vue')['default']
+    PacientDetails: typeof import('./src/components/PacientDetails.vue')['default']
     PageTitle: typeof import('./src/components/PageTitle.vue')['default']
     PatientForm: typeof import('./src/components/PatientForm.vue')['default']
     PatientsList: typeof import('./src/components/PatientsList.vue')['default']
-    PatientsTable: typeof import('./src/components/PatientsTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubpageTitle: typeof import('./src/components/SubpageTitle.vue')['default']
+    TestDetails: typeof import('./src/components/test-details.vue')['default']
   }
 }
