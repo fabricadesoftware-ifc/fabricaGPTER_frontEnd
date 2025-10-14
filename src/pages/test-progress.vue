@@ -2,7 +2,7 @@
     <v-container>
         <PageTitle title="Teste em progresso..." class="mb-2" />
         <SubpageTitle title="Roberto Santos" class="mb-7 opacity-50" />
-        <PacientDetails :pacient="Details[0]" />
+        <patientDetails :patient="Details[0]" />
         <v-row justify="center">
             <v-col cols="auto">
                 <CancelButton text="Cancelar teste" class="text-base px-12" />
@@ -16,13 +16,13 @@
 import PageTitle from "@/components/PageTitle.vue";
 import { ref } from "vue";
 import SubpageTitle from "@/components/SubpageTitle.vue";
-import PacientDetails from "@/components/PacientDetails.vue";
+import patientDetails from "@/components/patientDetails.vue";
 import NavBar from "@/components/NavBar.vue";
 
 const Details = ref([
     {
         id: 1,
-        pacient: "Roberto Santos",
+        patient: "Roberto Santos",
         type: "60s",
         reps: 6,
         arm: "Direito",
@@ -31,4 +31,3 @@ const Details = ref([
 ]);
 
 </script>
-<style></style>

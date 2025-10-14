@@ -6,7 +6,7 @@
                 <User color="#005BBB" class="mr-2" />
                 <v-text class="text-h6 font-weight-bold">
                     Paciente:
-                    <v-text class="font-weight-light">{{ pacient.pacient }}</v-text>
+                    <v-text class="font-weight-light">{{ patient.patient }}</v-text>
                 </v-text>
             </v-col>
         </v-row>
@@ -16,7 +16,7 @@
                 <Clock color="#005BBB" class="mr-2" />
                 <v-text class="text-h6 font-weight-bold">
                     Tipo de teste:
-                    <v-text class="font-weight-light">{{ pacient.type }}</v-text>
+                    <v-text class="font-weight-light">{{ patient.type }}</v-text>
                 </v-text>
             </v-col>
         </v-row>
@@ -26,7 +26,7 @@
                 <Hand color="#005BBB" class="mr-2" />
                 <v-text class="text-h6 font-weight-bold">
                     N° de repetições:
-                    <v-text class="font-weight-light">{{ pacient.reps }}</v-text>
+                    <v-text class="font-weight-light">{{ patient.reps }}</v-text>
                 </v-text>
             </v-col>
         </v-row>
@@ -36,7 +36,7 @@
                 <Zap color="#005BBB" class="mr-2" />
                 <v-text class="text-h6 font-weight-bold">
                     Braço testado:
-                    <v-text class="font-weight-light">{{ pacient.arm }}</v-text>
+                    <v-text class="font-weight-light">{{ patient.arm }}</v-text>
                 </v-text>
             </v-col>
         </v-row>
@@ -46,11 +46,10 @@
                 <Calendar color="#005BBB" class="mr-2" />
                 <v-text class="text-h6 font-weight-bold">
                     Data:
-                    <v-text class="font-weight-light">{{ pacient.date }}</v-text>
+                    <v-text class="font-weight-light">{{ patient.date }}</v-text>
                 </v-text>
             </v-col>
         </v-row>
-
     </v-card>
 </template>
 <script setup>
@@ -63,7 +62,7 @@ import {
 } from "lucide-vue-next";
 
 defineProps({
-    pacient: {
+    patient: {
         type: Object,
         required: true
     }
