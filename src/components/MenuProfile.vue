@@ -1,6 +1,6 @@
 <template>
     <v-img
-      src="@/assets/logo-gpter.png"
+      src="@/assets/foto-profissional"
       class="mx-auto w-40 mt-15 d-flex flex-0-0"
     ></v-img>
 </template>
