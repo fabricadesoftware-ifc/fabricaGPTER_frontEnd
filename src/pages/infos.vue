@@ -1,6 +1,9 @@
 <template>
     <v-container>
         <PageTitle title="Informações" class="mb-4"/>
+
+        <MenuProfile />
+
         <PersonalInfos :perInfos="perInfos[0]" />
         <ProfissionalInfos :profInfos="profInfos[0]"/>
     </v-container>
@@ -8,7 +11,7 @@
 <script setup>
 import { ref } from "vue";
 
-import MenuProfile from "@/components/PersonalInfos.vue";
+import MenuProfile from "@/components/MenuProfile.vue";
 import PersonalInfos from "@/components/PersonalInfos.vue";
 import ProfissionalInfos from "@/components/ProfissionalInfos"
 const perInfos = ref ([
