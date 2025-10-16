@@ -1,9 +1,7 @@
 <template>
     <v-container>
         <PageTitle title="Informações" class="mb-4"/>
-
         <MenuProfile />
-
         <PersonalInfos :perInfos="perInfos[0]" />
         <ProfissionalInfos :profInfos="profInfos[0]"/>
     </v-container>

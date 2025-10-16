@@ -14,7 +14,6 @@ declare module 'vue' {
     DiagnosisDetails: typeof import('./src/components/DiagnosisDetails.vue')['default']
     MenuProfile: typeof import('./src/components/MenuProfile.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
-    PacientDetails: typeof import('./src/components/patientDetails.vue')['default']
     PageTitle: typeof import('./src/components/PageTitle.vue')['default']
     PatientDetails: typeof import('./src/components/patientDetails.vue')['default']
     PatientDetailsBtn: typeof import('./src/components/patientDetailsBtn.vue')['default']
@@ -26,6 +25,5 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubpageTitle: typeof import('./src/components/SubpageTitle.vue')['default']
-    TestDetails: typeof import('./src/components/test-details.vue')['default']
   }
 }
