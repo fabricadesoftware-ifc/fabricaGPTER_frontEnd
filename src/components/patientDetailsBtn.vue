@@ -57,15 +57,14 @@
 
         <v-row class="mt-4 pl-6 pr-6">
             <v-col class="d-flex gap-3">
-                <ConfirmButton text="Validar Teste" class="px-4 py-2 rounded" color="blue" height="60"  >
+                <ConfirmButton text="Validar Teste" class="px-4 py-2 rounded" color="blue" height="60">
                     <Check color="#ffffff" class="mr-2" />
                 </ConfirmButton>
             </v-col>
         </v-row>
         <v-row class="mt-4 pl-6 pr-6">
             <v-col class="d-flex gap-3">
-                <RemakeButton text="Refazer Teste" class="px-4 py-2 rounded bg-white border border-black "
-                    color="blue">
+                <RemakeButton text="Refazer Teste" class="px-4 py-2 rounded bg-white border border-black " color="blue">
                     <RotateCcw color="#000000" class="mr-2" />
                 </RemakeButton>
             </v-col>
