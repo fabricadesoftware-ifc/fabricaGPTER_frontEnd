@@ -1,15 +1,19 @@
 <template>
-    <v-container>
-        <PageTitle :title="Details[0].time" class="mb-2" />
-        <patientDetailsBtn :patient="Details[0]"> </patientDetailsBtn />
-        <DiagnosisDetails  :patient="info[0]"></DiagnosisDetails>
+    <v-container >
+        <SubpageTitle :title="Details[0].time" />
+        <main class="d-flex flex-column ga-8 mt-8">
+            <PatientDetails buttons :patient="Details[0]" />
+            <!-- <TestGraph /> -->
+            <DiagnosticDetails :patient="info[0]" />
+        </main>
     </v-container>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import patientDetailsBtn from "@/components/patientDetailsBtn.vue";
-import DiagnosisDetails from "@/components/DiagnosisDetails.vue";
+import SubpageTitle from "@/components/SubpageTitle.vue";
+import PatientDetails from "@/components/PatientDetails.vue";
+import DiagnosticDetails from "@/components/DiagnosticDetails.vue";
 const Details = ref([
     {
         id: 1,

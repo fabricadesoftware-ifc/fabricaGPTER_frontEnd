@@ -1,10 +1,10 @@
 <template>
-    <v-card class=" w-100 elevation-2 rounded-xl mb-6 pl-3 pb-4">
-        <v-card-title class="text-h5 text-left font-weight-bold mt-2 mb-0">Detalhes do teste</v-card-title>
+    <v-card class="w-100 elevation-2 rounded-xl mb-6 pl-3 pb-4">
+        <v-card-title class="text-h6 text-left font-weight-bold mt-2 mb-0">Detalhes do teste</v-card-title>
         <v-row>
             <v-col class="pl-6 d-flex align-center">
                 <User color="#005BBB" class="mr-2" />
-                <v-text class="text-h6 font-weight-bold">
+                <v-text class="text-subtitle-1 font-weight-bold">
                     Pico de contração:
                     <v-text class="font-weight-light">{{ patient.peak }}</v-text>
                 </v-text>
@@ -14,7 +14,7 @@
         <v-row>
             <v-col class="pl-6 d-flex align-center">
                 <Clock color="#005BBB" class="mr-2" />
-                <v-text class="text-h6 font-weight-bold">
+                <v-text class="text-subtitle-1 font-weight-bold">
                     Período máximo de força:
                     <v-text class="font-weight-light">{{ patient.period }}</v-text>
                 </v-text>
