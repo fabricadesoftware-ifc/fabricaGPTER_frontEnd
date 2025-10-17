@@ -1,15 +1,19 @@
 <template>
   <v-btn
-    flat
     block
-    :height="height"
-    color="grey-darken-2"
-    class="text-none text-white text-subtitle-1 font-weight-regular w-100 rounded-lg"
+    flat
+    :height="smAndDown ? '40' : '50'"
+    color="white"
+    :class="smAndDown ? 'rounded-lg' : 'rounded-xl'"
+    class="text-black w-100 rounded-lg text-subtitle-1 border-sm border-opacity-50 text-none"
     >{{ text }}</v-btn
   >
 </template>
 
 <script setup>
+import { useDisplay } from "vuetify";
+const { mdAndUp, smAndDown, xs } = useDisplay();
+
 defineProps({
   text: {
     type: String

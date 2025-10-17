@@ -1,50 +1,18 @@
 <template>
-  <v-form class="pa-4 elevation-3 rounded-xl">
+  <v-form
+    class="pa-4 elevation-3 rounded-xl"
+    :class="{ 'elevation-0': mdAndUp }"
+  >
     <v-text-field
+      v-for="field in fields"
+      :key="field.label"
       rounded="lg"
       density="compact"
       variant="outlined"
-      label="Nome completo"
+      :label="field.label"
+      :type="field.type"
       required
     />
-    <v-text-field
-      rounded="lg"
-      density="compact"
-      variant="outlined"
-      label="Email"
-      type="email"
-      required
-    />
-    <v-text-field
-      rounded="lg"
-      density="compact"
-      variant="outlined"
-      label="CPF"
-      required
-    ></v-text-field>
-    <v-text-field
-      rounded="lg"
-      density="compact"
-      variant="outlined"
-      label="Senha"
-      type="password"
-      required
-    ></v-text-field>
-    <v-text-field
-      rounded="lg"
-      density="compact"
-      variant="outlined"
-      label="Confirmar senha"
-      type="password"
-      required
-    ></v-text-field>
-    <v-text-field
-      rounded="lg"
-      density="compact"
-      variant="outlined"
-      label="Logradouro"
-      required
-    ></v-text-field>
 
     <v-row class="ma-0">
       <v-col cols="8" class="pa-0">
@@ -91,21 +59,57 @@
     </v-row>
 
     <v-row class="ma-0">
-      <v-col cols="4" class="pa-0">
-        <CancelButton text="Cancelar" />
+      <v-col cols="6" class="pa-0 py-0">
+        <CancelButton @click="goBack()" text="Cancelar" />
       </v-col>
-      <v-col cols="8" class="pr-0 py-0">
-        <ConfirmButton
-          text="Salvar"
-        />
+      <v-col cols="6" class="pr-0 py-0">
+        <ConfirmButton text="Salvar" />
       </v-col>
     </v-row>
   </v-form>
 </template>
 
 <script setup>
-import ConfirmButton from './ConfirmButton.vue';
-import CancelButton from './CancelButton.vue';
+import { ref } from "vue";
+import { useDisplay } from "vuetify";
+
+import ConfirmButton from "./ConfirmButton.vue";
+import CancelButton from "./CancelButton.vue";
+
+const { smAndDown, xs, mdAndUp } = useDisplay();
+
+const router = useRouter();
+
+const goBack = () => {
+  router.back();
+};
+
+const fields = ref([
+  {
+    label: "Nome completo",
+    type: "name",
+  },
+  {
+    label: "Email",
+    type: "email",
+  },
+  {
+    label: "CPF",
+    type: "number",
+  },
+  {
+    label: "Senha",
+    type: "password",
+  },
+  {
+    label: "Confirmar senha",
+    type: "password",
+  },
+  {
+    label: "Logradouro",
+    type: "text",
+  },
+]);
 
 const states = [
   "AC",

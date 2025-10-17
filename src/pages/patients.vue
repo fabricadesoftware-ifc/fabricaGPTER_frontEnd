@@ -1,40 +1,69 @@
 <template>
-  <v-container>
-    <PageTitle title="Pacientes" class="mb-7" />
-
-    <v-row align="center" justify="space-between" class="w-full">
-      <v-col class="py-0">
-        <v-text class="text-subtitle-1 font-weight-medium"
+  <v-container max-width="none" :class="{ 'px-8 mt-6': mdAndUp }">
+    <v-row align="start" justify="space-between" class="w-full">
+      <v-col class="py-0 d-flex flex-column aligin-start">
+        <PageTitle title="Pacientes" :class="{ 'mb-7': xs }" />
+        <v-text v-if="xs" class="text-subtitle-1 font-weigh-medium"
           >Lista de pacientes</v-text
         >
       </v-col>
-      <v-col class="text-right py-0">
-        <v-btn icon variant="text"><CirclePlus /></v-btn>
+      <v-col align-self="end" class="text-right d-flex justify-end align-end py-0 mb-2">
+        <v-btn
+          v-if="xs"
+          @click="goToRoute('register-patient')"
+          icon
+          variant="text"
+          class="d-flex align-center"
+          ><CirclePlus :size="24"
+        /></v-btn>
+        <v-btn
+          v-else
+          @click="goToRoute('register-patient')"
+          width="160"
+          height="60"
+          flat
+          class="text-none rounded-xl border border-md"
+          >Registrar paciente</v-btn
+        >
       </v-col>
     </v-row>
 
     <v-row justify="center">
+      <v-col v-if="mdAndUp" cols="auto">
+        <v-text-field
+          prepend-inner-icon="mdi-magnify"
+          width="200"
+          label="Buscar paciente"
+          variant="outlined"
+          class="mb-3"
+          rounded="xl"
+        />
+      </v-col>
       <v-col>
-        <PatientsTable :patients="patients" />
+        <PatientsList :patients="patients" />
+        <v-pagination :length="4" v-model="currentPage" @click="showPage"></v-pagination>
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-pagination :length="4" v-model="currentPage" @click="showPage"></v-pagination>
-    </v-row>
+    <v-row class="d-flex justify-center align-center"> </v-row>
   </v-container>
 </template>
 
 <script setup>
 // Funções reais (create, edit, delete, pagination, details) serão implementadas posteriormente, com o backend
 import { ref } from "vue";
+import { useDisplay } from "vuetify";
+import {useRouter} from "vue-router";
 
 import PageTitle from "@/components/PageTitle.vue";
-import PatientsTable from "@/components/PatientsList.vue";
+import PatientsList from "@/components/PatientsList.vue";
 
 import { CirclePlus } from "lucide-vue-next";
 
-const currentPage = ref(1)
+const router = useRouter()
+const { mdAndUp, smAndDown, xs } = useDisplay();
+
+const currentPage = ref(1);
 
 const patients = ref([
   {
@@ -70,4 +99,8 @@ const patients = ref([
     name: "Marr Candré",
   },
 ]);
+
+const goToRoute = (route) => {
+  router.push(`/${route}`);
+};
 </script>
