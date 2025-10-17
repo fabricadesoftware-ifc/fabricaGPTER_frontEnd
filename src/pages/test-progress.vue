@@ -7,7 +7,7 @@
       <PatientDetails :patient="Details[0]" />
       <v-row justify="center" class="w-100">
         <v-col cols="auto" class="w-100 px-12">
-          <CancelButton height="50" text="Cancelar teste" />
+          <CancelButton text="Cancelar teste" />
         </v-col>
       </v-row>
     </main>
