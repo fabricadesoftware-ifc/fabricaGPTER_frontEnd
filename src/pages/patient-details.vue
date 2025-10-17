@@ -5,7 +5,6 @@
       <InfoCard class="mt-12" address="Avenida Nereu Ramos, 154, Centro, Balneário Piçarras" email="roberto@gmail.com"
                 status="Ativo"/>
       <div class="d-flex flex-column ga-2">
-        <v-text class="text-h6 font-weight-medium">Testes recentes</v-text>
         <TestsList/>
       </div>
       <v-btn
