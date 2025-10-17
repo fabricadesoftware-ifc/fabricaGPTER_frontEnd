@@ -1,33 +1,32 @@
 <template>
-    <v-container>
-        <PageTitle title="Teste em progresso..." class="mb-2" />
-        <SubpageTitle title="Roberto Santos" class="mb-7 opacity-50" />
-        <patientDetails :patient="Details[0]" />
-        <v-row justify="center">
-            <v-col cols="auto">
-                <CancelButton text="Cancelar teste" class="text-base px-12" />
-            </v-col>
-        </v-row>
-    </v-container>
-    <NavBar></NavBar>
+  <v-container>
+    <SubpageTitle title="Teste em progresso" class="mb-2" />
+    <p class="text-subtitle-1 font-weight-bold text-grey-darken-1">Roberto Santos</p>
 
+    <main class="d-flex flex-column align-center ga-8 mt-8">
+      <PatientDetails :patient="Details[0]" />
+      <v-row justify="center" class="w-100">
+        <v-col cols="auto" class="w-100 px-12">
+          <CancelButton height="50" text="Cancelar teste" />
+        </v-col>
+      </v-row>
+    </main>
+  </v-container>
 </template>
+
 <script setup>
-import PageTitle from "@/components/PageTitle.vue";
 import { ref } from "vue";
 import SubpageTitle from "@/components/SubpageTitle.vue";
-import patientDetails from "@/components/patientDetails.vue";
-import NavBar from "@/components/NavBar.vue";
+import PatientDetails from "@/components/PatientDetails.vue";
 
 const Details = ref([
-    {
-        id: 1,
-        patient: "Roberto Santos",
-        type: "60s",
-        reps: 6,
-        arm: "Direito",
-        date: "04/07/2025",
-    },
+  {
+    id: 1,
+    patient: "Roberto Santos",
+    type: "60s",
+    reps: 6,
+    arm: "Direito",
+    date: "04/07/2025",
+  },
 ]);
-
 </script>
