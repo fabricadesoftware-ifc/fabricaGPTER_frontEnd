@@ -1,31 +1,56 @@
 <template>
-    <v-container>
-        <PageTitle title="Informações" class="mb-4"/>
-        <MenuProfile />
-        <PersonalInfos :perInfos="perInfos[0]" />
-        <ProfissionalInfos :profInfos="profInfos[0]"/>
-    </v-container>
+  <v-container>
+    <SubpageTitle title="Informações" class="mb-4" />
+    <MenuProfile />
+    <PersonalInfos :personalInfos="personalInfos" />
+    <ProfissionalInfos :professionalInfos="professionalInfos" />
+  </v-container>
 </template>
 <script setup>
 import { ref } from "vue";
-
+import SubpageTitle from "@/components/SubpageTitle.vue";
 import MenuProfile from "@/components/MenuProfile.vue";
 import PersonalInfos from "@/components/PersonalInfos.vue";
-import ProfissionalInfos from "@/components/ProfissionalInfos"
-const perInfos = ref ([
-    {
-        name: "Daniel Santos",
-        email: "danielsantos@gmail.com",
-        phone: "(47)998903948",
-        date: "25/08/1989",
-        cpf: "01234567890"
-    }
+import ProfissionalInfos from "@/components/ProfessionalInfos";
+import { User, Calendar, Mail, Phone, Fingerprint, IdCard, Hospital } from "lucide-vue-next";
+const personalInfos = ref([
+  {
+    name: "Nome",
+    info: "Daniel Santos",
+    icon: User,
+  },
+  {
+    name: "Email",
+    info: "daniel@gmail.com",
+    icon: Mail,
+  },
+  {
+    name: "Telefone",
+    info: "(47)998903948",
+    icon: Phone,
+  },
+  {
+    name: "Data de Nascimento",
+    info: "25/08/1989",
+    icon: Calendar,
+  },
+  {
+    name: "CPF",
+    info: "01234567890",
+    icon: Fingerprint,
+  },
 ]);
 
-const profInfos = ref ([
-    {
-        studentId: "012345678",
-        hospital: "Conviver"
-    }
-])
+const professionalInfos = ref([
+  {
+    name: "Identificação Profissional",
+    info: "012345678",
+    icon: IdCard,
+  },
+  {
+    name: "Clínica Associada",
+    info: "Conviver",
+    icon: Hospital,
+  },
+]);
 </script>

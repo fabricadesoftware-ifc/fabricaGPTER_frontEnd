@@ -1,8 +1,9 @@
 <template>
-  <v-container class="pl-6">
-    <v-text class="text-h6 font-weight-bold text-top"> Informações Pessoais </v-text>
-
-    <v-row v-for="info in personalInfos" :key="info.name" class="mt-4 ga-2">
+  <v-container>
+    <v-text class="text-h6 font-weight-bold text-center ml-3">
+      Informações Profissionais
+    </v-text>
+    <v-row v-for="info in professionalInfos" :key="info.name" class="mt-4 ga-2">
       <v-col cols="1" align="center" justify="center">
         <Component color="#005BBB" :is="info.icon" />
       </v-col>
@@ -14,9 +15,8 @@
   </v-container>
 </template>
 <script setup>
-import { User, Calendar, Mail, Phone, Fingerprint } from "lucide-vue-next";
 defineProps({
-  personalInfos: {
+  professionalInfos: {
     type: Object,
     required: true,
   },
