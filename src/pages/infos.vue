@@ -3,16 +3,18 @@
     <SubpageTitle title="Informações" class="mb-4" />
     <MenuProfile />
     <PersonalInfos :personalInfos="personalInfos" />
-    <ProfissionalInfos :professionalInfos="professionalInfos" />
+    <ProfessionalInfos :professionalInfos="professionalInfos" />
   </v-container>
 </template>
+
 <script setup>
 import { ref } from "vue";
 import SubpageTitle from "@/components/SubpageTitle.vue";
 import MenuProfile from "@/components/MenuProfile.vue";
 import PersonalInfos from "@/components/PersonalInfos.vue";
-import ProfissionalInfos from "@/components/ProfessionalInfos";
+import ProfessionalInfos from "@/components/ProfessionalInfos";
 import { User, Calendar, Mail, Phone, Fingerprint, IdCard, Hospital } from "lucide-vue-next";
+
 const personalInfos = ref([
   {
     name: "Nome",

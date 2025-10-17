@@ -1,17 +1,17 @@
 <template>
-  <v-container class="ml-6">
+  <v-container>
     <v-row class="ma-0 d-flex justify-center">
-      <v-col cols="3" class="pl-0 pa-0 d-flex align-center pl-4 ml-2">
+      <v-col cols="3" class="pl-0 pa-0 d-flex justify-center align-center">
         <v-img src="@/assets/foto-profissional.png">
           <Camera color="#005BBB" class="ml-12 mt-12" />
         </v-img>
       </v-col>
 
-      <v-col cols="8" class="px-0 py-2 d-flex flex-column align-left pl-6">
+      <v-col cols="6" class="px-0 py-2 d-flex flex-column ml-6">
         <v-text class="text-h5 font-weight-bold ml-0 mt-4">
           {{ profissionalInfos.name }}
         </v-text>
-        <v-text class="text-p font-weight-bolder">
+        <v-text class="text-subtitle-1 font-weight-bolder">
           Clinica {{ profissionalInfos.clinic }}
         </v-text>
       </v-col>

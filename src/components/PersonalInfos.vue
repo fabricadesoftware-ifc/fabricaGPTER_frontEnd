@@ -17,7 +17,7 @@
 import { User, Calendar, Mail, Phone, Fingerprint } from "lucide-vue-next";
 defineProps({
   personalInfos: {
-    type: Object,
+    type: Array,
     required: true,
   },
 });

@@ -14,10 +14,11 @@
     </v-row>
   </v-container>
 </template>
+
 <script setup>
 defineProps({
   professionalInfos: {
-    type: Object,
+    type: Array,
     required: true,
   },
 });
