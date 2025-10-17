@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <PageTitle title="Como usar:" class="mb-12" />
-        <v-card class=" w-100 elevation-2 rounded-xl mb-6 pl-10 pr-10 pb-10">
+        <v-card class=" w-100 elevation-2 rounded-xl mb-6 px-6 pb-6">
             <v-card-title class="text-h5 text-center font-weight-bold mt-2 mb-2">Posição</v-card-title>
             <v-row>
                 <v-col class="pl-6 pr-6 d-flex align-center justify-center">
@@ -16,6 +16,7 @@
         </v-card>
     </v-container>
 </template>
+
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
 </script>
