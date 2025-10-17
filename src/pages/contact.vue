@@ -1,41 +1,42 @@
 <template>
-    <v-container>
-        <PageTitle  title="Contato" />
-        <v-card class="pb-8 px-4 mt-12">
-            <v-card-title  class="text-h5 font-weight-bold mb-6">Suporte</v-card-title>
-            <v-row>
-            <v-col class="pl-6 d-flex align-top">
-                <Mail color="#005BBB" class="mr-2" />
-                <v-text class="text-h6 font-weight-bold">
-                    Paciente: <br>
-                    <v-text class="font-weight-light">{{ personalInfos.email }}</v-text>
-                </v-text>
-            </v-col>
-        </v-row>
+  <v-container>
+    <SubpageTitle title="Contato" class="mb-8" />
+    <v-card class="pa-4 rounded-xl elevation-2">
+      <v-card-title class="text-h6 font-weight-bold pa-0 mb-6">Suporte</v-card-title>
 
-        <v-row>
-            <v-col class="pl-6 d-flex align-top">
-                <Phone color="#005BBB" class="mr-2" />
-                <v-text class="text-h6 font-weight-bold">
-                    Telefone: <br>
-                    <v-text class="font-weight-light">{{ personalInfos.phone }}</v-text>
-                </v-text>
-            </v-col>
-        </v-row>
-        </v-card>
-    </v-container>
+      <v-row v-for="info in contactInfos" :key="info.name" class="ga-2">
+        <v-col cols="1" align="center" justify="center">
+          <Component color="#005BBB" :is="info.icon" />
+        </v-col>
+        <v-col class="d-flex flex-column">
+          <v-text class="text-p font-weight-bold"> {{ info.name }}</v-text>
+          <v-text class="text-p opacity-80 font-weight-light">{{ info.info }}</v-text>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
 </template>
-<script setup> 
-import { Mail,  Phone } from "lucide-vue-next";
-const  personalInfos = ref({
-    email: "suporte@email.com",
-    phone: "+55 47 334903948"
-})
+<script setup>
+import SubpageTitle from "@/components/SubpageTitle.vue";
+import { Mail, Phone } from "lucide-vue-next";
 
-defineProps ({
-    personalInfos: {
-        type: Array,
-        required: true
-    }
+const contactInfos = ref([
+  {
+    name: "Email",
+    info: "suporte@email.com",
+    icon: Mail,
+  },
+  {
+    name: "Telefone",
+    info: "+55 47 334903948",
+    icon: Phone,
+  },
+]);
+
+defineProps({
+  personalInfos: {
+    type: Array,
+    required: true,
+  },
 });
 </script>
