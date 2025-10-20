@@ -25,6 +25,7 @@ declare module 'vue' {
     RemakeButton: typeof import('./src/components/RemakeButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Settings: typeof import('./src/components/Settings.vue')['default']
     SubpageTitle: typeof import('./src/components/SubpageTitle.vue')['default']
     TestsList: typeof import('./src/components/TestsList.vue')['default']
   }
