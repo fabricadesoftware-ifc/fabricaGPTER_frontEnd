@@ -9,29 +9,34 @@
         >Configure os parâmetros para iniciar o teste</v-text
       >
       <v-form class="w-100 pa-4 p elevation-3 rounded-xl mt-4">
-        <v-text class="text-subtitle-2">Paciente</v-text>
-        <v-select
-          :items="pacientes"
-          label="Selecione um paciente"
-          variant="outlined"
-          rounded="lg"
-        ></v-select>
-
         <v-text class="text-subtitle-2">Tempo</v-text>
         <v-select
+          class="mt-2"
           :items="tempos"
-          label="Selecione o tempo"
+          label="Tempo"
           variant="outlined"
           rounded="lg"
         ></v-select>
 
         <v-text class="text-subtitle-2">Número de repetições</v-text>
         <v-text-field
+          class="mt-2"
           variant="outlined"
           rounded="lg"
           name="repeticoes"
           label="Selecione o número de repetições"
         ></v-text-field>
+
+        <v-text class="text-subtitle-2">Mão</v-text>
+        <v-select
+          class="mt-2"
+          :items="hands"
+          label="Número de repetições"
+          variant="outlined"
+          rounded="lg"
+        ></v-select>
+
+
 
         <ConfirmButton
           text="Iniciar teste"
@@ -51,9 +56,10 @@ import { Play } from "lucide-vue-next";
 import PageTitle from "@/components/PageTitle.vue";
 import ConfirmButton from "@/components/ConfirmButton.vue";
 
-const pacientes = ref(["Paciente 1", "Paciente 2", "Paciente 3"]);
-const tempos = ref([30, 60, 120]);
+const hands = ref(["Esquerda", "Direita", "Ambidestro"]);
+const tempos = ref(["30s", "60s", "120s"]);
 </script>
+
 
 <style scoped>
 .blue-gradient {
