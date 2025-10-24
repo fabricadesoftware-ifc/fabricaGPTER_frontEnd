@@ -1,8 +1,8 @@
 <template>
   <v-card
     :class="['mx-auto', {'pa-4' : smAndDown, 'pa-6': mdAndUp}]"
-    max-width="450"
-    :min-height="mdAndUp ? '300' : undefined"
+    max-width="550"
+    :min-height="mdAndUp ? '349' : '300'"
     elevation="2"
     rounded="xl"
   >
