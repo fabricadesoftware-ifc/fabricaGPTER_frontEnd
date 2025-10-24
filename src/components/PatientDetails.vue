@@ -1,8 +1,11 @@
 <template>
-  <v-card class="w-100 elevation-2 rounded-xl pa-4">
+  <v-card 
+  :width="mdAndUp ? '436' : '400'"
+  class="elevation-2 rounded-xl pa-4">
     <v-card-title class="text-h6 font-weight-bold mb-4 pa-0">
       Detalhes do teste
     </v-card-title>
+    <v-divider length="100%" class="mb-4"></v-divider>
     
     <div>
       <v-row>
@@ -98,4 +101,8 @@ defineProps({
     default: false,
   },
 });
+
+import { useDisplay } from "vuetify";
+
+const { mdAndUp } = useDisplay();
 </script>

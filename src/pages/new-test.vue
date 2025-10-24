@@ -11,7 +11,48 @@
       <v-text class="text-subtitle-1 text-grey-darken-1"
         >Configure os parâmetros para iniciar o teste</v-text
       >
-      <v-form class="w-100 pa-4 p elevation-3 rounded-xl mt-4">
+      <v-form 
+      v-if="smAndDown"
+      class="w-100 pa-4 p elevation-3 rounded-xl mt-4">
+        <v-text class="text-subtitle-2">Tempo</v-text>
+        <v-select
+          class="mt-2"
+          :items="tempos"
+          label="Tempo"
+          variant="outlined"
+          rounded="lg"
+        ></v-select>
+
+        <v-text class="text-subtitle-2">Número de repetições</v-text>
+        <v-text-field
+          class="mt-2"
+          variant="outlined"
+          rounded="lg"
+          name="repeticoes"
+          label="Selecione o número de repetições"
+        ></v-text-field>
+
+        <v-text class="text-subtitle-2">Mão</v-text>
+        <v-select
+          class="mt-2"
+          :items="hands"
+          label="Mão"
+          variant="outlined"
+          rounded="lg"
+        ></v-select>
+
+
+
+        <ConfirmButton
+          text="Iniciar teste"
+          height="50"
+          class="rounded-lg font-weight-bold"
+          ><Play :size="16" />
+        </ConfirmButton>
+      </v-form>
+      <v-form 
+      v-if="mdAndUp"
+      class="w-50 pa-4 p elevation-3 rounded-xl mt-4">
         <v-text class="text-subtitle-2">Tempo</v-text>
         <v-select
           class="mt-2"

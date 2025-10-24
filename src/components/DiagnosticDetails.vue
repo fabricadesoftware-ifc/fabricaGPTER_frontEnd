@@ -1,5 +1,5 @@
 <template>
-    <v-card class="w-100 elevation-2 rounded-xl mb-6 pl-3 pb-4">
+    <v-card class="w-100 elevation-2 rounded-xl mb-6 pl-3 pb-4 h-100 ">
         <v-card-title class="text-h6 text-left font-weight-bold mt-2 mb-0">Detalhes do teste</v-card-title>
         <v-row>
             <v-col class="pl-6 d-flex align-center">
