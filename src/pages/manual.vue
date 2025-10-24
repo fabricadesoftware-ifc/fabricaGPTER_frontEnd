@@ -65,6 +65,8 @@
 
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
-const {mdAndUp, smAndDown} = useDisplay()
 import {useDisplay} from "vuetify";
+
+const {mdAndUp, smAndDown} = useDisplay()
+
 </script>
