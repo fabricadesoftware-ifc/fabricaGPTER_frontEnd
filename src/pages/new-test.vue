@@ -1,10 +1,13 @@
 <template>
   <v-container class="fill-height d-flex flex-column align-center">
-    <PageTitle title="Novo teste" />
+    <PageTitle title="Novo teste" v-if="smAndDown"/>
+
 
     <div
       class="d-flex flex-grow-1 flex-column align-center justify-center w-100"
     >
+    <PageTitle title="Novo teste" class="d-flex justify-center"  v-if="mdAndUp"/>
+
       <v-text class="text-subtitle-1 text-grey-darken-1"
         >Configure os parâmetros para iniciar o teste</v-text
       >
@@ -31,7 +34,7 @@
         <v-select
           class="mt-2"
           :items="hands"
-          label="Número de repetições"
+          label="Mão"
           variant="outlined"
           rounded="lg"
         ></v-select>
@@ -52,12 +55,17 @@
 <script setup>
 import { ref } from "vue";
 import { Play } from "lucide-vue-next";
+import {useDisplay} from "vuetify";
 
 import PageTitle from "@/components/PageTitle.vue";
 import ConfirmButton from "@/components/ConfirmButton.vue";
 
 const hands = ref(["Esquerda", "Direita", "Ambidestro"]);
 const tempos = ref(["30s", "60s", "120s"]);
+
+
+
+const {mdAndUp, smAndDown} = useDisplay()
 </script>
 
 
