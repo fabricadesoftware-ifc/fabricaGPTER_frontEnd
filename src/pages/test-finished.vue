@@ -1,12 +1,26 @@
 <template>
     <v-container class="fill-height d-flex flex-column align-center justify-center ga-6">
-        <v-text class="text-h4 font-weight-bold text-center">
-            Teste finalizado.
+        <v-text v-if="smAndDown" class="text-h4 font-weight-bold text-center" >
+            Teste finalizado
+            <CircleCheck color="#005BBB"/>
         </v-text>
-
-        <v-btn height="50" width="70vw" color="primary" append-icon="mdi-arrow-right-thin" class="rounded-lg ">Visualizar resultado</v-btn>
+        <v-text v-else class="text-h3 font-weight-bold text-center">
+            Teste finalizado
+            <CircleCheck color="#005BBB"/>
+        </v-text>
+        <v-btn height="50"
+        :width="smAndDown ? '250' : '280'"
+        color="primary" 
+        append-icon="mdi-arrow-right-thin"
+        class="rounded-lg "
+           >Visualizar resultado</v-btn>
+        <v-btn variant="text" class="text-p">Voltar para pagina inicial</v-btn>
     </v-container>
 </template>
 
 <script setup>
+import { CircleCheck } from "lucide-vue-next";
+import { useDisplay } from "vuetify";
+const { mdAndUp, smAndDown } = useDisplay();
+
 </script>
