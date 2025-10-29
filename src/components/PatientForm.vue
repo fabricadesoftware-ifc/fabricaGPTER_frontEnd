@@ -1,13 +1,12 @@
 <template>
   <v-form
-    class="pa-4 elevation-3 rounded-xl"
-    :class="{ 'elevation-0': mdAndUp }"
+    class="pa-2 rounded-xl"
   >
     <v-text-field
       v-for="field in fields"
       :key="field.label"
       rounded="lg"
-      density="compact"
+      density="comfortable"
       variant="outlined"
       :label="field.label"
       :type="field.type"
@@ -18,7 +17,7 @@
       <v-col cols="8" class="pa-0">
         <v-text-field
           rounded="lg"
-          density="compact"
+          density="comfortable"
           variant="outlined"
           label="Cidade"
           required
@@ -27,7 +26,7 @@
       <v-col class="pr-0 py-0">
         <v-select
           rounded="lg"
-          density="compact"
+          density="comfortable"
           variant="outlined"
           :items="states"
           label="UF"
@@ -40,7 +39,7 @@
       <v-col cols="8" class="pa-0">
         <v-text-field
           rounded="lg"
-          density="compact"
+          density="comfortable"
           variant="outlined"
           label="Bairro"
           required
@@ -49,7 +48,7 @@
       <v-col class="pr-0 py-0">
         <v-text-field
           rounded="lg"
-          density="compact"
+          density="comfortable"
           variant="outlined"
           label="Número"
           type="number"

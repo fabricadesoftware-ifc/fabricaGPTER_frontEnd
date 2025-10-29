@@ -1,12 +1,12 @@
 <template>
-  <v-container
-    class="h-100"
-    :class="{ 'd-flex flex-column align-center justify-center': smAndDown }"
-  >
+  <v-container :class="{ 'd-flex flex-column align-center justify-center': smAndDown }">
     <SubpageTitle v-if="smAndDown" title="Editar pacientes" />
     <PageTitle v-else justify="justify-center" title="Editar pacientes" />
+    <div class="w-100 mb-8 text-grey-darken-2">
+      <p class="text-subtitle-1" v-if="smAndDown">Mudar informações de pacientes.</p>
+    </div>
 
-    <v-row justify="center" align="center" class="h-full w-100">
+    <v-row justify="center" align="center" class="w-100">
       <v-col class="pa-0" cols="12" md="8">
         <PatientForm />
       </v-col>
