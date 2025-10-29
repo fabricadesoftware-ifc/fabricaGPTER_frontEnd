@@ -3,7 +3,9 @@
     <template v-for="(patient, i) in patients" :key="patient.id">
       <v-list-item :title="patient.name" link @click="goToRoute('patient-details')">
         <template v-slot:append>
-          <v-btn variant="text" icon @click="router.push('edit-patient')"><Pencil /></v-btn>
+          <v-btn variant="text" icon @click="router.push('edit-patient')"
+            ><Pencil
+          /></v-btn>
           <v-btn variant="text" icon><Trash2 /></v-btn>
         </template>
       </v-list-item>
@@ -15,9 +17,9 @@
 <script setup>
 import { Trash2 } from "lucide-vue-next";
 import { Pencil } from "lucide-vue-next";
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 
 defineProps({
   patients: {
@@ -27,6 +29,6 @@ defineProps({
 });
 
 const goToRoute = (route) => {
-  router.push(route)
-}
+  router.push(route);
+};
 </script>

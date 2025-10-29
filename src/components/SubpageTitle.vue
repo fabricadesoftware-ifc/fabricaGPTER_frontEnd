@@ -1,6 +1,6 @@
 <template>
     <div class="w-100">
-        <v-text class="text-h5 font-weight-medium">{{ title }}</v-text>
+        <h2 class="text-h5 font-weight-medium">{{ title }}</h2>
     </div>
 </template>
 

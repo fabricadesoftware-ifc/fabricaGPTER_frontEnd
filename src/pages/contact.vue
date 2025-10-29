@@ -9,8 +9,8 @@
           <Component color="#005BBB" :is="info.icon" />
         </v-col>
         <v-col class="d-flex flex-column">
-          <v-text class="text-p font-weight-bold"> {{ info.name }}</v-text>
-          <v-text class="text-p opacity-80 font-weight-light">{{ info.info }}</v-text>
+          <p class="text-p font-weight-bold">{{ info.name }}</p>
+          <p class="text-p opacity-80 font-weight-light">{{ info.info }}</p>
         </v-col>
       </v-row>
     </v-card>
@@ -32,11 +32,4 @@ const contactInfos = ref([
     icon: Phone,
   },
 ]);
-
-defineProps({
-  personalInfos: {
-    type: Array,
-    required: true,
-  },
-});
 </script>

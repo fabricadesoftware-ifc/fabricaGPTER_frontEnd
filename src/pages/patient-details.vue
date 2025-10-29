@@ -2,7 +2,7 @@
   <v-container 
   >
     <SubpageTitle title="Roberto Santos" class="ma-0"/>
-    <v-text v-if="mdAndUp" class="opacity-50 pr-0">Informações e testes recentes do paciente</v-text>
+    <p v-if="mdAndUp" class="opacity-50 pr-0">Informações e testes recentes do paciente</p>
     <div
       class="d-flex ga-8 justify-center align-end"
       :class="smAndDown ? 'flex-column' : 'flex-row'"

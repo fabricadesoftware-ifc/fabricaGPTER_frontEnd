@@ -23,18 +23,13 @@
           class="pa-0"
           aria-label="teste-recente"
         >
-        
           <div class="d-flex flex-row justify-space-between align-center w-100">
-            <v-list-item-content>
-              <v-list-item-title class="text-body-1">{{ test.name }}</v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-content class="text-right">
+            <v-list-item-title class="text-body-1">{{ test.name }}</v-list-item-title>
+            <div class="text-right">
               <v-list-item-title class="text-grey-darken-2">
                 {{ formatDateBR(test.date) }}
               </v-list-item-title>
-            </v-list-item-content>
-            
+            </div>
           </div>
         </v-list-item>
       </v-list>
