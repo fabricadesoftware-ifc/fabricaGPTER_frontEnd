@@ -27,6 +27,6 @@ defineProps({
 });
 
 const goToRoute = (route) => {
-  router.push()
+  router.push(route)
 }
 </script>
