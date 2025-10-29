@@ -1,6 +1,6 @@
 <template>
   <div class="w-100 mt-2 d-flex" :class="[justify, margin]">
-    <v-text class="text-h4 font-weight-bold">{{ title }}</v-text>
+    <h1 class="text-h4 font-weight-bold">{{ title }}</h1>
   </div>
 </template>
 

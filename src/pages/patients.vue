@@ -3,8 +3,8 @@
     <v-row align="start" justify="space-between" class="w-full">
       <v-col class="py-0 d-flex flex-column aligin-start">
         <PageTitle title="Pacientes" :class="{ 'mb-7': xs }" />
-        <v-text v-if="xs" class="text-subtitle-1 font-weigh-medium"
-          >Lista de pacientes</v-text
+        <p v-if="xs" class="text-subtitle-1 font-weigh-medium"
+          >Lista de pacientes</p
         >
       </v-col>
       <v-col align-self="end" class="text-right d-flex justify-end align-end py-0 mb-2">
@@ -41,7 +41,7 @@
       </v-col>
       <v-col>
         <PatientsList :patients="patients" />
-        <v-pagination :length="4" v-model="currentPage" @click="showPage"></v-pagination>
+        <v-pagination :length="4" v-model="currentPage"></v-pagination>
       </v-col>
     </v-row>
 
