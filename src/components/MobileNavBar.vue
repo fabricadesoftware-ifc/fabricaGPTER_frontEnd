@@ -1,6 +1,6 @@
 <template>
   <v-bottom-navigation color="primary" height="70" grow>
-    <v-btn value="Pacientes" router :to="'/pacientes'">
+    <v-btn value="Pacientes" router :to="'/patients'">
       <ClipboardList color="#818181" />
       <span class="text-grey-darken-2 text-subtitle-2">Pacientes</span>
     </v-btn>
@@ -10,7 +10,7 @@
       <span class="text-grey-darken-2 text-subtitle-2">Manual</span>
     </v-btn>
 
-    <v-btn value="Perfil" router :to="'/perfil'">
+    <v-btn value="Perfil" router :to="'/profile'">
       <User color="#818181" />
       <span class="text-grey-darken-2 text-subtitle-2">Perfil</span>
     </v-btn>
