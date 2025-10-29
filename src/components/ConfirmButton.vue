@@ -2,9 +2,8 @@
     <!-- Usar text-none para letras não ficarem em caps lock no button -->
   <v-btn
     flat
-    :height="smAndDown ? '40' : '50'"
-    :class="smAndDown ? 'rounded-lg' : 'rounded-xl'"
-    class="darken-blue-gradient text-white w-100 rounded-lg text-none text-subtitle-1"
+    height='50'
+    class="darken-blue-gradient text-white w-100 rounded-xl text-none text-subtitle-1"
     ><slot /> {{ text }}</v-btn
   >
 </template>

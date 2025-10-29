@@ -2,10 +2,9 @@
   <v-btn
     block
     flat
-    :height="smAndDown ? '40' : '50'"
+    height="50"
     color="white"
-    :class="smAndDown ? 'rounded-lg' : 'rounded-xl'"
-    class="text-black w-100 rounded-lg text-subtitle-1 border-sm border-opacity-50 text-none"
+    class="text-black w-100 rounded-xl text-subtitle-1 border-sm border-opacity-50 text-none"
     >{{ text }}</v-btn
   >
 </template>
