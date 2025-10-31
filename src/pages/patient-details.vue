@@ -17,31 +17,35 @@
       <TestsList />
 
       <div v-if="smAndDown">
+        <router-link to="/new-test">
+          <v-btn
+            width="90vw"
+            rounded="xl"
+            height="50px"
+            class="darken-blue-gradient text-white"
+          >
+            <div class="d-flex flex-row justify-center align-center ga-2">
+              <span><Play /></span>
+              <span>Iniciar teste</span>
+            </div>
+          </v-btn>
+        </router-link>
+      </div>
+    </div>
+    <div v-if="mdAndUp" class="d-flex justify-end">
+      <router-link to="/new-test">
         <v-btn
-          width="90vw"
           rounded="xl"
           height="50px"
-          class="darken-blue-gradient text-white"
+          width="300px"
+          class="darken-blue-gradient text-white mt-5"
         >
           <div class="d-flex flex-row justify-center align-center ga-2">
             <span><Play /></span>
             <span>Iniciar teste</span>
           </div>
         </v-btn>
-      </div>
-    </div>
-    <div v-if="mdAndUp" class="d-flex justify-end">
-      <v-btn
-        rounded="xl"
-        height="50px"
-        width="300px"
-        class="darken-blue-gradient text-white mt-5"
-      >
-        <div class="d-flex flex-row justify-center align-center ga-2">
-          <span><Play /></span>
-          <span>Iniciar teste</span>
-        </div>
-      </v-btn>
+      </router-link>
     </div>
   </v-container>
 </template>
