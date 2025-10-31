@@ -1,20 +1,14 @@
 <template>
   <v-container class="fill-height d-flex flex-column align-center">
-    <PageTitle title="Novo teste" v-if="smAndDown"/>
+    <SubpageTitle class="mt-2" title="Novo teste" v-if="smAndDown" />
+    <div class="d-flex flex-grow-1 flex-column align-center justify-center w-100">
+      <PageTitle title="Novo teste" class="d-flex justify-center" v-if="mdAndUp" />
 
-
-    <div
-      class="d-flex flex-grow-1 flex-column align-center justify-center w-100"
-    >
-    <PageTitle title="Novo teste" class="d-flex justify-center"  v-if="mdAndUp"/>
-
-      <v-text class="text-subtitle-1 text-grey-darken-1"
-        >Configure os parâmetros para iniciar o teste</v-text
+      <p class="text-subtitle-1 text-grey-darken-1"
+        >Configure os parâmetros para iniciar o teste</p
       >
-      <v-form 
-      v-if="smAndDown"
-      class="w-100 pa-4 p elevation-3 rounded-xl mt-4">
-        <v-text class="text-subtitle-2">Tempo</v-text>
+      <v-form v-if="smAndDown" class="w-100 pa-4 p elevation-3 rounded-xl mt-4">
+        <p class="text-subtitle-2">Tempo</p>
         <v-select
           class="mt-2"
           :items="tempos"
@@ -23,7 +17,7 @@
           rounded="lg"
         ></v-select>
 
-        <v-text class="text-subtitle-2">Número de repetições</v-text>
+        <p class="text-subtitle-2">Número de repetições</p>
         <v-text-field
           class="mt-2"
           variant="outlined"
@@ -32,16 +26,14 @@
           label="Selecione o número de repetições"
         ></v-text-field>
 
-        <v-text class="text-subtitle-2">Mão</v-text>
+        <p class="text-subtitle-2">Dominância</p>
         <v-select
           class="mt-2"
           :items="hands"
-          label="Mão"
+          label="Dominância"
           variant="outlined"
           rounded="lg"
         ></v-select>
-
-
 
         <ConfirmButton
           text="Iniciar teste"
@@ -50,9 +42,7 @@
           ><Play :size="16" />
         </ConfirmButton>
       </v-form>
-      <v-form 
-      v-if="mdAndUp"
-      class="w-50 pa-4 p elevation-3 rounded-xl mt-4">
+      <v-form v-if="mdAndUp" class="w-50 pa-4 p elevation-3 rounded-xl mt-4">
         <v-text class="text-subtitle-2">Tempo</v-text>
         <v-select
           class="mt-2"
@@ -79,8 +69,6 @@
           variant="outlined"
           rounded="lg"
         ></v-select>
-
-
 
         <ConfirmButton
           text="Iniciar teste"
@@ -95,28 +83,23 @@
 
 <script setup>
 import { ref } from "vue";
-import { Play } from "lucide-vue-next";
-import {useDisplay} from "vuetify";
-
-import PageTitle from "@/components/PageTitle.vue";
-import ConfirmButton from "@/components/ConfirmButton.vue";
+import { useRouter } from "vue-router";
+import { useDisplay } from "vuetify";
+import { Play, ArrowLeft } from "lucide-vue-next";
 
 const hands = ref(["Esquerda", "Direita", "Ambidestro"]);
 const tempos = ref(["30s", "60s", "120s"]);
 
+const router = useRouter();
+const { mdAndUp, smAndDown } = useDisplay();
 
-
-const {mdAndUp, smAndDown} = useDisplay()
+const goBack = () => {
+  router.back();
+};
 </script>
-
 
 <style scoped>
 .blue-gradient {
-  background-image: linear-gradient(
-    180deg,
-    #4a8dde 0%,
-    #0c4f9d 50%,
-    #ffffff 50%
-  );
+  background-image: linear-gradient(180deg, #4a8dde 0%, #0c4f9d 50%, #ffffff 50%);
 }
 </style>
