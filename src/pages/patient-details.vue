@@ -1,65 +1,59 @@
 <template>
-  <v-container 
-  >
-    <SubpageTitle title="Roberto Santos" class="ma-0"/>
-    <p v-if="mdAndUp" class="opacity-50 pr-0">Informações e testes recentes do paciente</p>
+  <v-container class="pt-6">
+    <PageTitle margin="mb-2" title="Roberto Santos" v-if="mdAndUp" />
+    <SubpageTitle title="Roberto Santos" class="ma-0" v-else />
+    <p class="opacity-50 pr-0 mb-8">Informações e testes recentes do paciente</p>
     <div
-      class="d-flex ga-8 justify-center align-end"
+      class="d-flex ga-12 justify-space-between align-end"
       :class="smAndDown ? 'flex-column' : 'flex-row'"
     >
       <InfoCard
-              class="d-flex flex-column ga-2"
+        class="d-flex flex-column"
         address="Avenida Nereu Ramos, 154, Centro, Balneário Piçarras"
         email="roberto@gmail.com"
         status="Ativo"
       />
-      
-      <div
-      class="d-flex flex-column ga-2">
-        <TestsList />
-      </div>
+
+      <TestsList />
 
       <div v-if="smAndDown">
-      <v-btn 
-        width="90vw"
-        rounded="lg"
-        height="50px"
-        class="darken-blue-gradient text-white"
-      >
-    <div class="d-flex flex-row justify-center align-center ga-2">
-        <span><Play/></span>
-        <span>Iniciar teste</span>
-        </div>
-      </v-btn>
+        <v-btn
+          width="90vw"
+          rounded="lg"
+          height="50px"
+          class="darken-blue-gradient text-white"
+        >
+          <div class="d-flex flex-row justify-center align-center ga-2">
+            <span><Play /></span>
+            <span>Iniciar teste</span>
+          </div>
+        </v-btn>
       </div>
     </div>
-<div v-if="mdAndUp" class="d-flex justify-end">
-  <v-btn 
-    rounded="lg"
-    height="50px"
-    width="300px"
-    class="darken-blue-gradient text-white d-flex"
-    style="position: relative; margin-top: 20px;"
-  >
-    <div class="d-flex flex-row justify-center align-center ga-2">
-      <span><Play/></span>
-      <span>Iniciar teste</span>
+    <div v-if="mdAndUp" class="d-flex justify-end">
+      <v-btn
+        rounded="lg"
+        height="50px"
+        width="300px"
+        class="darken-blue-gradient text-white mt-5"
+      >
+        <div class="d-flex flex-row justify-center align-center ga-2">
+          <span><Play /></span>
+          <span>Iniciar teste</span>
+        </div>
+      </v-btn>
     </div>
-  </v-btn>
-</div>
-
   </v-container>
 </template>
 
 <script setup>
-import {Play} from "lucide-vue-next";
+import { Play } from "lucide-vue-next";
 import SubpageTitle from "@/components/SubpageTitle.vue";
 import InfoCard from "@/components/InfoCard.vue";
 import TestsList from "@/components/TestsList.vue";
-import {useDisplay} from "vuetify";
+import { useDisplay } from "vuetify";
 
-const {mdAndUp, smAndDown,} = useDisplay()
-
+const { mdAndUp, smAndDown } = useDisplay();
 </script>
 
 <style>

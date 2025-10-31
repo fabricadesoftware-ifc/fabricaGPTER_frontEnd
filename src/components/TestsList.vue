@@ -1,7 +1,7 @@
 <template>
   <v-card
-    :class="['mx-auto', { 'pa-4': smAndDown, 'pa-6': mdAndUp }]"
-    :min-width="mdAndUp ? '590' : '90vw'"
+    :class="[{ 'pa-4 mx-auto': smAndDown, 'pa-6 mx-0': mdAndUp }]"
+    :min-width="mdAndUp ? '500' : '90vw'"
     :min-height="mdAndUp ? '349' : '300'"
     elevation="2"
     rounded="xl"
@@ -20,10 +20,10 @@
         <v-list-item
           v-for="test in tests"
           :key="test.id"
-          class="pa-0"
+          class="pa-0 mb-2"
           aria-label="teste-recente"
         >
-          <div class="d-flex flex-row justify-space-between align-center w-100">
+          <div class="d-flex flex-row justify-space-between align-center w-100 mb-4">
             <v-list-item-title class="text-body-1">{{ test.name }}</v-list-item-title>
             <div class="text-right">
               <v-list-item-title class="text-grey-darken-2">
@@ -31,6 +31,7 @@
               </v-list-item-title>
             </div>
           </div>
+          <v-divider />
         </v-list-item>
       </v-list>
     </v-card-text>
