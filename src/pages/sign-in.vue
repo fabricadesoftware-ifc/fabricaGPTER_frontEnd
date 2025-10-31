@@ -28,18 +28,11 @@
               },
         ]"
       >
-        <v-card-title
-          class="text-h5 text-primary text-center font-weight-bold mt-2 mb-6"
-        >
+        <v-card-title class="text-h5 text-primary text-center font-weight-bold mt-2 mb-6">
           Bem-vindo
         </v-card-title>
 
-        <v-text-field
-          label="Usuário"
-          variant="outlined"
-          class="mb-3"
-          rounded="lg"
-        />
+        <v-text-field label="Usuário" variant="outlined" class="mb-3" rounded="lg" />
         <v-text-field
           label="Senha"
           type="password"
@@ -48,15 +41,11 @@
           class="mb-5"
           append-inner-icon="mdi-eye-off"
         />
-
-        <v-btn
-          block
-          rounded="lg"
-          height="50px"
-          class="darken-blue-gradient text-white"
-        >
-          Login
-        </v-btn>
+        <router-link to="/" class="text-decoration-none">
+          <v-btn block rounded="lg" height="50px" class="darken-blue-gradient text-white">
+            Login
+          </v-btn>
+        </router-link>
       </v-card>
     </v-container>
 
