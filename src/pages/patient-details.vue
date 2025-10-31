@@ -19,7 +19,7 @@
       <div v-if="smAndDown">
         <v-btn
           width="90vw"
-          rounded="lg"
+          rounded="xl"
           height="50px"
           class="darken-blue-gradient text-white"
         >
@@ -32,7 +32,7 @@
     </div>
     <div v-if="mdAndUp" class="d-flex justify-end">
       <v-btn
-        rounded="lg"
+        rounded="xl"
         height="50px"
         width="300px"
         class="darken-blue-gradient text-white mt-5"
