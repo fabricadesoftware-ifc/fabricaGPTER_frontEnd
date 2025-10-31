@@ -10,7 +10,7 @@
         
         <v-form 
     
-        class="w-100 pa-4 p elevation-3 rounded-xl mt-4">
+        class="w-100 pa-4 p rounded-xl mt-4">
           <v-text class="text-subtitle-2 font-weight-light">Senha atual</v-text>
           <v-text-field
             class="mt-2"
@@ -48,7 +48,7 @@
   </template>
   
   <script setup>
-  import { EyeOff, EyeOn } from "lucide-vue-next";
+  import { EyeOff, Eye } from "lucide-vue-next";
   import {useDisplay} from "vuetify";
   
   import PageTitle from "@/components/PageTitle.vue";
