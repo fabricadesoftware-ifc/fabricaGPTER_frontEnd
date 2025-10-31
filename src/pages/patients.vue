@@ -3,28 +3,23 @@
     <v-row align="start" justify="space-between" class="w-full">
       <v-col class="py-0 d-flex flex-column aligin-start">
         <PageTitle title="Pacientes" :class="{ 'mb-7': xs }" />
-        <p v-if="xs" class="text-subtitle-1 font-weigh-medium"
-          >Lista de pacientes</p
-        >
+        <p v-if="xs" class="text-subtitle-1 font-weigh-medium">Lista de pacientes</p>
       </v-col>
       <v-col align-self="end" class="text-right d-flex justify-end align-end py-0 mb-2">
-        <v-btn
-          v-if="xs"
-          @click="goToRoute('register-patient')"
-          icon
-          variant="text"
-          class="d-flex align-center"
-          ><CirclePlus :size="24"
-        /></v-btn>
-        <v-btn
-          v-else
-          @click="goToRoute('register-patient')"
-          width="160"
-          height="60"
-          flat
-          class="text-none rounded-xl border border-md"
-          >Registrar paciente</v-btn
-        >
+        <router-link to="/patient-details" v-if="xs">
+          <v-btn icon variant="text" class="d-flex align-center"
+            ><CirclePlus :size="24"
+          /></v-btn>
+        </router-link>
+        <router-link to="/patient-details" v-else>
+          <v-btn
+            width="160"
+            height="60"
+            flat
+            class="text-none rounded-xl border border-md"
+            >Registrar paciente</v-btn
+          >
+        </router-link>
       </v-col>
     </v-row>
 
@@ -53,14 +48,14 @@
 // Funções reais (create, edit, delete, pagination, details) serão implementadas posteriormente, com o backend
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 
 import PageTitle from "@/components/PageTitle.vue";
 import PatientsList from "@/components/PatientsList.vue";
 
 import { CirclePlus } from "lucide-vue-next";
 
-const router = useRouter()
+const router = useRouter();
 const { mdAndUp, smAndDown, xs } = useDisplay();
 
 const currentPage = ref(1);
