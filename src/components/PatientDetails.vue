@@ -1,7 +1,7 @@
 <template>
   <v-card 
   :width="mdAndUp ? '436' : '400'"
-  class="elevation-2 rounded-xl pa-4">
+  class="elevation-2 rounded-xl pa-6 w-100">
     <v-card-title class="text-h6 font-weight-bold mb-4 pa-0">
       Detalhes do teste
     </v-card-title>
