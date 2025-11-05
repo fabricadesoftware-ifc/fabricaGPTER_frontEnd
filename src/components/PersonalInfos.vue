@@ -8,13 +8,12 @@
       </v-col>
       <v-col class="d-flex flex-column">
         <v-text class="text-p font-weight-bold"> {{ info.name }}</v-text>
-        <v-text class="text-p opacity-80 font-weight-light">{{ info.info }}</v-text>
+        <v-text class="text-p opacity-90 font-weight-light">{{ info.info }}</v-text>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script setup>
-import { User, Calendar, Mail, Phone, Fingerprint } from "lucide-vue-next";
 defineProps({
   personalInfos: {
     type: Array,
