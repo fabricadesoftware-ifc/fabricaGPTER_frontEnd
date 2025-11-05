@@ -9,7 +9,7 @@
       </div>
         <MenuProfile
       :image="foto"
-      :infos="{ name: 'Daniel Santos' }"
+      :infos="{ name: 'Roberto' }"
       class="text-black"
     />
     <PersonalInfos :personalInfos="personalInfos" />
@@ -21,8 +21,8 @@ import { ref } from "vue";
 import {useDisplay} from "vuetify";
 const {smAndDown} = useDisplay()
 import PersonalInfos from "@/components/PersonalInfos.vue";
-import { User, Calendar, Mail, Phone, Fingerprint, ChevronLeft } from "lucide-vue-next";
-import foto from '@/assets/foto-profissional.png'
+import { User, Calendar, Mail, Phone, Fingerprint, ChevronLeft, House } from "lucide-vue-next";
+import foto from '@/assets/foto-paciente.png'
 const personalInfos = ref([
   {
     name: "Nome",
@@ -48,6 +48,11 @@ const personalInfos = ref([
     name: "CPF",
     info: "01234567890",
     icon: Fingerprint,
+  },
+  {
+    name: "Endereço",
+    info: "Rua das alamedas, 345, Centro, Joinville - SC, 8839-8476",
+    icon: House,
   },
 ]);
 </script>
