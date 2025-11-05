@@ -1,18 +1,26 @@
 <template>
   <v-container>
-    <SubpageTitle title="Informações" class="mb-4" />
-    <MenuProfile />
+    <div class="d-flex align-center mb-4">
+    <v-btn variant="text" @click="$router.back()" class="d-flex align-center">
+      <ChevronLeft class="opacity-70 mr-2" />
+    </v-btn>
+
+    <SubpageTitle title="Informações" />
+      </div>
+        <MenuProfile
+      :image="foto"
+      :infos="{ name: 'Daniel Santos' }"
+      class="text-black"
+    />
     <PersonalInfos :personalInfos="personalInfos" />
   </v-container>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import SubpageTitle from "@/components/SubpageTitle.vue";
-import MenuProfile from "@/components/MenuProfile.vue";
 import PersonalInfos from "@/components/PersonalInfos.vue";
-import { User, Calendar, Mail, Phone, Fingerprint, IdCard, Hospital } from "lucide-vue-next";
-
+import { User, Calendar, Mail, Phone, Fingerprint, ChevronLeft } from "lucide-vue-next";
+import foto from '@/assets/foto-profissional.png'
 const personalInfos = ref([
   {
     name: "Nome",
@@ -38,19 +46,6 @@ const personalInfos = ref([
     name: "CPF",
     info: "01234567890",
     icon: Fingerprint,
-  },
-]);
-
-const professionalInfos = ref([
-  {
-    name: "Identificação Profissional",
-    info: "012345678",
-    icon: IdCard,
-  },
-  {
-    name: "Clínica Associada",
-    info: "Conviver",
-    icon: Hospital,
   },
 ]);
 </script>

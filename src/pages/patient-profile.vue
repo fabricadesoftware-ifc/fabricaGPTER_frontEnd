@@ -6,14 +6,10 @@
     }"
     class="ma-0 pa-0 d-flex align-center justify-center blue-gradient rounded-b-xl"
   >
-    <MenuProfile
-      :image="foto"
-      :infos="{ name: 'Daniel Santos' }"
-      class="text-white"
-    />
-    
+    <MenuProfile class="text-white" />
   </v-container>
-   <Settings
+
+<Settings
     :routes="{
       info: 'infos',
       password: 'change-password',
@@ -27,8 +23,7 @@
 <script setup>
 import { useDisplay } from 'vuetify'
 import MenuProfile from '@/components/MenuProfile.vue'
-
-import foto from '@/assets/foto-profissional.png'
+import Settings from '@/components/Settings.vue' 
 
 const { mdAndUp } = useDisplay()
 </script>
