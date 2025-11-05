@@ -26,6 +26,7 @@ const Details = ref([
         reps: 6,
         arm: "Direito",
         date: "04/07/2025",
+        profissional: "Daniela Silva",
     },
 ]);
 

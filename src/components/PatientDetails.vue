@@ -17,6 +17,15 @@
           </v-text>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col class="d-flex align-center ga-2">
+          <Stethoscope color="#005BBB"  />
+          <v-text class="text-subtitle-1 font-weight-bold">
+            Profissional:
+            <v-text class="font-weight-regular">{{ patient.profissional }}</v-text>
+          </v-text>
+        </v-col>
+      </v-row>
 
       <v-row>
         <v-col class="d-flex align-center ga-2">
@@ -88,7 +97,7 @@
 </template>
 
 <script setup>
-import { Clock, User, Hand, Zap, Calendar, Check, RotateCcw } from "lucide-vue-next";
+import { Clock, User, Hand, Zap, Calendar, Check, RotateCcw, Stethoscope } from "lucide-vue-next";
 import RemakeButton from "@/components/RemakeButton.vue";
 
 defineProps({
