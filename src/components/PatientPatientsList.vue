@@ -1,7 +1,7 @@
 <template>
   <v-list border="md" class="w-100 rounded-xl pa-0">
     <template v-for="(patient, i) in patients" :key="patient.id">
-      <v-list-item :title="patient.tempo" link @click="goToRoute('patient-details')">
+      <v-list-item :title="patient.tempo" link @click="goToRoute('test-result')">
         <template v-slot:append>
           <p class="text-subtitle-1">{{ patient.data }}</p>
         </template>
