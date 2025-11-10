@@ -19,7 +19,7 @@
         :elevation="smAndDown ? 5 : 0"
         :style="[
           mdAndUp
-            ? { width: 'clamp(320px, 70%, 400px)' }
+            ? { width: 'clamp(320px, 70%, 350px)' }
             : {
                 width: '320px',
                 top: '50%',

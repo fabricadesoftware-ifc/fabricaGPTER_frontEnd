@@ -19,7 +19,6 @@ declare module 'vue' {
     PageTitle: typeof import('./src/components/PageTitle.vue')['default']
     PatientDetails: typeof import('./src/components/PatientDetails.vue')['default']
     PatientForm: typeof import('./src/components/PatientForm.vue')['default']
-    PatientInfos: typeof import('./src/components/Patient-infos.vue')['default']
     PatientPatientsList: typeof import('./src/components/PatientPatientsList.vue')['default']
     PatientsList: typeof import('./src/components/PatientsList.vue')['default']
     PersonalInfos: typeof import('./src/components/PersonalInfos.vue')['default']

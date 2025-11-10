@@ -1,37 +1,43 @@
 <template>
-  <v-container class="pa-4">
+  <v-container :class="smAndDown ? 'pa-4' : 'pa-0'">
     <!-- Seção 1 -->
-    <v-list class="rounded-t-xl mb-4">
-      <v-list-item
-        class="border-b border-solid bg-grey-lighten-4 rounded-t-xl"
-        @click="router.push(routes.info)"
-      >
-        <template #prepend>
-          <Info class="opacity-70" />
-        </template>
-        <v-list-item-title class="pl-4">Informações</v-list-item-title>
-        <template #append>
-          <ChevronRight class="opacity-70" />
-        </template>
-      </v-list-item>
+    <v-list 
+    :class="smAndDown ? 'rounded-t-xl' : 'rounded-none'" 
+    class="pa-0 px-0 py-0">
+        <v-list-item
+          class="border-b border-solid bg-grey-lighten-4  "
+          :class="smAndDown ? 'rounded-t-xl' : 'rounded-none'"
+          @click="router.push(routes.info)"
+        >
+          <template #prepend>
+            <Info class="opacity-70" />
+          </template>
+            <v-list-item-title class="pl-4">
+              Informações
+            </v-list-item-title>
+          <template #append>
+            <ChevronRight class="opacity-70" />
+          </template>
+        </v-list-item>
 
-      <v-list-item
-        class="bg-grey-lighten-4 rounded-b-xl"
-        @click="router.push(routes.password)"
-      >
-        <template #prepend>
-          <LockKeyhole class="opacity-70" />
-        </template>
-        <v-list-item-title class="pl-4">Alterar senha</v-list-item-title>
-        <template #append>
-          <ChevronRight class="opacity-70" />
-        </template>
-      </v-list-item>
+        <v-list-item
+            :class="smAndDown ? 'rounded-t-xl' : 'rounded-none'"
+          class="bg-grey-lighten-4 rounded-b-xl "
+          @click="router.push(routes.password)"
+        >
+          <template #prepend>
+            <LockKeyhole class="opacity-70" />
+          </template>
+          <v-list-item-title class="pl-4">Alterar senha</v-list-item-title>
+          <template #append>
+            <ChevronRight class="opacity-70" />
+          </template>
+        </v-list-item>
     </v-list>
 
     <!-- Seção 2 -->
-    <v-list class="rounded-xl mb-8">
-      <v-list-item class="border-b border-solid bg-grey-lighten-4 py-0 rounded-t-xl">
+    <v-list class="rounded-xl mb-8" :class="smAndDown ? '' : 'p-0'">
+      <v-list-item :class="smAndDown ? 'rounded-t-xl' : 'border-t'" class="border-b border-solid bg-grey-lighten-4 py-0 ">
         <template #prepend>
           <Moon class="opacity-70" />
         </template>
@@ -86,7 +92,10 @@
 <script setup>
 import { Info, LockKeyhole, ChevronRight, Moon, Phone, LogOut } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
+import { useDisplay } from "vuetify";
 
+
+const { mdAndUp, smAndDown } = useDisplay();
 const router = useRouter()
 
 defineProps({
