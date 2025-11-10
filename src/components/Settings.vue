@@ -5,8 +5,8 @@
     :class="smAndDown ? 'rounded-t-xl' : 'rounded-none'" 
     class="pa-0 px-0 py-0">
         <v-list-item
-          class="border-b border-solid bg-grey-lighten-4  "
-          :class="smAndDown ? 'rounded-t-xl' : 'rounded-none'"
+          class="border-solid bg-blue-lighten-4  "
+          :class="smAndDown ? 'rounded-t-xl border-b' : 'rounded-none border-2' "
           @click="router.push(routes.info)"
         >
           <template #prepend>
@@ -21,8 +21,8 @@
         </v-list-item>
 
         <v-list-item
-            :class="smAndDown ? 'rounded-t-xl' : 'rounded-none'"
-          class="bg-grey-lighten-4 rounded-b-xl "
+            :class="smAndDown ? 'rounded-t-xl rounded-b-xl ' : ''"
+          class="bg-grey-lighten-4 "
           @click="router.push(routes.password)"
         >
           <template #prepend>
@@ -36,8 +36,8 @@
     </v-list>
 
     <!-- Seção 2 -->
-    <v-list class="rounded-xl mb-8" :class="smAndDown ? '' : 'p-0'">
-      <v-list-item :class="smAndDown ? 'rounded-t-xl' : 'border-t'" class="border-b border-solid bg-grey-lighten-4 py-0 ">
+    <v-list class="rounded-xl mb-8 " :class="smAndDown ? '' : 'p-0'">
+      <v-list-item :class="smAndDown ? 'rounded-t-xl border-b border-solid' : ''" class=" bg-grey-lighten-4 py-0 ">
         <template #prepend>
           <Moon class="opacity-70" />
         </template>
@@ -48,7 +48,8 @@
       </v-list-item>
 
       <v-list-item
-        class="border-b border-solid bg-grey-lighten-4"
+        class="bg-grey-lighten-4"
+        :class="smAndDown ? 'border-b border-solid' : ''"
         @click="router.push(routes.terms)"
       >
         <template #prepend>
@@ -61,9 +62,11 @@
       </v-list-item>
 
       <v-list-item
-        class="bg-grey-lighten-4 rounded-b-xl"
+        class="bg-grey-lighten-4 border-b border-solid"
+        :class="smAndDown ? ' rounded-b-xl' : ''"
         @click="router.push(routes.contact)"
       >
+  
         <template #prepend>
           <Phone class="opacity-70" />
         </template>
@@ -71,11 +74,25 @@
         <template #append>
           <ChevronRight class="opacity-70" />
         </template>
+        
+  
+      </v-list-item>
+      <!-- Sair desktop -->
+
+      <v-list-item v-if="mdAndUp"
+        class="bg-grey-lighten-4 text-red"
+        :class="smAndDown ? 'rounded-xl' : ''"
+        @click="router.push(routes.logout)"
+      >
+        <template #prepend>
+          <LogOut class="" />
+        </template>
+        <v-list-item-title class="pl-4" >Sair</v-list-item-title>
       </v-list-item>
     </v-list>
 
-    <!-- Sair -->
-    <v-list>
+    <!-- Sair celular -->
+    <v-list v-if="smAndDown">
       <v-list-item
         class="bg-grey-lighten-4 rounded-xl text-red"
         @click="router.push(routes.logout)"
