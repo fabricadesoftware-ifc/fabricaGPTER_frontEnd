@@ -3,20 +3,24 @@
     <!-- Seção 1 -->
     <v-list 
     :class="smAndDown ? 'rounded-t-xl' : 'rounded-none'" 
-    class="pa-0 px-0 py-0">
-        <v-list-item
-          class="border-solid bg-blue-lighten-4  "
+    class="pt-2">
+        <v-list-item 
+          class="border-e-lg border-primary border-opacity-100 bg-blue-lighten-5 "
           :class="smAndDown ? 'rounded-t-xl border-b' : 'rounded-none border-2' "
           @click="router.push(routes.info)"
         >
           <template #prepend>
-            <Info class="opacity-70" />
+            <Info 
+            color="#1A63B9"
+            class="opacity-70" />
           </template>
-            <v-list-item-title class="pl-4">
+            <v-list-item-title class="pl-4 text-blue-darken-4">
               Informações
             </v-list-item-title>
           <template #append>
-            <ChevronRight class="opacity-70" />
+            <ChevronRight
+            color="#1A63B9"
+            class="opacity-70" />
           </template>
         </v-list-item>
 
@@ -104,6 +108,7 @@
       </v-list-item>
     </v-list>
   </v-container>
+  
 </template>
 
 <script setup>
@@ -114,6 +119,17 @@ import { useDisplay } from "vuetify";
 
 const { mdAndUp, smAndDown } = useDisplay();
 const router = useRouter()
+
+const sections = [
+  {
+    icon: Moon,
+    name: 'Informações',
+    link: 'infos'
+  },
+  {
+
+  }
+]
 
 defineProps({
   routes: {
