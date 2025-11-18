@@ -19,6 +19,8 @@
 <script setup>
 import { ref } from "vue";
 import {useDisplay} from "vuetify";
+import { useRouter } from "vue-router";
+const router = useRouter()
 const {smAndDown} = useDisplay()
 import PersonalInfos from "@/components/PersonalInfos.vue";
 import { User, Calendar, Mail, Phone, Fingerprint, ChevronLeft } from "lucide-vue-next";

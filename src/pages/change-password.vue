@@ -4,8 +4,7 @@
     <v-btn v-if="smAndDown" variant="text" @click="$router.back()" class="d-flex align-center">
       <ChevronLeft class="opacity-70 mr-2" />
     </v-btn>
-
-    <PageTitle title="Informações" />
+    <SubpageTitle title="Alterar senha" />
       </div>
   
   

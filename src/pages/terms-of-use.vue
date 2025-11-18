@@ -3,7 +3,8 @@
   <v-container :style="{
     minHeight: mdAndUp ? '20vh' : '20vh',
     maxWidth: mdAndUp ? '30vw' : '100%',
-  }" class="ma-0 pa-0 d-flex align-center align-center justify-center blue-gradient rounded-b-xl">
+  }" class="ma-0 pa-0 d-flex align-center align-center justify-center blue-gradient rounded-b-xl"
+  >
     <v-text class="font-weight-bold text-h4 text-white">Termos de Uso</v-text>
   </v-container>
   <v-container>
@@ -70,6 +71,8 @@
 </template>
 
 <script setup>
+import { ChevronLeft } from "lucide-vue-next";
+
 </script>
 
 <style>
