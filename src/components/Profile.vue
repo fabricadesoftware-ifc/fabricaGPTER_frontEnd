@@ -23,8 +23,13 @@
     </v-container>
     <v-container>
         <v-list class="rounded-xl">
-            <v-list-item v-for="setting in settings.slice(0, 2)" class="bg-grey-lighten-3 ">
-                <v-list-item-title>{{ setting.name }}</v-list-item-title>
+            <v-list-item 
+            v-for="setting in settings.slice(0, 2)" 
+            :key="setting.name"
+            :to="setting.link"
+            class="bg-grey-lighten-3 ">
+                <v-list-item-title
+                >{{ setting.name }}</v-list-item-title>
                 <template #append>
                     <ChevronRight
                     color="black"
@@ -35,7 +40,11 @@
             </v-list-item>
         </v-list>
         <v-list class="rounded-xl">
-            <v-list-item v-for="setting in settings.slice(3, 5)" class="bg-grey-lighten-3">
+            <v-list-item 
+            v-for="setting in settings.slice(3, 5)" 
+            :key="setting.name"
+            :to="setting.link"
+            class="bg-grey-lighten-3">
                 <v-list-item-title>{{ setting.name }}</v-list-item-title>
                 <template #append>
                     <ChevronRight
@@ -46,7 +55,11 @@
             </v-list-item>
         </v-list>
         <v-list class="rounded-xl">
-            <v-list-item v-for="setting in settings.slice(5)" class="bg-grey-lighten-3 text-red">
+            <v-list-item 
+            v-for="setting in settings.slice(5)" 
+            :key="setting.name"
+            :to="setting.link" 
+            class="bg-grey-lighten-3 text-red">
                 <v-list-item-title>{{ setting.name }}</v-list-item-title>
                 <template #append>
                     <ChevronRight
@@ -80,32 +93,31 @@ const settings = ref([
   {
     name: "Informações",
     icon: Info,
-    link: '',
+    link: 'infos',
   },
   {
     name: "Alterar senha",
     icon: LockKeyhole,
-    link: '',
+    link: 'change-password',
   },
   {
     name: "Tema escuro",
     icon: Moon,
-    link: '',
   },
   {
     name: "Termos de Uso",
     icon: Info,
-    link: '',
+    link: 'terms-of-use',
   },
   {
     name: "Contato",
     icon: Phone,
-    link: '',
+    link: 'contact',
   },
   {
     name: "Sair",
     icon: LogOut,
-    link: '',
+    link: 'sign-in',
   },
 ]);
 </script>

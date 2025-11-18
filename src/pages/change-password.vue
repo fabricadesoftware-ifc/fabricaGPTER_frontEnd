@@ -1,6 +1,12 @@
 <template>
-    <v-container class="fill-height d-flex flex-column align-center">
-      <PageTitle title="Alterar senha" />
+    <v-container>
+    <div class="d-flex align-center mb-4">
+    <v-btn v-if="smAndDown" variant="text" @click="$router.back()" class="d-flex align-center">
+      <ChevronLeft class="opacity-70 mr-2" />
+    </v-btn>
+
+    <PageTitle title="Informações" />
+      </div>
   
   
       <div
@@ -48,7 +54,7 @@
   </template>
   
   <script setup>
-  import { EyeOff, Eye } from "lucide-vue-next";
+  import { ChevronLeft, Eye } from "lucide-vue-next";
   import {useDisplay} from "vuetify";
   
   import PageTitle from "@/components/PageTitle.vue";

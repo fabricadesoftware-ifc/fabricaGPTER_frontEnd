@@ -1,6 +1,12 @@
 <template>
   <v-container>
-    <SubpageTitle title="Contato" class="mb-8" />
+    <div class="d-flex align-center mb-4">
+    <v-btn v-if="smAndDown" variant="text" @click="$router.back()" class="d-flex align-center">
+      <ChevronLeft class="opacity-70 mr-2" />
+    </v-btn>
+
+    <SubpageTitle title="Informações" />
+      </div>
     <v-card class="pa-4 rounded-xl elevation-2">
       <v-card-title class="text-h6 font-weight-bold pa-0 mb-6">Suporte</v-card-title>
 
@@ -18,8 +24,10 @@
 </template>
 <script setup>
 import SubpageTitle from "@/components/SubpageTitle.vue";
-import { Mail, Phone } from "lucide-vue-next";
-
+import { Mail, Phone, ChevronLeft } from "lucide-vue-next";
+  import {useDisplay} from "vuetify";
+  
+  const {smAndDown} = useDisplay()
 const contactInfos = ref([
   {
     name: "Email",
