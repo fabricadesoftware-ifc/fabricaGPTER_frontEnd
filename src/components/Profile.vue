@@ -1,50 +1,60 @@
 <template>
-    <v-container class="blue-gradient">
+    <v-container class="blue-gradient rounded-b-xl">
         <div :style="{
-            minHeight: mdAndUp ? '20vh' : '30vh',
+            minHeight: mdAndUp ? '10vh' : '15vh',
             maxWidth: mdAndUp ? '30vw' : '100vw',
         }" class="d-flex justify-center align-center text-center " :class="smAndDown ? 'flex-row' : 'flex-column'">
             <v-col :cols="smAndDown ? 3 : 5" class="d-flex justify-center align-center">
                 <v-img
-                    :width="300"
-                    aspect-ratio="16/9"
-                    cover
-                    src="../assets/foto-profissional.png"
+                :width="300"
+                aspect-ratio="16/9"
+                cover
+                src="../assets/foto-profissional.png"
                 ></v-img>
             </v-col>
-
             <v-col cols="3" class="d-flex justify-center align-center">
-                <v-text class="text-h6 font-weight-bold text-white">
+                <v-text class="text-h5 font-weight-bold text-white">
                     Daniel
                 </v-text>
             </v-col>
         </div>
-
     </v-container>
     <v-container>
-        <v-list class="rounded-xl">
+        <v-list class="rounded-xl mb-4">
             <v-list-item 
             v-for="setting in settings.slice(0, 2)" 
             :key="setting.name"
             :to="setting.link"
-            class="bg-grey-lighten-3 ">
-                <v-list-item-title
-                >{{ setting.name }}</v-list-item-title>
+            class="bg-grey-lighten-3 hover:bg-red-4 transition-colors duration-200 cursor-pointer ">
+                <template #prepend>
+                    <component
+                    :is="setting.icon"
+                    class="mr-3 opacity-70"
+                    color="black"
+                    />
+                </template>
+            <v-list-item-title>{{ setting.name }}</v-list-item-title>
                 <template #append>
                     <ChevronRight
                     color="black"
                     class="opacity-70" 
                     />
                 </template>
-                
             </v-list-item>
         </v-list>
-        <v-list class="rounded-xl">
+        <v-list class="rounded-xl mb-4">
             <v-list-item 
             v-for="setting in settings.slice(3, 5)" 
             :key="setting.name"
             :to="setting.link"
             class="bg-grey-lighten-3">
+            <template #prepend>
+                <component
+                    :is="setting.icon"
+                    class="mr-3 opacity-70"
+                    color="black"
+                />
+            </template>
                 <v-list-item-title>{{ setting.name }}</v-list-item-title>
                 <template #append>
                     <ChevronRight
@@ -54,12 +64,19 @@
                 </template>
             </v-list-item>
         </v-list>
-        <v-list class="rounded-xl">
+        <v-list>
             <v-list-item 
             v-for="setting in settings.slice(5)" 
             :key="setting.name"
             :to="setting.link" 
-            class="bg-grey-lighten-3 text-red">
+            class="bg-grey-lighten-3 text-red rounded-xl">
+            <template #prepend>
+            <component
+                :is="setting.icon"
+                class="mr-3 opacity-70"
+                color="red"
+            />
+            </template>
                 <v-list-item-title>{{ setting.name }}</v-list-item-title>
                 <template #append>
                     <ChevronRight
