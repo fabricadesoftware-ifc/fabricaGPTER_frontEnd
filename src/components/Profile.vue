@@ -21,8 +21,8 @@
     </v-container>
     <v-container>
         <v-list class="rounded-xl mb-4">
-            <v-list-item 
-            v-for="setting in settings.slice(0, 2)" 
+            <v-list-item
+            v-for="setting in settings.slice(0, 2)"
             :key="setting.name"
             :to="setting.link"
             class="bg-grey-lighten-3 hover:bg-red-4 transition-colors duration-200 cursor-pointer ">
@@ -37,14 +37,14 @@
                 <template #append>
                     <ChevronRight
                     color="black"
-                    class="opacity-70" 
+                    class="opacity-70"
                     />
                 </template>
             </v-list-item>
         </v-list>
         <v-list class="rounded-xl mb-4">
-            <v-list-item 
-            v-for="setting in settings.slice(3, 5)" 
+            <v-list-item
+            v-for="setting in settings.slice(3, 5)"
             :key="setting.name"
             :to="setting.link"
             class="bg-grey-lighten-3">
@@ -59,16 +59,16 @@
                 <template #append>
                     <ChevronRight
                     color="black"
-                    class="opacity-70" 
+                    class="opacity-70"
                     />
                 </template>
             </v-list-item>
         </v-list>
         <v-list>
-            <v-list-item 
-            v-for="setting in settings.slice(5)" 
+            <v-list-item
+            v-for="setting in settings.slice(5)"
             :key="setting.name"
-            :to="setting.link" 
+            :to="setting.link"
             class="bg-grey-lighten-3 text-red rounded-xl">
             <template #prepend>
             <component
@@ -81,7 +81,7 @@
                 <template #append>
                     <ChevronRight
                     color="red"
-                    class="opacity-70" 
+                    class="opacity-70"
                     />
                 </template>
             </v-list-item>
@@ -134,7 +134,7 @@ const settings = ref([
   {
     name: "Sair",
     icon: LogOut,
-    link: 'sign-in',
+    link: '/auth/sign-in',
   },
 ]);
 </script>
