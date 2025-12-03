@@ -5,18 +5,18 @@
 </template>
 
 <script setup>
-defineProps({
-  title: {
-    type: String,
-    required: true
-  },
-  justify: {
-    type: String,
-    default: 'justify-start'
-  },
-  margin: {
-    type: String,
-    default: 'mb-6'
-  },
-})
+  defineProps({
+    title: {
+      type: String,
+      required: true,
+    },
+    justify: {
+      type: String,
+      default: 'justify-start',
+    },
+    margin: {
+      type: String,
+      default: 'mb-6',
+    },
+  })
 </script>

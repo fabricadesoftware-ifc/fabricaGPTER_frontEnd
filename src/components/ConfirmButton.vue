@@ -1,23 +1,22 @@
 <template>
-    <!-- Usar text-none para letras não ficarem em caps lock no button -->
+  <!-- Usar text-none para letras não ficarem em caps lock no button -->
   <v-btn
-    flat
-    height='50'
     class="darken-blue-gradient text-white w-100 rounded-xl text-none text-subtitle-1"
-    ><slot /> {{ text }}</v-btn
-  >
+    flat
+    height="50"
+  ><slot /> {{ text }}</v-btn>
 </template>
 
 <script setup>
-import { useDisplay } from "vuetify";
+  import { useDisplay } from 'vuetify';
 
-defineProps({
-  text: {
-    type: String,
-    required: true,
-  },
-});
-const { mdAndUp, smAndDown, xs } = useDisplay();
+  defineProps({
+    text: {
+      type: String,
+      required: true,
+    },
+  });
+  const { mdAndUp, smAndDown, xs } = useDisplay();
 </script>
 
 <style scoped>

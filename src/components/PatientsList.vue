@@ -1,12 +1,10 @@
 <template>
   <v-list border="md" class="w-100 rounded-xl pa-0">
     <template v-for="(patient, i) in patients" :key="patient.id">
-      <v-list-item :title="patient.name" link @click="goToRoute('patient-details')">
-        <template v-slot:append>
-          <v-btn variant="text" icon @click="router.push('edit-patient')"
-            ><Pencil
-          /></v-btn>
-          <v-btn variant="text" icon><Trash2 /></v-btn>
+      <v-list-item link :title="patient.name" @click="goToRoute('patient-details')">
+        <template #append>
+          <v-btn icon variant="text" @click="router.push('edit-patient')"><Pencil /></v-btn>
+          <v-btn icon variant="text"><Trash2 /></v-btn>
         </template>
       </v-list-item>
       <v-divider v-if="i < patients.length - 1" />
@@ -15,20 +13,20 @@
 </template>
 
 <script setup>
-import { Trash2 } from "lucide-vue-next";
-import { Pencil } from "lucide-vue-next";
-import { useRouter } from "vue-router";
+  import { Trash2 } from 'lucide-vue-next';
+  import { Pencil } from 'lucide-vue-next';
+  import { useRouter } from 'vue-router';
 
-const router = useRouter();
+  const router = useRouter();
 
-defineProps({
-  patients: {
-    type: Array,
-    required: true,
-  },
-});
+  defineProps({
+    patients: {
+      type: Array,
+      required: true,
+    },
+  });
 
-const goToRoute = (route) => {
-  router.push(route);
-};
+  const goToRoute = route => {
+    router.push(route);
+  };
 </script>

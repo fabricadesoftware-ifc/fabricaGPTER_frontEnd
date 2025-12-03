@@ -1,21 +1,21 @@
 <template>
   <v-card
     :class="['mx-auto', {'pa-4' : smAndDown, 'pa-6': mdAndUp}]"
+    elevation="2"
     max-width="550"
     :min-height="mdAndUp ? '349' : '300'"
-    elevation="2"
     rounded="xl"
   >
     <v-card-title class="font-weight-medium pa-0" :class="{ 'text-h6 mb-3' : smAndDown, 'text-h5 mb-6': mdAndUp }">
       Informações do paciente
     </v-card-title>
-    <v-divider length="100%" color="grey-darken-4"/>
+    <v-divider color="grey-darken-4" length="100%" />
 
     <v-card-text :class="['pa-0', {'mt-6': mdAndUp, 'mt-4': smAndDown}]">
       <div :class="['d-flex flex-column', {'ga-8' : mdAndUp, 'ga-4': smAndDown}]">
         <div v-for="info in infos" :key="info.prop" class="d-flex align-start ga-3">
           <div>
-            <component :is="info.icon" :size="20" class="text-blue"/>
+            <component :is="info.icon" class="text-blue" :size="20" />
           </div>
           <div>
             <span class="font-weight-bold text-subtitle-1">{{ info.name }}:</span>
@@ -27,38 +27,38 @@
   </v-card>
 </template>
 <script setup lang="ts">
-import {useDisplay} from "vuetify";
-import {Clock, Mail, MapPinHouse} from "lucide-vue-next";
+  import { useDisplay } from 'vuetify';
+  import { Clock, Mail, MapPinHouse } from 'lucide-vue-next';
 
-const {mdAndUp, smAndDown} = useDisplay()
+  const { mdAndUp, smAndDown } = useDisplay()
 
-const props = defineProps({
-  address: {
-    type: String,
-  },
-  email: {
-    type: String,
-  },
-  status: {
-    type: String,
-  }
-})
+  const props = defineProps({
+    address: {
+      type: String,
+    },
+    email: {
+      type: String,
+    },
+    status: {
+      type: String,
+    },
+  })
 
-const infos = ref([
-  {
-    name: 'Endereço',
-    icon: MapPinHouse,
-    prop: props.address
-  },
-  {
-    name: 'Email',
-    icon: Mail,
-    prop: props.email
-  },
-  {
-    name: 'Status',
-    icon: Clock,
-    prop: props.status
-  },
-])
+  const infos = ref([
+    {
+      name: 'Endereço',
+      icon: MapPinHouse,
+      prop: props.address,
+    },
+    {
+      name: 'Email',
+      icon: Mail,
+      prop: props.email,
+    },
+    {
+      name: 'Status',
+      icon: Clock,
+      prop: props.status,
+    },
+  ])
 </script>

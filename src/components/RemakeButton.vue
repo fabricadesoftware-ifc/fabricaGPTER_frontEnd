@@ -1,20 +1,19 @@
 <template>
   <!-- Usar text-none para letras não ficarem em caps lock no button -->
   <v-btn
+    class="darken-blue-gradient text-black w-100 rounded-lg text-none text-subtitle-1"
     flat
     height="60"
-    class="darken-blue-gradient text-black w-100 rounded-lg text-none text-subtitle-1"
-    ><slot /> {{ text }}</v-btn
-  >
+  ><slot /> {{ text }}</v-btn>
 </template>
 
 <script setup>
-defineProps({
-  text: {
-    type: String,
-    required: true,
-  },
-});
+  defineProps({
+    text: {
+      type: String,
+      required: true,
+    },
+  });
 </script>
 
 <style scoped>

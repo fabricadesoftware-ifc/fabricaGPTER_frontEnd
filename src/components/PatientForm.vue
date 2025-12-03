@@ -5,63 +5,63 @@
     <v-text-field
       v-for="field in fields"
       :key="field.label"
-      rounded="lg"
       density="comfortable"
-      variant="outlined"
       :label="field.label"
-      :type="field.type"
       required
+      rounded="lg"
+      :type="field.type"
+      variant="outlined"
     />
 
     <v-row class="ma-0">
-      <v-col cols="8" class="pa-0">
+      <v-col class="pa-0" cols="8">
         <v-text-field
-          rounded="lg"
           density="comfortable"
-          variant="outlined"
           label="Cidade"
           required
-        ></v-text-field>
+          rounded="lg"
+          variant="outlined"
+        />
       </v-col>
       <v-col class="pr-0 py-0">
         <v-select
-          rounded="lg"
           density="comfortable"
-          variant="outlined"
           :items="states"
           label="UF"
           required
-        ></v-select>
-      </v-col>
-    </v-row>
-
-    <v-row class="ma-0">
-      <v-col cols="8" class="pa-0">
-        <v-text-field
           rounded="lg"
-          density="comfortable"
           variant="outlined"
-          label="Bairro"
-          required
-        ></v-text-field>
-      </v-col>
-      <v-col class="pr-0 py-0">
-        <v-text-field
-          rounded="lg"
-          density="comfortable"
-          variant="outlined"
-          label="Número"
-          type="number"
-          required
         />
       </v-col>
     </v-row>
 
     <v-row class="ma-0">
-      <v-col cols="6" class="pa-0 py-0">
-        <CancelButton @click="goBack()" text="Cancelar" />
+      <v-col class="pa-0" cols="8">
+        <v-text-field
+          density="comfortable"
+          label="Bairro"
+          required
+          rounded="lg"
+          variant="outlined"
+        />
       </v-col>
-      <v-col cols="6" class="pr-0 py-0">
+      <v-col class="pr-0 py-0">
+        <v-text-field
+          density="comfortable"
+          label="Número"
+          required
+          rounded="lg"
+          type="number"
+          variant="outlined"
+        />
+      </v-col>
+    </v-row>
+
+    <v-row class="ma-0">
+      <v-col class="pa-0 py-0" cols="6">
+        <CancelButton text="Cancelar" @click="goBack()" />
+      </v-col>
+      <v-col class="pr-0 py-0" cols="6">
         <ConfirmButton text="Salvar" />
       </v-col>
     </v-row>
@@ -69,74 +69,74 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useDisplay } from "vuetify";
+  import { ref } from 'vue';
+  import { useDisplay } from 'vuetify';
 
-import ConfirmButton from "./ConfirmButton.vue";
-import CancelButton from "./CancelButton.vue";
+  import ConfirmButton from './ConfirmButton.vue';
+  import CancelButton from './CancelButton.vue';
 
-const { smAndDown, xs, mdAndUp } = useDisplay();
+  const { smAndDown, xs, mdAndUp } = useDisplay();
 
-const router = useRouter();
+  const router = useRouter();
 
-const goBack = () => {
-  router.back();
-};
+  const goBack = () => {
+    router.back();
+  };
 
-const fields = ref([
-  {
-    label: "Nome completo",
-    type: "name",
-  },
-  {
-    label: "Email",
-    type: "email",
-  },
-  {
-    label: "CPF",
-    type: "number",
-  },
-  {
-    label: "Senha",
-    type: "password",
-  },
-  {
-    label: "Confirmar senha",
-    type: "password",
-  },
-  {
-    label: "Logradouro",
-    type: "text",
-  },
-]);
+  const fields = ref([
+    {
+      label: 'Nome completo',
+      type: 'name',
+    },
+    {
+      label: 'Email',
+      type: 'email',
+    },
+    {
+      label: 'CPF',
+      type: 'number',
+    },
+    {
+      label: 'Senha',
+      type: 'password',
+    },
+    {
+      label: 'Confirmar senha',
+      type: 'password',
+    },
+    {
+      label: 'Logradouro',
+      type: 'text',
+    },
+  ]);
 
-const states = [
-  "AC",
-  "AL",
-  "AP",
-  "AM",
-  "BA",
-  "CE",
-  "DF",
-  "ES",
-  "GO",
-  "MA",
-  "MT",
-  "MS",
-  "MG",
-  "PA",
-  "PB",
-  "PR",
-  "PE",
-  "PI",
-  "RJ",
-  "RN",
-  "RS",
-  "RO",
-  "RR",
-  "SC",
-  "SP",
-  "SE",
-  "TO",
-];
+  const states = [
+    'AC',
+    'AL',
+    'AP',
+    'AM',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MT',
+    'MS',
+    'MG',
+    'PA',
+    'PB',
+    'PR',
+    'PE',
+    'PI',
+    'RJ',
+    'RN',
+    'RS',
+    'RO',
+    'RR',
+    'SC',
+    'SP',
+    'SE',
+    'TO',
+  ];
 </script>

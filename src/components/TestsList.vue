@@ -1,9 +1,9 @@
 <template>
   <v-card
     :class="['mx-auto', { 'pa-4': smAndDown, 'pa-6': mdAndUp }]"
-    :min-width="mdAndUp ? '590' : '90vw'"
-    :min-height="mdAndUp ? '349' : '300'"
     elevation="2"
+    :min-height="mdAndUp ? '349' : '300'"
+    :min-width="mdAndUp ? '590' : '90vw'"
     rounded="xl"
   >
     <v-card-title
@@ -20,8 +20,8 @@
         <v-list-item
           v-for="test in tests"
           :key="test.id"
-          class="pa-0"
           aria-label="teste-recente"
+          class="pa-0"
         >
           <div class="d-flex flex-row justify-space-between align-center w-100">
             <v-list-item-title class="text-body-1">{{ test.name }}</v-list-item-title>
@@ -38,18 +38,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useDisplay } from "vuetify";
+  import { ref } from 'vue';
+  import { useDisplay } from 'vuetify';
 
-const { mdAndUp, smAndDown } = useDisplay();
+  const { mdAndUp, smAndDown } = useDisplay();
 
-const formatDateBR = (dateStr) => {
-  return new Date(dateStr).toLocaleDateString("pt-BR");
-};
+  const formatDateBR = dateStr => {
+    return new Date(dateStr).toLocaleDateString('pt-BR');
+  };
 
-const tests = ref([
-  { id: 1, name: "Isometria 60s", date: "2024-06-01" },
-  { id: 2, name: "Isometria 120s", date: "2024-05-20" },
-  { id: 3, name: "Isometria 60s", date: "2024-04-15" },
-]);
+  const tests = ref([
+    { id: 1, name: 'Isometria 60s', date: '2024-06-01' },
+    { id: 2, name: 'Isometria 120s', date: '2024-05-20' },
+    { id: 3, name: 'Isometria 60s', date: '2024-04-15' },
+  ]);
 </script>

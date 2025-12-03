@@ -1,92 +1,90 @@
 <template>
   <v-container class="fill-height d-flex flex-column align-center">
-    <PageTitle title="Novo teste" v-if="smAndDown"/>
+    <PageTitle v-if="smAndDown" title="Novo teste" />
 
 
     <div
       class="d-flex flex-grow-1 flex-column align-center justify-center w-100"
     >
-    <PageTitle title="Novo teste" class="d-flex justify-center"  v-if="mdAndUp"/>
+      <PageTitle v-if="mdAndUp" class="d-flex justify-center" title="Novo teste" />
 
-      <v-text class="text-subtitle-1 text-grey-darken-1"
-        >Configure os parâmetros para iniciar o teste</v-text
+      <v-text class="text-subtitle-1 text-grey-darken-1">Configure os parâmetros para iniciar o teste</v-text>
+      <v-form
+        v-if="smAndDown"
+        class="w-100 pa-4 p elevation-3 rounded-xl mt-4"
       >
-      <v-form 
-      v-if="smAndDown"
-      class="w-100 pa-4 p elevation-3 rounded-xl mt-4">
         <v-text class="text-subtitle-2">Tempo</v-text>
         <v-select
           class="mt-2"
           :items="tempos"
           label="Tempo"
-          variant="outlined"
           rounded="lg"
-        ></v-select>
+          variant="outlined"
+        />
 
         <v-text class="text-subtitle-2">Número de repetições</v-text>
         <v-text-field
           class="mt-2"
-          variant="outlined"
-          rounded="lg"
-          name="repeticoes"
           label="Selecione o número de repetições"
-        ></v-text-field>
+          name="repeticoes"
+          rounded="lg"
+          variant="outlined"
+        />
 
         <v-text class="text-subtitle-2">Mão</v-text>
         <v-select
           class="mt-2"
           :items="hands"
           label="Mão"
-          variant="outlined"
           rounded="lg"
-        ></v-select>
-
+          variant="outlined"
+        />
 
 
         <ConfirmButton
-          text="Iniciar teste"
-          height="50"
           class="rounded-lg font-weight-bold"
-          ><Play :size="16" />
+          height="50"
+          text="Iniciar teste"
+        ><Play :size="16" />
         </ConfirmButton>
       </v-form>
-      <v-form 
-      v-if="mdAndUp"
-      class="w-50 pa-4 p elevation-3 rounded-xl mt-4">
+      <v-form
+        v-if="mdAndUp"
+        class="w-50 pa-4 p elevation-3 rounded-xl mt-4"
+      >
         <v-text class="text-subtitle-2">Tempo</v-text>
         <v-select
           class="mt-2"
           :items="tempos"
           label="Tempo"
-          variant="outlined"
           rounded="lg"
-        ></v-select>
+          variant="outlined"
+        />
 
         <v-text class="text-subtitle-2">Número de repetições</v-text>
         <v-text-field
           class="mt-2"
-          variant="outlined"
-          rounded="lg"
-          name="repeticoes"
           label="Selecione o número de repetições"
-        ></v-text-field>
+          name="repeticoes"
+          rounded="lg"
+          variant="outlined"
+        />
 
         <v-text class="text-subtitle-2">Mão</v-text>
         <v-select
           class="mt-2"
           :items="hands"
           label="Mão"
-          variant="outlined"
           rounded="lg"
-        ></v-select>
-
+          variant="outlined"
+        />
 
 
         <ConfirmButton
-          text="Iniciar teste"
-          height="50"
           class="rounded-lg font-weight-bold"
-          ><Play :size="16" />
+          height="50"
+          text="Iniciar teste"
+        ><Play :size="16" />
         </ConfirmButton>
       </v-form>
     </div>
@@ -94,19 +92,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { Play } from "lucide-vue-next";
-import {useDisplay} from "vuetify";
+  import { ref } from 'vue';
+  import { Play } from 'lucide-vue-next';
+  import { useDisplay } from 'vuetify';
 
-import PageTitle from "@/components/PageTitle.vue";
-import ConfirmButton from "@/components/ConfirmButton.vue";
+  import PageTitle from '@/components/PageTitle.vue';
+  import ConfirmButton from '@/components/ConfirmButton.vue';
 
-const hands = ref(["Esquerda", "Direita", "Ambidestro"]);
-const tempos = ref(["30s", "60s", "120s"]);
+  const hands = ref(['Esquerda', 'Direita', 'Ambidestro']);
+  const tempos = ref(['30s', '60s', '120s']);
 
 
-
-const {mdAndUp, smAndDown} = useDisplay()
+  const { mdAndUp, smAndDown } = useDisplay()
 </script>
 
 

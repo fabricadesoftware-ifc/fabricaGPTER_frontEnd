@@ -1,39 +1,37 @@
 <template>
-  <v-app-bar :elevation="1" height="70" class="px-6">
+  <v-app-bar class="px-6" :elevation="1" height="70">
     <v-toolbar-items class="w-100 d-flex align-center ga-8">
       <img
         src="@/assets/logo-gpter.png"
         style="max-height: 100%; max-width: 100%; object-fit: contain"
-      />
+      >
       <v-btn
-        value="Pacientes"
+        class="text-none"
         router
         :to="'/patients'"
-        class="text-none"
+        value="Pacientes"
         variant="text"
       >
-        Pacientes</v-btn
-      >
+        Pacientes</v-btn>
 
       <v-btn
-        value="Manual"
+        class="text-none"
         router
         :to="'/manual'"
-        class="text-none"
+        value="Manual"
         variant="text"
-        >Manual</v-btn
-      >
+      >Manual</v-btn>
 
       <v-spacer />
 
       <v-row align="center" class="ga-2 flex-0-0">
         <v-switch
-          class="toggle-btn"
-          inset
-          hide-details
           center-affix
+          class="toggle-btn"
           flat
-        ></v-switch>
+          hide-details
+          inset
+        />
         <Moon />
       </v-row>
 
@@ -45,5 +43,5 @@
 </template>
 
 <script setup>
-import { User, Moon } from "lucide-vue-next";
+  import { Moon, User } from 'lucide-vue-next';
 </script>
