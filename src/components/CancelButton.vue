@@ -1,13 +1,20 @@
 <template>
   <v-btn
+    block
+    class="text-black w-100 rounded-xl text-subtitle-1 border-sm border-opacity-50 text-none"
+    color="white"
     flat
-    height="40"
-    color="grey"
-    class="text-white w-100 rounded-lg"
-    >{{ text }}</v-btn
-  >
+    height="50"
+  >{{ text }}</v-btn>
 </template>
 
 <script setup>
-defineProps(['text'])
+  import { useDisplay } from 'vuetify';
+  const { mdAndUp, smAndDown, xs } = useDisplay();
+
+  defineProps({
+    text: {
+      type: String,
+    },
+  })
 </script>

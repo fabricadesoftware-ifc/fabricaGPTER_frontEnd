@@ -8,19 +8,27 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppLogo: typeof import('./src/components/AppLogo.vue')['default']
     CancelButton: typeof import('./src/components/CancelButton.vue')['default']
     ConfirmButton: typeof import('./src/components/ConfirmButton.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    NavBar: typeof import('./src/components/NavBar.vue')['default']
-    NewPatientForm: typeof import('./src/components/NewPatientForm.vue')['default']
+    DesktopNavBar: typeof import('./src/components/DesktopNavBar.vue')['default']
+    DiagnosticDetails: typeof import('./src/components/DiagnosticDetails.vue')['default']
+    InfoCard: typeof import('./src/components/InfoCard.vue')['default']
+    MenuProfile: typeof import('./src/components/MenuProfile.vue')['default']
+    MobileNavBar: typeof import('./src/components/MobileNavBar.vue')['default']
     PageTitle: typeof import('./src/components/PageTitle.vue')['default']
+    PatientDetails: typeof import('./src/components/PatientDetails.vue')['default']
     PatientForm: typeof import('./src/components/PatientForm.vue')['default']
+    PatientPatientsList: typeof import('./src/components/PatientPatientsList.vue')['default']
     PatientsList: typeof import('./src/components/PatientsList.vue')['default']
-    PatientsTable: typeof import('./src/components/PatientsTable.vue')['default']
+    PersonalInfos: typeof import('./src/components/PersonalInfos.vue')['default']
+    ProfessionalInfos: typeof import('./src/components/ProfessionalInfos.vue')['default']
+    Profile: typeof import('./src/components/Profile.vue')['default']
+    RemakeButton: typeof import('./src/components/RemakeButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Settings: typeof import('./src/components/Settings.vue')['default']
     SubpageTitle: typeof import('./src/components/SubpageTitle.vue')['default']
+    TestsList: typeof import('./src/components/TestsList.vue')['default']
   }
 }
