@@ -1,10 +1,9 @@
 <template>
   <v-list border="md" class="w-100 rounded-xl pa-0">
     <template v-for="(patient, i) in patients" :key="patient.id">
-      <v-list-item link :title="patient.name" @click="goToRoute('patient-details')">
+      <v-list-item link :title="patient.tempo" @click="goToRoute('test-result')">
         <template #append>
-          <v-btn icon variant="text" @click="router.push('edit-patient')"><Pencil /></v-btn>
-          <v-btn icon variant="text"><Trash2 /></v-btn>
+          <p class="text-subtitle-1">{{ patient.data }}</p>
         </template>
       </v-list-item>
       <v-divider v-if="i < patients.length - 1" />
@@ -13,8 +12,6 @@
 </template>
 
 <script setup>
-  import { Trash2 } from 'lucide-vue-next';
-  import { Pencil } from 'lucide-vue-next';
   import { useRouter } from 'vue-router';
 
   const router = useRouter();

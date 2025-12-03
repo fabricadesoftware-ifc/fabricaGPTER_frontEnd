@@ -8,8 +8,8 @@
 </template>
 
 <script setup>
-import MobileNavBar from '@/components/MobileNavBar.vue'
-import { useDisplay } from 'vuetify';
+  import MobileNavBar from '@/components/MobileNavBar.vue'
+  import { useDisplay } from 'vuetify';
 
-const { smAndDown } = useDisplay()
+  const { smAndDown } = useDisplay()
 </script>
