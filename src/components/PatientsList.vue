@@ -1,9 +1,10 @@
 <template>
   <v-list border="md" class="w-100 rounded-xl pa-0">
     <template v-for="(patient, i) in patients" :key="patient.id">
-      <v-list-item link :title="patient.name" @click="goToRoute('patient-details')">
+      <!-- Implementar navegação com parametros (id) -->
+      <v-list-item link :title="patient.name" @click="router.push('/professional/patient-details/')">
         <template #append>
-          <v-btn icon variant="text" @click="router.push('edit-patient')"><Pencil /></v-btn>
+          <v-btn icon variant="text"><Pencil /></v-btn>
           <v-btn icon variant="text"><Trash2 /></v-btn>
         </template>
       </v-list-item>
@@ -13,20 +14,16 @@
 </template>
 
 <script setup>
-  import { Trash2 } from 'lucide-vue-next';
-  import { Pencil } from 'lucide-vue-next';
-  import { useRouter } from 'vue-router';
+import { Trash2 } from "lucide-vue-next";
+import { Pencil } from "lucide-vue-next";
+import { useRouter } from "vue-router";
 
-  const router = useRouter();
+const router = useRouter();
 
-  defineProps({
-    patients: {
-      type: Array,
-      required: true,
-    },
-  });
-
-  const goToRoute = route => {
-    router.push(route);
-  };
+defineProps({
+  patients: {
+    type: Array,
+    required: true,
+  },
+});
 </script>

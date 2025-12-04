@@ -14,7 +14,7 @@
           class="d-flex align-center"
           icon
           variant="text"
-          @click="goToRoute('register-patient')"
+          @click="router.push('/professional/register-patient')"
         ><CirclePlus :size="24" /></v-btn>
         <v-btn
           v-else
@@ -22,7 +22,7 @@
           flat
           height="60"
           width="160"
-          @click="goToRoute('register-patient')"
+          @click="router.push('/professional/register-patient')"
         >Registrar paciente</v-btn>
       </v-col>
     </v-row>
@@ -98,8 +98,4 @@
       name: 'Marr Candré',
     },
   ]);
-
-  const goToRoute = route => {
-    router.push(`/${route}`);
-  };
 </script>
