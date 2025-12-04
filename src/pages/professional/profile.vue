@@ -79,49 +79,7 @@
 <!-- DESKTOP -->
   <v-card v-else>
     <v-layout>
-      <v-navigation-drawer location="left" permanent>
-        <template v-slot:prepend>
-          <div class="pa-6 text-center blue-gradient">
-            <v-avatar size="96">
-              <v-img cover src="@/assets/foto-profissional.png" alt="Daniel" />
-            </v-avatar>
-            <div class="text-h5 font-weight-bold mt-3 text-white">Daniel</div>
-          </div>
-        </template>
-
-        <v-divider></v-divider>
-
-        <v-list>
-          <v-list-item
-            v-for="setting in settings.slice(0, 5)"
-            :key="setting.name"
-            class="bg-grey-lighten-3 py-4"
-            :to="setting.link"
-          >
-            <template #prepend>
-              <component :is="setting.icon" class="mr-3 opacity-70" />
-            </template>
-            <v-list-item-title>{{ setting.name }}</v-list-item-title>
-            <template #append>
-              <ChevronRight class="opacity-70" />
-            </template>
-          </v-list-item>
-          <v-list-item
-            v-for="setting in settings.slice(5)"
-            :key="setting.name"
-            class="bg-grey-lighten-3 py-4"
-            :to="setting.link"
-          >
-            <template #prepend>
-              <component :is="setting.icon" class="mr-3 opacity-70" />
-            </template>
-            <v-list-item-title>{{ setting.name }}</v-list-item-title>
-            <template #append>
-              <ChevronRight class="opacity-70" />
-            </template>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
+      <Sidebar :settings="settings" />
       <v-main style="height: 92.5vh"><router-view /></v-main>
     </v-layout>
   </v-card>
@@ -129,6 +87,7 @@
 
 <script setup>
 import { defineProps, onMounted } from "vue";
+import Sidebar from '@/components/Sidebar.vue';
 import { useRoute, useRouter } from "vue-router";
 import { useDisplay } from "vuetify";
 import {
@@ -139,6 +98,7 @@ import {
   Moon,
   Phone,
 } from "lucide-vue-next";
+import SidebarVue from "@/components/Sidebar.vue";
 
 const route = useRoute();
 const router = useRouter();
