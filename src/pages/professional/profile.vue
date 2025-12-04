@@ -77,12 +77,10 @@
   </v-container>
 
 <!-- DESKTOP -->
-  <v-card v-else>
-    <v-layout>
+    <v-layout v-else>
       <Sidebar :settings="settings" />
       <v-main style="height: 92.5vh"><router-view /></v-main>
     </v-layout>
-  </v-card>
 </template>
 
 <script setup>
