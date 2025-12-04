@@ -160,7 +160,7 @@ const settings = ref([
   {
     name: "Contato",
     icon: Phone,
-    link: "contact",
+    link: "/professional/profile/contact",
   },
   {
     name: "Sair",
