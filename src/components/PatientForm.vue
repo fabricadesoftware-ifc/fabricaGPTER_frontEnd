@@ -59,7 +59,7 @@
 
     <v-row class="ma-0">
       <v-col class="pa-0 py-0" cols="6">
-        <CancelButton text="Cancelar" @click="goBack()" />
+        <CancelButton text="Cancelar" @click="router.back()" />
       </v-col>
       <v-col class="pr-0 py-0" cols="6">
         <ConfirmButton text="Salvar" />
@@ -78,10 +78,6 @@
   const { smAndDown, xs, mdAndUp } = useDisplay();
 
   const router = useRouter();
-
-  const goBack = () => {
-    router.back();
-  };
 
   const fields = ref([
     {

@@ -122,13 +122,14 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-main style="height: 92.5vh"></v-main>
+      <v-main style="height: 92.5vh"><router-view /></v-main>
     </v-layout>
   </v-card>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useDisplay } from "vuetify";
 import {
   ChevronRight,
@@ -139,7 +140,10 @@ import {
   Phone,
 } from "lucide-vue-next";
 
+const route = useRoute();
+const router = useRouter();
 const { smAndDown, mdAndUp } = useDisplay();
+
 
 const settings = ref([
   {
@@ -150,17 +154,17 @@ const settings = ref([
   {
     name: "Alterar senha",
     icon: LockKeyhole,
-    link: "/professional/profile/change-password",
+    link: "change-password",
   },
   {
     name: "Termos de Uso",
     icon: Info,
-    link: "/professional/profile/terms-of-use",
+    link: "terms-of-use",
   },
   {
     name: "Contato",
     icon: Phone,
-    link: "/professional/profile/contact",
+    link: "contact",
   },
   {
     name: "Sair",
@@ -168,6 +172,13 @@ const settings = ref([
     link: "/auth/sign-in",
   },
 ]);
+
+onMounted(() => {
+  console.log(route.name);
+  if (route.name === "/professional/profile" && !smAndDown.value) {
+    router.push("/professional/profile/infos");
+  }
+})
 </script>
 <style scoped>
 .blue-gradient {

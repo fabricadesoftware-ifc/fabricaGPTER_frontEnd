@@ -1,7 +1,7 @@
 <template>
   <v-list border="md" class="w-100 rounded-xl pa-0">
     <template v-for="(patient, i) in patients" :key="patient.id">
-      <v-list-item link :title="patient.tempo" @click="goToRoute('test-result')">
+      <v-list-item link :title="patient.tempo" @click="router.push('/patient/test-result')">
         <template #append>
           <p class="text-subtitle-1">{{ patient.data }}</p>
         </template>
@@ -22,8 +22,4 @@
       required: true,
     },
   });
-
-  const goToRoute = route => {
-    router.push(route);
-  };
 </script>

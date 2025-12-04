@@ -4,7 +4,7 @@
       <!-- Implementar navegação com parametros (id) -->
       <v-list-item link :title="patient.name" @click="router.push('/professional/patient-details/')">
         <template #append>
-          <v-btn icon variant="text"><Pencil /></v-btn>
+          <v-btn @click.stop="router.push('/professional/edit-patient/')" icon variant="text"><Pencil /></v-btn>
           <v-btn icon variant="text"><Trash2 /></v-btn>
         </template>
       </v-list-item>

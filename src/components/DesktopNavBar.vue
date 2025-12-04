@@ -8,7 +8,7 @@
       <v-btn
         class="text-none"
         router
-        :to="'/patients'"
+        :to="'/professional/patients'"
         value="Pacientes"
         variant="text"
       >
@@ -17,7 +17,7 @@
       <v-btn
         class="text-none"
         router
-        :to="'/manual'"
+        :to="'/professional/manual'"
         value="Manual"
         variant="text"
       >Manual</v-btn>
@@ -35,7 +35,7 @@
         <Moon />
       </v-row>
 
-      <v-btn>
+      <v-btn @click="$router.push('/professional/profile')" variant="text" class="pa-0">
         <User />
       </v-btn>
     </v-toolbar-items>

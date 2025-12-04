@@ -15,7 +15,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/' || to.path === '/professional') {
+  if (to.path === '/' || to.path === '/professional/') {
     console.log('Current route:', to.fullPath, 'Redirecting to /patients')
     next('/professional/patients')
   }

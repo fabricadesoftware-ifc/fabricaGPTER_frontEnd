@@ -10,7 +10,7 @@
       <span class="text-grey-darken-2 text-subtitle-2">Manual</span>
     </v-btn>
 
-    <v-btn router :to="'/professional/profile/profile-menu/'" value="Perfil">
+    <v-btn router :to="'/professional/profile/'" value="Perfil">
       <User color="#818181" />
       <span class="text-grey-darken-2 text-subtitle-2">Perfil</span>
     </v-btn>

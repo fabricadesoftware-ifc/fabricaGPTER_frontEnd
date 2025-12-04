@@ -26,7 +26,7 @@
     </v-card-text>
   </v-card>
 </template>
-<script setup lang="ts">
+<script setup>
   import { useDisplay } from 'vuetify';
   import { Clock, Mail, MapPinHouse } from 'lucide-vue-next';
 
