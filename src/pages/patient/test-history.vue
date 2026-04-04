@@ -11,23 +11,19 @@
     </v-row>
     <v-row justify="center">
       <v-col>
-        <PatientPatientsList :patients="patients" />
-        <v-pagination v-model="currentPage" :length="3" />
+        <PatientPatientsList :patients="PacientesPaginados" />
+        <v-pagination v-model="currentPage" :length="totalPaginas" />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup>
-  import { useDisplay } from 'vuetify';
-
-
+  import { computed, ref } from 'vue'
   import PageTitle from '@/components/PageTitle.vue';
 
-  const { mdAndUp, xs } = useDisplay();
-
   const currentPage = ref(1);
-
+  const clientePorPagina = 9;
   const patients = ref([
     {
       id: 1,
@@ -69,9 +65,23 @@
       tempo: 'Isometria 120s',
       data: '02/06/2019',
     },
+    {
+      id: 9,
+      tempo: 'Isometria 120s',
+      data: '02/06/2020',
+    },
+    {
+      id: 10,
+      tempo: 'Isometria 120s',
+      data: '02/06/2026',
+    },
   ]);
 
-  const goToRoute = route => {
-    router.push(`/${route}`);
-  };
+  const PacientesPaginados = computed(() => {
+    const inicio = (currentPage.value - 1) * clientePorPagina
+    return patients.value.slice(inicio, inicio + clientePorPagina)
+  })
+
+  //quando for integrar com o backend, trocar *patients.value.length pelo total retornado pela API
+  const totalPaginas = computed(() => Math.ceil(patients.value.length / clientePorPagina))
 </script>
