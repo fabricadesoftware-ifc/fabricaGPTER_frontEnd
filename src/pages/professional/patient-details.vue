@@ -58,7 +58,6 @@
 </template>
 
 <script setup>
-  import { ChevronLeft, Play } from 'lucide-vue-next';
   import SubpageTitle from '@/components/SubpageTitle.vue';
   import InfoCard from '@/components/InfoCard.vue';
   import TestsList from '@/components/TestsList.vue';
