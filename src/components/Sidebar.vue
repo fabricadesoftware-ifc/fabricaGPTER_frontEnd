@@ -1,24 +1,24 @@
 <script setup>
-defineProps({
-  settings: {
-    type: Array,
-    required: true,
-  },
-});
+  defineProps({
+    settings: {
+      type: Array,
+      required: true,
+    },
+  });
 </script>
 
 <template>
   <v-navigation-drawer location="left" permanent>
-    <template v-slot:prepend>
+    <template #prepend>
       <div class="pa-6 text-center blue-gradient">
         <v-avatar size="96">
-          <v-img cover src="@/assets/foto-profissional.png" alt="Daniel" />
+          <v-img alt="Daniel" cover src="@/assets/foto-profissional.png" />
         </v-avatar>
         <div class="text-h5 font-weight-bold mt-3 text-white">Daniel</div>
       </div>
     </template>
 
-    <v-divider></v-divider>
+    <v-divider />
 
     <v-list>
       <v-list-item
@@ -51,7 +51,6 @@ defineProps({
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
-  <template />
 </template>
 
 <style scoped>

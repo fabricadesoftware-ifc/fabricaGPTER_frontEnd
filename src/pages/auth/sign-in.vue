@@ -41,12 +41,13 @@
           variant="outlined"
         />
         <v-text-field
-          append-inner-icon="mdi-eye-off"
+          :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           class="mb-5"
           label="Senha"
           rounded="lg"
-          type="password"
+          :type="showPassword ? 'text' : 'password'"
           variant="outlined"
+          @click:append-inner="showPassword = !showPassword"
         />
 
         <v-btn
@@ -76,7 +77,7 @@
 <script setup>
   import { useDisplay } from 'vuetify';
   import AppLogo from '@/components/AppLogo.vue';
-
+  const showPassword = ref(false)
   const { mdAndUp, smAndDown } = useDisplay();
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-<!-- MOBILE -->
+  <!-- MOBILE -->
   <v-container v-if="smAndDown" class="blue-gradient rounded-b-xl">
     <div
       class="d-flex justify-center align-center text-center"
@@ -76,67 +76,67 @@
     </v-list>
   </v-container>
 
-<!-- DESKTOP -->
-    <v-layout v-else>
-      <Sidebar :settings="settings" />
-      <v-main style="height: 92.5vh"><router-view /></v-main>
-    </v-layout>
+  <!-- DESKTOP -->
+  <v-layout v-else>
+    <Sidebar :settings="settings" />
+    <v-main style="height: 92.5vh"><router-view /></v-main>
+  </v-layout>
 </template>
 
 <script setup>
-import { defineProps, onMounted } from "vue";
-import Sidebar from '@/components/Sidebar.vue';
-import { useRoute, useRouter } from "vue-router";
-import { useDisplay } from "vuetify";
-import {
-  ChevronRight,
-  Info,
-  LockKeyhole,
-  LogOut,
-  Moon,
-  Phone,
-} from "lucide-vue-next";
-import SidebarVue from "@/components/Sidebar.vue";
+  import { defineProps, onMounted } from 'vue';
+  import Sidebar from '@/components/Sidebar.vue';
+  import { useRoute, useRouter } from 'vue-router';
+  import { useDisplay } from 'vuetify';
+  import {
+    ChevronRight,
+    Info,
+    LockKeyhole,
+    LogOut,
+    Moon,
+    Phone,
+  } from 'lucide-vue-next';
+  import SidebarVue from '@/components/Sidebar.vue';
 
-const route = useRoute();
-const router = useRouter();
-const { smAndDown, mdAndUp } = useDisplay();
+  const route = useRoute();
+  const router = useRouter();
+  const { smAndDown, mdAndUp } = useDisplay();
 
 
-const settings = ref([
-  {
-    name: "Informações",
-    icon: Info,
-    link: "/professional/profile/infos",
-  },
-  {
-    name: "Alterar senha",
-    icon: LockKeyhole,
-    link: "change-password",
-  },
-  {
-    name: "Termos de Uso",
-    icon: Info,
-    link: "terms-of-use",
-  },
-  {
-    name: "Contato",
-    icon: Phone,
-    link: "contact",
-  },
-  {
-    name: "Sair",
-    icon: LogOut,
-    link: "/auth/sign-in",
-  },
-]);
+  const settings = ref([
+    {
+      name: 'Informações',
+      icon: Info,
+      link: '/professional/profile/infos',
+    },
+    {
+      name: 'Alterar senha',
+      icon: LockKeyhole,
+      link: 'change-password',
+    },
+    {
+      name: 'Termos de Uso',
+      icon: Info,
+      link: 'terms-of-use',
+    },
+    {
+      name: 'Contato',
+      icon: Phone,
+      link: 'contact',
+    },
+    {
+      name: 'Sair',
+      icon: LogOut,
+      link: '/auth/sign-in',
+    },
+  ]);
 
-onMounted(() => {
-  console.log(route.name);
-  if (route.name === "/professional/profile" && !smAndDown.value) {
-    router.push("/professional/profile/infos");
-  }
-})
+  onMounted(() => {
+    console.log(route.name);
+    if (route.name === '/professional/profile' && !smAndDown.value) {
+      router.push('/professional/profile/infos');
+    }
+  })
 </script>
 <style scoped>
 .blue-gradient {
