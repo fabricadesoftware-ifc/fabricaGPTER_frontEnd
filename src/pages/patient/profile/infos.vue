@@ -1,7 +1,12 @@
 <template>
   <v-container>
     <div class="d-flex align-center mb-4">
-      <v-btn v-if="smAndDown" class="d-flex align-center" variant="text" @click="$router.back()">
+      <v-btn
+        v-if="smAndDown"
+        class="d-flex align-center"
+        variant="text"
+        @click="$router.back()"
+      >
         <ChevronLeft class="opacity-70 mr-2" />
       </v-btn>
 
@@ -10,7 +15,7 @@
     <MenuProfile
       class="text-black"
       :image="foto"
-      :infos="{ name: 'Roberto' }"
+      :infos="{ name: 'Daniel Santos' }"
     />
     <PersonalInfos :personal-infos="personalInfos" />
   </v-container>
@@ -19,10 +24,20 @@
 <script setup>
   import { ref } from 'vue';
   import { useDisplay } from 'vuetify';
-  const { smAndDown } = useDisplay()
+  import { useRouter } from 'vue-router';
   import PersonalInfos from '@/components/PersonalInfos.vue';
-  import { Calendar, ChevronLeft, Fingerprint, House, Mail, Phone, User } from 'lucide-vue-next';
-  import foto from '@/assets/foto-paciente.png'
+  import {
+    Calendar,
+    ChevronLeft,
+    Fingerprint,
+    Mail,
+    Phone,
+    User,
+  } from 'lucide-vue-next';
+  import foto from '@/assets/foto-profissional.png';
+
+  const router = useRouter();
+  const { smAndDown } = useDisplay();
   const personalInfos = ref([
     {
       name: 'Nome',
@@ -48,11 +63,6 @@
       name: 'CPF',
       info: '01234567890',
       icon: Fingerprint,
-    },
-    {
-      name: 'Endereço',
-      info: 'Rua das alamedas, 345, Centro, Joinville - SC, 8839-8476',
-      icon: House,
     },
   ]);
 </script>

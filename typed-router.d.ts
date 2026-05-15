@@ -19,11 +19,11 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/auth/sign-in': RouteRecordInfo<'/auth/sign-in', '/auth/sign-in', Record<never, never>, Record<never, never>>,
-    '/patient/change-password': RouteRecordInfo<'/patient/change-password', '/patient/change-password', Record<never, never>, Record<never, never>>,
-    '/patient/contact': RouteRecordInfo<'/patient/contact', '/patient/contact', Record<never, never>, Record<never, never>>,
-    '/patient/infos': RouteRecordInfo<'/patient/infos', '/patient/infos', Record<never, never>, Record<never, never>>,
-    '/patient/patients': RouteRecordInfo<'/patient/patients', '/patient/patients', Record<never, never>, Record<never, never>>,
     '/patient/profile': RouteRecordInfo<'/patient/profile', '/patient/profile', Record<never, never>, Record<never, never>>,
+    '/patient/profile/change-password': RouteRecordInfo<'/patient/profile/change-password', '/patient/profile/change-password', Record<never, never>, Record<never, never>>,
+    '/patient/profile/contact': RouteRecordInfo<'/patient/profile/contact', '/patient/profile/contact', Record<never, never>, Record<never, never>>,
+    '/patient/profile/infos': RouteRecordInfo<'/patient/profile/infos', '/patient/profile/infos', Record<never, never>, Record<never, never>>,
+    '/patient/profile/terms-of-use': RouteRecordInfo<'/patient/profile/terms-of-use', '/patient/profile/terms-of-use', Record<never, never>, Record<never, never>>,
     '/patient/terms-of-use': RouteRecordInfo<'/patient/terms-of-use', '/patient/terms-of-use', Record<never, never>, Record<never, never>>,
     '/patient/test-history': RouteRecordInfo<'/patient/test-history', '/patient/test-history', Record<never, never>, Record<never, never>>,
     '/patient/test-result': RouteRecordInfo<'/patient/test-result', '/patient/test-result', Record<never, never>, Record<never, never>>,

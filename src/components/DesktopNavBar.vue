@@ -35,7 +35,7 @@
         <Moon />
       </v-row>
 
-      <v-btn class="pa-0" variant="text" @click="$router.push('/professional/profile')">
+      <v-btn class="pa-0" variant="text" @click="$router.push('/professional/profile/infos')">
         <User />
       </v-btn>
     </v-toolbar-items>
