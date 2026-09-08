@@ -21,7 +21,10 @@
 <script setup>
   import { computed, ref } from 'vue'
   import PageTitle from '@/components/PageTitle.vue';
+  import PatientPatientsList from '@/components/PatientPatientsList.vue';
+  import { useDisplay } from 'vuetify';
 
+  const { xs, mdAndUp } = useDisplay();
   const currentPage = ref(1);
   const clientePorPagina = 9;
   const patients = ref([

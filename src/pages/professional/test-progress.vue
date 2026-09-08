@@ -22,7 +22,7 @@
   const Details = ref([
     {
       id: 1,
-      patient: 'Roberto Santos',
+      name: 'Roberto Santos',
       type: '60s',
       reps: 6,
       arm: 'Direito',

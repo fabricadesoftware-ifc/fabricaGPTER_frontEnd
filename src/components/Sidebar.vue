@@ -1,4 +1,6 @@
 <script setup>
+  import { ChevronRight } from 'lucide-vue-next';
+
   defineProps({
     settings: {
       type: Array,

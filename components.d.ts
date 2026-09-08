@@ -22,7 +22,6 @@ declare module 'vue' {
     PatientsList: typeof import('./src/components/PatientsList.vue')['default']
     PersonalInfos: typeof import('./src/components/PersonalInfos.vue')['default']
     ProfessionalInfos: typeof import('./src/components/ProfessionalInfos.vue')['default']
-    Profile: typeof import('./src/components/Profile.vue')['default']
     RemakeButton: typeof import('./src/components/RemakeButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

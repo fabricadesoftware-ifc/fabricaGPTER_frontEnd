@@ -39,6 +39,6 @@
   ])
   import { useDisplay } from 'vuetify';
 
-  const { mdAndUp, smAndDown } = useDisplay();
+  const { smAndDown } = useDisplay();
 
 </script>

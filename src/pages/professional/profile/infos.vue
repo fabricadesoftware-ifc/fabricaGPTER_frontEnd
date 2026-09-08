@@ -12,11 +12,6 @@
 
       <SubpageTitle title="Informações" />
     </div>
-    <MenuProfile
-      class="text-black"
-      :image="foto"
-      :infos="{ name: 'Daniel Santos' }"
-    />
     <PersonalInfos :personal-infos="personalInfos" />
   </v-container>
 </template>
