@@ -1,37 +1,9 @@
-<template>
-  <v-container>
-    <div class="d-flex align-center mb-4">
-      <v-btn
-        v-if="smAndDown"
-        class="d-flex align-center"
-        variant="text"
-        @click="$router.back()"
-      >
-        <ChevronLeft class="opacity-70 mr-2" />
-      </v-btn>
-
-      <SubpageTitle title="Informações" />
-    </div>
-    <PersonalInfos :personal-infos="personalInfos" />
-  </v-container>
-</template>
-
 <script setup>
   import { ref } from 'vue';
   import { useDisplay } from 'vuetify';
-  import { useRouter } from 'vue-router';
   import PersonalInfos from '@/components/PersonalInfos.vue';
-  import {
-    Calendar,
-    ChevronLeft,
-    Fingerprint,
-    Mail,
-    Phone,
-    User,
-  } from 'lucide-vue-next';
-  import foto from '@/assets/foto-profissional.png';
+  import { Calendar, ChevronLeft, Fingerprint, Mail, Phone, User } from 'lucide-vue-next';
 
-  const router = useRouter();
   const { smAndDown } = useDisplay();
   const personalInfos = ref([
     {
@@ -61,3 +33,21 @@
     },
   ]);
 </script>
+
+<template>
+  <v-container>
+    <div class="d-flex align-center mb-4">
+      <v-btn
+        v-if="smAndDown"
+        class="d-flex align-center"
+        variant="text"
+        @click="$router.back()"
+      >
+        <ChevronLeft class="opacity-70 mr-2" />
+      </v-btn>
+
+      <SubpageTitle title="Informações" />
+    </div>
+    <PersonalInfos :personal-infos="personalInfos" />
+  </v-container>
+</template>

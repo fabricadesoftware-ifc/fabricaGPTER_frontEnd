@@ -1,3 +1,17 @@
+<script setup>
+  import { ref } from 'vue';
+  import { Play } from 'lucide-vue-next';
+  import { useDisplay } from 'vuetify';
+
+  import PageTitle from '@/components/PageTitle.vue';
+  import ConfirmButton from '@/components/ConfirmButton.vue';
+
+  const hands = ref(['Esquerda', 'Direita', 'Ambidestro']);
+  const tempos = ref(['30s', '60s', '120s']);
+
+  const { mdAndUp, smAndDown } = useDisplay()
+</script>
+
 <template>
   <v-container class="fill-height d-flex flex-column align-center">
     <PageTitle v-if="smAndDown" title="Novo teste" />
@@ -90,22 +104,6 @@
     </div>
   </v-container>
 </template>
-
-<script setup>
-  import { ref } from 'vue';
-  import { Play } from 'lucide-vue-next';
-  import { useDisplay } from 'vuetify';
-
-  import PageTitle from '@/components/PageTitle.vue';
-  import ConfirmButton from '@/components/ConfirmButton.vue';
-
-  const hands = ref(['Esquerda', 'Direita', 'Ambidestro']);
-  const tempos = ref(['30s', '60s', '120s']);
-
-
-  const { mdAndUp, smAndDown } = useDisplay()
-</script>
-
 
 <style scoped>
 .blue-gradient {

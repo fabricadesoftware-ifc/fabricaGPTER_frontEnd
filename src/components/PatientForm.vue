@@ -1,3 +1,69 @@
+<script setup>
+  import { ref } from 'vue';
+  import ConfirmButton from './ConfirmButton.vue';
+  import CancelButton from './CancelButton.vue';
+
+
+  const router = useRouter();
+
+  const fields = ref([
+    {
+      label: 'Nome completo',
+      type: 'name',
+    },
+    {
+      label: 'Email',
+      type: 'email',
+    },
+    {
+      label: 'CPF',
+      type: 'number',
+    },
+    {
+      label: 'Senha',
+      type: 'password',
+    },
+    {
+      label: 'Confirmar senha',
+      type: 'password',
+    },
+    {
+      label: 'Logradouro',
+      type: 'text',
+    },
+  ]);
+
+  const states = [
+    'AC',
+    'AL',
+    'AP',
+    'AM',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MT',
+    'MS',
+    'MG',
+    'PA',
+    'PB',
+    'PR',
+    'PE',
+    'PI',
+    'RJ',
+    'RN',
+    'RS',
+    'RO',
+    'RR',
+    'SC',
+    'SP',
+    'SE',
+    'TO',
+  ];
+</script>
+
 <template>
   <v-form
     class="pa-2 rounded-xl"
@@ -67,72 +133,3 @@
     </v-row>
   </v-form>
 </template>
-
-<script setup>
-  import { ref } from 'vue';
-  import { useDisplay } from 'vuetify';
-
-  import ConfirmButton from './ConfirmButton.vue';
-  import CancelButton from './CancelButton.vue';
-
-  const { smAndDown, xs, mdAndUp } = useDisplay();
-
-  const router = useRouter();
-
-  const fields = ref([
-    {
-      label: 'Nome completo',
-      type: 'name',
-    },
-    {
-      label: 'Email',
-      type: 'email',
-    },
-    {
-      label: 'CPF',
-      type: 'number',
-    },
-    {
-      label: 'Senha',
-      type: 'password',
-    },
-    {
-      label: 'Confirmar senha',
-      type: 'password',
-    },
-    {
-      label: 'Logradouro',
-      type: 'text',
-    },
-  ]);
-
-  const states = [
-    'AC',
-    'AL',
-    'AP',
-    'AM',
-    'BA',
-    'CE',
-    'DF',
-    'ES',
-    'GO',
-    'MA',
-    'MT',
-    'MS',
-    'MG',
-    'PA',
-    'PB',
-    'PR',
-    'PE',
-    'PI',
-    'RJ',
-    'RN',
-    'RS',
-    'RO',
-    'RR',
-    'SC',
-    'SP',
-    'SE',
-    'TO',
-  ];
-</script>

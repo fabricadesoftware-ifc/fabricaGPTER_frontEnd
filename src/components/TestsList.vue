@@ -1,3 +1,20 @@
+<script setup>
+  import { ref } from 'vue';
+  import { useDisplay } from 'vuetify';
+
+  const { mdAndUp, smAndDown } = useDisplay();
+
+  const formatDateBR = dateStr => {
+    return new Date(dateStr).toLocaleDateString('pt-BR');
+  };
+
+  const tests = ref([
+    { id: 1, name: 'Isometria 60s', date: '2024-06-01' },
+    { id: 2, name: 'Isometria 120s', date: '2024-05-20' },
+    { id: 3, name: 'Isometria 60s', date: '2024-04-15' },
+  ]);
+</script>
+
 <template>
   <v-card
     :class="['mx-auto', { 'pa-4': smAndDown, 'pa-6': mdAndUp }]"
@@ -36,20 +53,3 @@
     </v-card-text>
   </v-card>
 </template>
-
-<script setup>
-  import { ref } from 'vue';
-  import { useDisplay } from 'vuetify';
-
-  const { mdAndUp, smAndDown } = useDisplay();
-
-  const formatDateBR = dateStr => {
-    return new Date(dateStr).toLocaleDateString('pt-BR');
-  };
-
-  const tests = ref([
-    { id: 1, name: 'Isometria 60s', date: '2024-06-01' },
-    { id: 2, name: 'Isometria 120s', date: '2024-05-20' },
-    { id: 3, name: 'Isometria 60s', date: '2024-04-15' },
-  ]);
-</script>

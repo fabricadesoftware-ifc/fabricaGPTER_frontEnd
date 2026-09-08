@@ -1,3 +1,6 @@
+<script setup>
+  import { Moon, User } from 'lucide-vue-next';
+</script>
 <template>
   <v-app-bar class="px-6" :elevation="1" height="70">
     <v-toolbar-items class="w-100 d-flex align-center ga-8">
@@ -41,7 +44,3 @@
     </v-toolbar-items>
   </v-app-bar>
 </template>
-
-<script setup>
-  import { Moon, User } from 'lucide-vue-next';
-</script>

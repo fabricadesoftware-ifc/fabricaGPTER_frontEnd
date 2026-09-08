@@ -1,3 +1,10 @@
+<script setup>
+  import PageTitle from '@/components/PageTitle.vue';
+  import { useDisplay } from 'vuetify';
+
+  const { mdAndUp, smAndDown } = useDisplay()
+
+</script>
 <template>
   <v-container>
     <PageTitle class="mb-12" title="Como usar" />
@@ -61,11 +68,3 @@
     </v-container>
   </v-container>
 </template>
-
-<script setup>
-  import PageTitle from '@/components/PageTitle.vue';
-  import { useDisplay } from 'vuetify';
-
-  const { mdAndUp, smAndDown } = useDisplay()
-
-</script>

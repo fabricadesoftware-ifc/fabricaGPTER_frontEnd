@@ -1,3 +1,22 @@
+<script setup>
+  import { Calendar, Check, Clock, Hand, RotateCcw, Stethoscope, User, Zap } from 'lucide-vue-next';
+  import RemakeButton from '@/components/RemakeButton.vue';
+
+  defineProps({
+    patient: {
+      type: Object,
+      required: true,
+    },
+    buttons: {
+      type: Boolean,
+      default: false,
+    },
+  });
+
+  import { useDisplay } from 'vuetify';
+
+  const { mdAndUp } = useDisplay();
+</script>
 <template>
   <v-card
     class="elevation-2 rounded-xl pa-6 w-100"
@@ -96,23 +115,3 @@
     </div>
   </v-card>
 </template>
-
-<script setup>
-  import { Calendar, Check, Clock, Hand, RotateCcw, Stethoscope, User, Zap } from 'lucide-vue-next';
-  import RemakeButton from '@/components/RemakeButton.vue';
-
-  defineProps({
-    patient: {
-      type: Object,
-      required: true,
-    },
-    buttons: {
-      type: Boolean,
-      default: false,
-    },
-  });
-
-  import { useDisplay } from 'vuetify';
-
-  const { mdAndUp } = useDisplay();
-</script>

@@ -1,3 +1,10 @@
+<script setup>
+  import { useDisplay } from 'vuetify';
+  import AppLogo from '@/components/AppLogo.vue';
+  const showPassword = ref(false)
+  const { mdAndUp, smAndDown } = useDisplay();
+</script>
+
 <template>
   <v-container
     class="fill-height pa-0 ma-0 d-flex flex-column flex-md-row flex-nowrap align-center"
@@ -73,13 +80,6 @@
     </v-container>
   </v-container>
 </template>
-
-<script setup>
-  import { useDisplay } from 'vuetify';
-  import AppLogo from '@/components/AppLogo.vue';
-  const showPassword = ref(false)
-  const { mdAndUp, smAndDown } = useDisplay();
-</script>
 
 <style>
 .blue-gradient {

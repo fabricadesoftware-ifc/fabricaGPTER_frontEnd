@@ -1,3 +1,11 @@
+<script setup>
+  defineProps({
+    personalInfos: {
+      type: Array,
+      required: true,
+    },
+  });
+</script>
 <template>
   <v-container class="pl-6">
     <v-text class="text-h6 font-weight-bold text-top"> Informações Pessoais </v-text>
@@ -13,11 +21,3 @@
     </v-row>
   </v-container>
 </template>
-<script setup>
-  defineProps({
-    personalInfos: {
-      type: Array,
-      required: true,
-    },
-  });
-</script>

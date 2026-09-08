@@ -1,3 +1,10 @@
+<script setup>
+  import {
+    BookOpen,
+    ClipboardList,
+    User,
+  } from 'lucide-vue-next';
+</script>
 <template>
   <v-bottom-navigation color="primary" grow height="70">
     <v-btn router :to="'/professional/patients/'" value="Pacientes">
@@ -17,14 +24,5 @@
   </v-bottom-navigation>
 </template>
 
-<script setup>
-  import {
-    BookOpen,
-    ClipboardList,
-    HeartPulse,
-    House,
-    User,
-  } from 'lucide-vue-next';
-</script>
 
 <style scoped></style>

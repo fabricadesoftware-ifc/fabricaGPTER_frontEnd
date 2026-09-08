@@ -1,3 +1,23 @@
+<script setup>
+  import SubpageTitle from '@/components/SubpageTitle.vue';
+  import { ChevronLeft, Mail, Phone } from 'lucide-vue-next';
+  import { useDisplay } from 'vuetify';
+
+  const { smAndDown } = useDisplay()
+  const contactInfos = ref([
+    {
+      name: 'Email',
+      info: 'suporte@email.com',
+      icon: Mail,
+    },
+    {
+      name: 'Telefone',
+      info: '+55 47 334903948',
+      icon: Phone,
+    },
+  ]);
+</script>
+
 <template>
   <v-container>
     <div class="d-flex align-center mb-4">
@@ -22,22 +42,3 @@
     </v-card>
   </v-container>
 </template>
-<script setup>
-  import SubpageTitle from '@/components/SubpageTitle.vue';
-  import { ChevronLeft, Mail, Phone } from 'lucide-vue-next';
-  import { useDisplay } from 'vuetify';
-
-  const { smAndDown } = useDisplay()
-  const contactInfos = ref([
-    {
-      name: 'Email',
-      info: 'suporte@email.com',
-      icon: Mail,
-    },
-    {
-      name: 'Telefone',
-      info: '+55 47 334903948',
-      icon: Phone,
-    },
-  ]);
-</script>

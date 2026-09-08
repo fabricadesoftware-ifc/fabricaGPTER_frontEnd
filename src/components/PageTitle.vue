@@ -1,9 +1,3 @@
-<template>
-  <div class="w-100 mt-2 d-flex" :class="[justify, margin]">
-    <h1 class="text-h4 font-weight-bold">{{ title }}</h1>
-  </div>
-</template>
-
 <script setup>
   defineProps({
     title: {
@@ -20,3 +14,8 @@
     },
   })
 </script>
+<template>
+  <div class="w-100 mt-2 d-flex" :class="[justify, margin]">
+    <h1 class="text-h4 font-weight-bold">{{ title }}</h1>
+  </div>
+</template>

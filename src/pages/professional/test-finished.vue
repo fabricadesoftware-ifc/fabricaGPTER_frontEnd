@@ -1,3 +1,10 @@
+<script setup>
+  import { CircleCheck } from 'lucide-vue-next';
+  import { useDisplay } from 'vuetify';
+  const { smAndDown } = useDisplay();
+
+</script>
+
 <template>
   <v-container class="fill-height d-flex flex-column align-center justify-center ga-6">
     <v-text v-if="smAndDown" class="text-h4 font-weight-bold text-center">
@@ -18,10 +25,3 @@
     <v-btn class="text-p" variant="text">Voltar para pagina inicial</v-btn>
   </v-container>
 </template>
-
-<script setup>
-  import { CircleCheck } from 'lucide-vue-next';
-  import { useDisplay } from 'vuetify';
-  const { mdAndUp, smAndDown } = useDisplay();
-
-</script>

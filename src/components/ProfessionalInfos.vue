@@ -1,3 +1,12 @@
+<script setup>
+  defineProps({
+    professionalInfos: {
+      type: Array,
+      required: true,
+    },
+  });
+</script>
+
 <template>
   <v-container>
     <v-text class="text-h6 font-weight-bold text-center ml-3">
@@ -14,14 +23,3 @@
     </v-row>
   </v-container>
 </template>
-
-<script setup>
-  defineProps({
-    professionalInfos: {
-      type: Array,
-      required: true,
-    },
-  });
-
-
-</script>

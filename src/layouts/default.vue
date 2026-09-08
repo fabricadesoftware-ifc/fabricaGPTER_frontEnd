@@ -1,3 +1,10 @@
+<script setup>
+  import MobileNavBar from '@/components/MobileNavBar.vue'
+  import { useDisplay } from 'vuetify';
+
+  const { smAndDown } = useDisplay()
+</script>
+
 <template>
   <v-main>
     <router-view />
@@ -6,10 +13,3 @@
   <MobileNavBar v-if="smAndDown" />
   <DesktopNavBar v-else />
 </template>
-
-<script setup>
-  import MobileNavBar from '@/components/MobileNavBar.vue'
-  import { useDisplay } from 'vuetify';
-
-  const { smAndDown } = useDisplay()
-</script>

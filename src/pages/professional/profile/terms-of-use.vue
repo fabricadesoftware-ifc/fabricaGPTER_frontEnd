@@ -1,5 +1,4 @@
 <template>
-
   <v-container
     class="ma-0 pa-0 d-flex align-center align-center justify-center blue-gradient rounded-b-xl"
     :style="{
@@ -71,11 +70,6 @@
 
 
 </template>
-
-<script setup>
-  import { ChevronLeft } from 'lucide-vue-next';
-
-</script>
 
 <style>
 .blue-gradient {

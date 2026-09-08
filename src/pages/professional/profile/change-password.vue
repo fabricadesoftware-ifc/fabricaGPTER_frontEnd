@@ -1,3 +1,10 @@
+<script setup>
+  import { ChevronLeft } from 'lucide-vue-next';
+  import { useDisplay } from 'vuetify';
+
+
+  const { smAndDown } = useDisplay()
+</script>
 <template>
   <v-container>
     <div class="d-flex align-center mb-4">
@@ -51,16 +58,6 @@
     </div>
   </v-container>
 </template>
-
-  <script setup>
-  import { ChevronLeft, Eye } from 'lucide-vue-next';
-  import { useDisplay } from 'vuetify';
-
-  import PageTitle from '@/components/PageTitle.vue';
-
-  const { smAndDown } = useDisplay()
-  </script>
-
 
 <style scoped>
 .darken-blue-gradient {

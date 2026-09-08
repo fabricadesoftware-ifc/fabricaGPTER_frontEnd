@@ -1,3 +1,12 @@
+<script setup>
+
+  defineProps({
+    text: {
+      type: String,
+      required: true,
+    },
+  });
+</script>
 <template>
   <!-- Usar text-none para letras não ficarem em caps lock no button -->
   <v-btn
@@ -6,19 +15,6 @@
     height="50"
   ><slot /> {{ text }}</v-btn>
 </template>
-
-<script setup>
-  import { useDisplay } from 'vuetify';
-
-  defineProps({
-    text: {
-      type: String,
-      required: true,
-    },
-  });
-  const { mdAndUp, smAndDown, xs } = useDisplay();
-</script>
-
 <style scoped>
 .darken-blue-gradient {
   background-image: linear-gradient(90deg, #2877d7 0%, #0d519e 100%);

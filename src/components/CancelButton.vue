@@ -1,3 +1,10 @@
+<script setup>
+  defineProps({
+    text: {
+      type: String,
+    },
+  })
+</script>
 <template>
   <v-btn
     block
@@ -7,14 +14,3 @@
     height="50"
   >{{ text }}</v-btn>
 </template>
-
-<script setup>
-  import { useDisplay } from 'vuetify';
-  const { mdAndUp, smAndDown, xs } = useDisplay();
-
-  defineProps({
-    text: {
-      type: String,
-    },
-  })
-</script>

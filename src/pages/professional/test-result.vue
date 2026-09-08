@@ -1,18 +1,3 @@
-<template>
-  <v-container>
-    <SubpageTitle :title="Details[0].time" />
-    <main
-      class="d-flex ga-8 mt-8"
-      :class="smAndDown ? 'flex-column' : 'flex-row'"
-    >
-
-      <PatientDetails buttons :patient="Details[0]" />
-      <!-- <TestGraph /> -->
-      <DiagnosticDetails :patient="info[0]" />
-    </main>
-  </v-container>
-</template>
-
 <script setup>
   import { ref } from 'vue';
   import SubpageTitle from '@/components/SubpageTitle.vue';
@@ -42,3 +27,18 @@
   const { smAndDown } = useDisplay();
 
 </script>
+
+<template>
+  <v-container>
+    <SubpageTitle :title="Details[0].time" />
+    <main
+      class="d-flex ga-8 mt-8"
+      :class="smAndDown ? 'flex-column' : 'flex-row'"
+    >
+
+      <PatientDetails buttons :patient="Details[0]" />
+      <!-- <TestGraph /> -->
+      <DiagnosticDetails :patient="info[0]" />
+    </main>
+  </v-container>
+</template>

@@ -1,3 +1,11 @@
+<script setup>
+  import SubpageTitle from '@/components/SubpageTitle.vue';
+  import PatientForm from '@/components/PatientForm.vue';
+  import { useDisplay } from 'vuetify';
+
+  const { smAndDown } = useDisplay();
+</script>
+
 <template>
   <v-container
     class="h-100"
@@ -13,11 +21,3 @@
     </v-row>
   </v-container>
 </template>
-
-<script setup>
-  import SubpageTitle from '@/components/SubpageTitle.vue';
-  import PatientForm from '@/components/PatientForm.vue';
-  import { useDisplay } from 'vuetify';
-
-  const { mdAndUp, smAndDown, xs } = useDisplay();
-</script>

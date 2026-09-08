@@ -1,3 +1,13 @@
+<script setup>
+  import { ChevronLeft, Play } from 'lucide-vue-next';
+  import SubpageTitle from '@/components/SubpageTitle.vue';
+  import InfoCard from '@/components/InfoCard.vue';
+  import TestsList from '@/components/TestsList.vue';
+  import { useDisplay } from 'vuetify';
+
+  const { mdAndUp, smAndDown } = useDisplay()
+
+</script>
 <template>
   <v-container>
     <div class="d-flex align-center mb-4">
@@ -56,17 +66,6 @@
 
   </v-container>
 </template>
-
-<script setup>
-  import { ChevronLeft, Play } from 'lucide-vue-next';
-  import SubpageTitle from '@/components/SubpageTitle.vue';
-  import InfoCard from '@/components/InfoCard.vue';
-  import TestsList from '@/components/TestsList.vue';
-  import { useDisplay } from 'vuetify';
-
-  const { mdAndUp, smAndDown } = useDisplay()
-
-</script>
 
 <style>
 .darken-blue-gradient {
