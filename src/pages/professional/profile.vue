@@ -1,80 +1,89 @@
 <template>
   <!-- MOBILE -->
-  <v-container v-if="smAndDown" class="blue-gradient rounded-b-xl">
-    <div
-      class="d-flex justify-center align-center text-center"
-      :class="smAndDown ? 'flex-row' : 'flex-column'"
-      :style="{
-        minHeight: mdAndUp ? '10vh' : '15vh',
-        maxWidth: mdAndUp ? '30vw' : '100vw',
-      }"
-    >
-      <v-col
-        class="d-flex justify-center align-center"
-        :cols="smAndDown ? 3 : 5"
-      >
-        <v-img
-          aspect-ratio="16/9"
-          cover
-          src="@/assets/foto-profissional.png"
-          :width="300"
-        />
-      </v-col>
-      <v-col class="d-flex justify-center align-center" cols="3">
-        <p class="text-h5 font-weight-bold text-white"> Daniel </p>
-      </v-col>
-    </div>
-  </v-container>
-  <v-container v-if="smAndDown">
-    <v-list class="rounded-xl mb-4">
-      <v-list-item
-        v-for="setting in settings.slice(0, 2)"
-        :key="setting.name"
-        class="bg-grey-lighten-3 hover:bg-red-4 transition-colors duration-200 cursor-pointer"
-        :to="setting.link"
-      >
-        <template #prepend>
-          <component :is="setting.icon" class="mr-3 opacity-70" color="black" />
-        </template>
-        <v-list-item-title>{{ setting.name }}</v-list-item-title>
-        <template #append>
-          <ChevronRight class="opacity-70" color="black" />
-        </template>
-      </v-list-item>
-    </v-list>
-    <v-list class="rounded-xl mb-4">
-      <v-list-item
-        v-for="setting in settings.slice(2, 4)"
-        :key="setting.name"
-        class="bg-grey-lighten-3"
-        :to="setting.link"
-      >
-        <template #prepend>
-          <component :is="setting.icon" class="mr-3 opacity-70" color="black" />
-        </template>
-        <v-list-item-title>{{ setting.name }}</v-list-item-title>
-        <template #append>
-          <ChevronRight class="opacity-70" color="black" />
-        </template>
-      </v-list-item>
-    </v-list>
-    <v-list>
-      <v-list-item
-        v-for="setting in settings.slice(4)"
-        :key="setting.name"
-        class="bg-grey-lighten-3 text-red rounded-xl"
-        :to="setting.link"
-      >
-        <template #prepend>
-          <component :is="setting.icon" class="mr-3 opacity-70" color="red" />
-        </template>
-        <v-list-item-title>{{ setting.name }}</v-list-item-title>
-        <template #append>
-          <ChevronRight class="opacity-70" color="red" />
-        </template>
-      </v-list-item>
-    </v-list>
-  </v-container>
+  <template v-if="smAndDown">
+    <template v-if="route.name === '/professional/profile'">
+      <v-container class="blue-gradient rounded-b-xl">
+        <div
+          class="d-flex justify-center align-center text-center"
+          :class="smAndDown ? 'flex-row' : 'flex-column'"
+          :style="{
+            minHeight: mdAndUp ? '10vh' : '15vh',
+            maxWidth: mdAndUp ? '30vw' : '100vw',
+          }"
+        >
+          <v-col
+            class="d-flex justify-center align-center"
+            :cols="smAndDown ? 3 : 5"
+          >
+            <v-img
+              aspect-ratio="16/9"
+              cover
+              src="@/assets/foto-profissional.png"
+              :width="300"
+            />
+          </v-col>
+          <v-col class="d-flex justify-center align-center" cols="3">
+            <p class="text-h5 font-weight-bold text-white"> Daniel </p>
+          </v-col>
+        </div>
+      </v-container>
+
+      <!-- Configurações -->
+
+      <v-container>
+        <v-list class="rounded-xl mb-4">
+          <v-list-item
+            v-for="setting in settings.slice(0, 2)"
+            :key="setting.name"
+            class="bg-grey-lighten-3 hover:bg-red-4 transition-colors duration-200 cursor-pointer"
+            :to="setting.link"
+          >
+            <template #prepend>
+              <component :is="setting.icon" class="mr-3 opacity-70" color="black" />
+            </template>
+            <v-list-item-title>{{ setting.name }}</v-list-item-title>
+            <template #append>
+              <ChevronRight class="opacity-70" color="black" />
+            </template>
+          </v-list-item>
+        </v-list>
+        <v-list class="rounded-xl mb-4">
+          <v-list-item
+            v-for="setting in settings.slice(2, 4)"
+            :key="setting.name"
+            class="bg-grey-lighten-3"
+            :to="setting.link"
+          >
+            <template #prepend>
+              <component :is="setting.icon" class="mr-3 opacity-70" color="black" />
+            </template>
+            <v-list-item-title>{{ setting.name }}</v-list-item-title>
+            <template #append>
+              <ChevronRight class="opacity-70" color="black" />
+            </template>
+          </v-list-item>
+        </v-list>
+        <v-list>
+          <v-list-item
+            v-for="setting in settings.slice(4)"
+            :key="setting.name"
+            class="bg-grey-lighten-3 text-red rounded-xl"
+            :to="setting.link"
+          >
+            <template #prepend>
+              <component :is="setting.icon" class="mr-3 opacity-70" color="red" />
+            </template>
+            <v-list-item-title>{{ setting.name }}</v-list-item-title>
+            <template #append>
+              <ChevronRight class="opacity-70" color="red" />
+            </template>
+          </v-list-item>
+        </v-list>
+      </v-container>
+    </template>
+
+    <router-view v-else />
+  </template>
 
   <!-- DESKTOP -->
   <v-layout v-else>
@@ -84,7 +93,7 @@
 </template>
 
 <script setup>
-  import { defineProps, onMounted } from 'vue';
+  import { onMounted } from 'vue';
   import Sidebar from '@/components/Sidebar.vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useDisplay } from 'vuetify';
@@ -93,10 +102,8 @@
     Info,
     LockKeyhole,
     LogOut,
-    Moon,
     Phone,
   } from 'lucide-vue-next';
-  import SidebarVue from '@/components/Sidebar.vue';
 
   const route = useRoute();
   const router = useRouter();
@@ -112,17 +119,17 @@
     {
       name: 'Alterar senha',
       icon: LockKeyhole,
-      link: 'change-password',
+      link: '/professional/profile/change-password',
     },
     {
       name: 'Termos de Uso',
       icon: Info,
-      link: 'terms-of-use',
+      link: '/professional/profile/terms-of-use',
     },
     {
       name: 'Contato',
       icon: Phone,
-      link: 'contact',
+      link: '/professional/profile/contact',
     },
     {
       name: 'Sair',
@@ -131,6 +138,7 @@
     },
   ]);
 
+  // Verifica o tamanho da tela e redireciona para a página de informações se for desktop
   onMounted(() => {
     console.log(route.name);
     if (route.name === '/professional/profile' && !smAndDown.value) {
