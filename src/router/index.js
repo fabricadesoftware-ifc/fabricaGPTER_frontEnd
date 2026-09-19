@@ -9,14 +9,29 @@ import { createRouter, createWebHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
 
+const routesWithLayouts = routes.map(route => {
+  // Verifica rotas de autenticação e aplica o layout 'auth'
+  if (route.path === '/auth') {
+    return {
+      ...route,
+      meta: {
+        ...route.meta,
+        layout: 'auth',
+      },
+    }
+  }
+
+  return route
+})
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: setupLayouts(routes),
+  routes: setupLayouts(routesWithLayouts),
 })
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/' || to.path === '/professional/') {
-    return next('/professional/patients')
+    return next('/auth/sign-in')
   }
   next()
 })

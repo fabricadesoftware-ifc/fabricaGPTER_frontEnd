@@ -3,6 +3,7 @@
   import AppLogo from '@/components/AppLogo.vue';
   const showPassword = ref(false)
   const { mdAndUp, smAndDown } = useDisplay();
+
 </script>
 
 <template>
@@ -80,7 +81,6 @@
     </v-container>
   </v-container>
 </template>
-
 <style>
 .blue-gradient {
   background-image: linear-gradient(180deg, #4a8dde 0%, #0c4f9d 100%);
