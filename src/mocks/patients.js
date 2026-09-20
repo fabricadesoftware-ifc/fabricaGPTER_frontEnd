@@ -1,5 +1,15 @@
 import profilePhoto from '../assets/foto-profissional.png'
 
+export const patientProfile = {
+  id: 2,
+  name: 'Daniel Santos',
+  email: 'daniel@gmail.com',
+  phone: '(47)998903948',
+  birthDate: '25/08/1989',
+  cpf: '01234567890',
+  photo: profilePhoto,
+}
+
 export const patients = [
   {
     id: 1,
@@ -38,15 +48,6 @@ export const patients = [
   },
 ]
 
-// Exemplo de perfil já exibido na área do paciente.
-export const patientProfile = {
-  name: 'Daniel Santos',
-  email: 'daniel@gmail.com',
-  phone: '(47)998903948',
-  birthDate: '25/08/1989',
-  cpf: '01234567890',
-  photo: profilePhoto,
-}
 
 export const patientPersonalInfos = [
   {

@@ -1,6 +1,7 @@
 import profilePhoto from '../assets/foto-profissional.png'
 
 export const professionalProfile = {
+  id: 1,
   name: 'Daniel Santos',
   email: 'daniel@gmail.com',
   phone: '(47)998903948',
