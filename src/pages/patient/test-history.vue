@@ -11,11 +11,13 @@
 
   const PacientesPaginados = computed(() => {
     const inicio = (currentPage.value - 1) * clientePorPagina
-    return patients.value.slice(inicio, inicio + clientePorPagina)
+    return patients.slice(inicio, inicio + clientePorPagina)
   })
 
   //quando for integrar com o backend, trocar *patients.value.length pelo total retornado pela API
-  const totalPaginas = computed(() => Math.ceil(patients.value.length / clientePorPagina))
+  const totalPaginas = computed(() =>
+    Math.ceil(patients.length / clientePorPagina)
+  )
 </script>
 
 <template>
