@@ -1,8 +1,23 @@
 <script setup>
   import { useDisplay } from 'vuetify';
   import AppLogo from '@/components/AppLogo.vue';
+  import { authenticate } from '@/services/auth.js'
   const showPassword = ref(false)
   const { mdAndUp, smAndDown } = useDisplay();
+
+  async function testeLogin () {
+    try {
+      const user = await authenticate(
+        'pacienteexemplo',
+        '123456',
+      )
+      console.log('Login valido', user)
+    } catch (error) {
+      console.error('Falha no login:', error.message)
+    }
+  }
+
+  testeLogin()
 
 </script>
 
