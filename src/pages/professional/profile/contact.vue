@@ -1,21 +1,11 @@
 <script setup>
+  import { contactInfos } from '@/mocks';
   import SubpageTitle from '@/components/SubpageTitle.vue';
   import { ChevronLeft, Mail, Phone } from 'lucide-vue-next';
   import { useDisplay } from 'vuetify';
 
   const { smAndDown } = useDisplay()
-  const contactInfos = ref([
-    {
-      name: 'Email',
-      info: 'suporte@email.com',
-      icon: Mail,
-    },
-    {
-      name: 'Telefone',
-      info: '+55 47 334903948',
-      icon: Phone,
-    },
-  ]);
+  const contactIcons = { mail: Mail, phone: Phone };
 </script>
 
 <template>
@@ -32,7 +22,7 @@
 
       <v-row v-for="info in contactInfos" :key="info.name" class="ga-2">
         <v-col align="center" cols="1" justify="center">
-          <Component :is="info.icon" color="#005BBB" />
+          <Component :is="contactIcons[info.icon]" color="#005BBB" />
         </v-col>
         <v-col class="d-flex flex-column">
           <p class="text-p font-weight-bold">{{ info.name }}</p>

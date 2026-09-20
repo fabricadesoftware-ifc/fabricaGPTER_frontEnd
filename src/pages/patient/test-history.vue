@@ -1,4 +1,5 @@
 <script setup>
+  import { testHistory as patients } from '@/mocks';
   import { computed, ref } from 'vue'
   import PageTitle from '@/components/PageTitle.vue';
   import PatientPatientsList from '@/components/PatientPatientsList.vue';
@@ -7,58 +8,6 @@
   const { xs, mdAndUp } = useDisplay();
   const currentPage = ref(1);
   const clientePorPagina = 9;
-  const patients = ref([
-    {
-      id: 1,
-      tempo: 'Isometria 60s',
-      data: '01/06/2019',
-    },
-    {
-      id: 2,
-      tempo: 'Isometria 120s',
-      data: '02/06/2019',
-    },
-    {
-      id: 3,
-      tempo: 'Isometria 60s',
-      data: '01/06/2019',
-    },
-    {
-      id: 4,
-      tempo: 'Isometria 120s',
-      data: '02/06/2019',
-    },
-    {
-      id: 5,
-      tempo: 'Isometria 60s',
-      data: '01/06/2019',
-    },
-    {
-      id: 6,
-      tempo: 'Isometria 120s',
-      data: '02/06/2019',
-    },
-    {
-      id: 7,
-      tempo: 'Isometria 60s',
-      data: '01/06/2019',
-    },
-    {
-      id: 8,
-      tempo: 'Isometria 120s',
-      data: '02/06/2019',
-    },
-    {
-      id: 9,
-      tempo: 'Isometria 120s',
-      data: '02/06/2020',
-    },
-    {
-      id: 10,
-      tempo: 'Isometria 120s',
-      data: '02/06/2026',
-    },
-  ]);
 
   const PacientesPaginados = computed(() => {
     const inicio = (currentPage.value - 1) * clientePorPagina

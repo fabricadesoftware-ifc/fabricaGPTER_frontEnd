@@ -1,4 +1,8 @@
 <script setup>
+  import { Calendar, Fingerprint, Mail, Phone, User } from 'lucide-vue-next';
+
+  const personalIcons = { user: User, mail: Mail, phone: Phone, calendar: Calendar, fingerprint: Fingerprint };
+
   defineProps({
     personalInfos: {
       type: Array,
@@ -12,7 +16,7 @@
 
     <v-row v-for="info in personalInfos" :key="info.name" class="mt-4 ga-2">
       <v-col align="center" cols="1" justify="center">
-        <Component :is="info.icon" color="#005BBB" />
+        <Component :is="personalIcons[info.icon]" color="#005BBB" />
       </v-col>
       <v-col class="d-flex flex-column">
         <v-text class="text-p font-weight-bold"> {{ info.name }}</v-text>

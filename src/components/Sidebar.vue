@@ -2,6 +2,10 @@
   import { ChevronRight } from 'lucide-vue-next';
 
   defineProps({
+    profile: {
+      type: Object,
+      required: true,
+    },
     settings: {
       type: Array,
       required: true,
@@ -14,9 +18,9 @@
     <template #prepend>
       <div class="pa-6 text-center blue-gradient">
         <v-avatar size="96">
-          <v-img alt="Daniel" cover src="@/assets/foto-profissional.png" />
+          <v-img :alt="profile.name" cover :src="profile.photo" />
         </v-avatar>
-        <div class="text-h5 font-weight-bold mt-3 text-white">Daniel</div>
+        <div class="text-h5 font-weight-bold mt-3 text-white">{{ profile.name.split(' ')[0] }}</div>
       </div>
     </template>
 

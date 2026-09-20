@@ -1,4 +1,5 @@
 <script setup>
+  import { patientProfile as profile } from '@/mocks';
   import { onMounted, ref } from 'vue';
   import Sidebar from '@/components/Sidebar.vue';
   import { useRoute, useRouter } from 'vue-router';
@@ -8,7 +9,6 @@
   const route = useRoute();
   const router = useRouter();
   const { smAndDown, mdAndUp } = useDisplay();
-
 
   const settings = ref([
     {
@@ -67,12 +67,12 @@
             <v-img
               aspect-ratio="16/9"
               cover
-              src="@/assets/foto-profissional.png"
+              :src="profile.photo"
               :width="300"
             />
           </v-col>
           <v-col class="d-flex justify-center align-center" cols="3">
-            <p class="text-h5 font-weight-bold text-white"> Daniel </p>
+            <p class="text-h5 font-weight-bold text-white"> {{ profile.name.split(' ')[0] }} </p>
           </v-col>
         </div>
       </v-container>
@@ -133,7 +133,7 @@
 
   <!-- DESKTOP -->
   <v-layout v-else>
-    <Sidebar :settings="settings" />
+    <Sidebar :profile="profile" :settings="settings" />
     <v-main style="height: 92.5vh"><router-view /></v-main>
   </v-layout>
 </template>

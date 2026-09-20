@@ -1,3 +1,7 @@
+<script setup>
+  import { support } from '@/mocks';
+</script>
+
 <template>
   <v-container
     class="ma-0 pa-0 d-flex align-center align-center justify-center blue-gradient rounded-b-xl"
@@ -59,7 +63,7 @@
         <v-list-item-content>
           <div class="text-h6 font-weight-bolder">7. Contato</div>
           <div class="opacity-90 text-p">
-            Se tiver dúvidas sobre estes Termos de Uso, entre em contato: <br> 📧 suporte@email.com
+            Se tiver dúvidas sobre estes Termos de Uso, entre em contato: {{ support.email }}
           </div>
         </v-list-item-content>
       </v-list-item>

@@ -1,5 +1,6 @@
 <script setup>
-// Funções reais (create, edit, delete, pagination, details) serão implementadas posteriormente, com o backend
+  import { patients } from '@/mocks';
+  // Funções reais (create, edit, delete, pagination, details) serão implementadas posteriormente, com o backend
   import { ref } from 'vue';
   import { useDisplay } from 'vuetify';
   import { useRouter } from 'vue-router';
@@ -14,40 +15,6 @@
 
   const currentPage = ref(1);
 
-  const patients = ref([
-    {
-      id: 1,
-      name: 'Roberto Santos',
-    },
-    {
-      id: 2,
-      name: 'Fábio Longo de Moura',
-    },
-    {
-      id: 3,
-      name: 'João Vitor Guiotti',
-    },
-    {
-      id: 4,
-      name: 'Tiago Veigh',
-    },
-    {
-      id: 5,
-      name: 'Adamo Dalberto',
-    },
-    {
-      id: 6,
-      name: 'Larissa dos Santos',
-    },
-    {
-      id: 7,
-      name: 'João Tarzan',
-    },
-    {
-      id: 8,
-      name: 'Marr Candré',
-    },
-  ]);
 </script>
 
 <template>

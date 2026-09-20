@@ -1,9 +1,12 @@
 <script setup>
+  import { patients } from '@/mocks';
   import { ChevronLeft, Play } from 'lucide-vue-next';
   import SubpageTitle from '@/components/SubpageTitle.vue';
   import InfoCard from '@/components/InfoCard.vue';
   import TestsList from '@/components/TestsList.vue';
   import { useDisplay } from 'vuetify';
+
+  const patient = patients[0];
 
   const { mdAndUp, smAndDown } = useDisplay()
 
@@ -15,7 +18,7 @@
         <ChevronLeft class="opacity-70 mr-2" />
       </v-btn>
 
-      <SubpageTitle title="Roberto Santos" />
+      <SubpageTitle :title="patient.name" />
     </div>
     <p v-if="mdAndUp" class="opacity-50 pr-0">Informações e testes recentes do paciente</p>
     <div
@@ -23,10 +26,10 @@
       :class="smAndDown ? 'flex-column' : 'flex-row'"
     >
       <InfoCard
-        address="Avenida Nereu Ramos, 154, Centro, Balneário Piçarras"
+        :address="patient.address"
         class="d-flex flex-column ga-2"
-        email="roberto@gmail.com"
-        status="Ativo"
+        :email="patient.email"
+        :status="patient.status"
       />
 
       <div

@@ -1,37 +1,11 @@
 <script setup>
-  import { ref } from 'vue';
+  import { patientPersonalInfos as personalInfos } from '@/mocks';
   import { useDisplay } from 'vuetify';
   import PersonalInfos from '@/components/PersonalInfos.vue';
-  import { Calendar, ChevronLeft, Fingerprint, Mail, Phone, User } from 'lucide-vue-next';
+  import { ChevronLeft } from 'lucide-vue-next';
 
   const { smAndDown } = useDisplay();
-  const personalInfos = ref([
-    {
-      name: 'Nome',
-      info: 'Daniel Santos',
-      icon: User,
-    },
-    {
-      name: 'Email',
-      info: 'daniel@gmail.com',
-      icon: Mail,
-    },
-    {
-      name: 'Telefone',
-      info: '(47)998903948',
-      icon: Phone,
-    },
-    {
-      name: 'Data de Nascimento',
-      info: '25/08/1989',
-      icon: Calendar,
-    },
-    {
-      name: 'CPF',
-      info: '01234567890',
-      icon: Fingerprint,
-    },
-  ]);
+
 </script>
 
 <template>
