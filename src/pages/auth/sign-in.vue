@@ -81,7 +81,7 @@
     </v-container>
   </v-container>
 </template>
-<style>
+<style scoped>
 .blue-gradient {
   background-image: linear-gradient(180deg, #4a8dde 0%, #0c4f9d 100%);
 }
