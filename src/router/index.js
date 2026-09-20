@@ -26,7 +26,19 @@ const routesWithLayouts = routes.map(route => {
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: setupLayouts(routesWithLayouts),
+  routes: setupLayouts(
+    [
+      ...routesWithLayouts,
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: () => import('@/pages/errors/NotFound.vue'),
+        meta: {
+          layout: 'auth',
+        },
+      },
+    ]),
+
 })
 
 router.beforeEach((to, from, next) => {
