@@ -1,7 +1,7 @@
 <script setup>
   import { ref } from 'vue';
-  import ConfirmButton from './ConfirmButton.vue';
-  import CancelButton from './CancelButton.vue';
+  import ConfirmButton from '@/components/ui/ConfirmButton.vue';
+  import CancelButton from '@/components/ui/CancelButton.vue';
 
 
   const router = useRouter();

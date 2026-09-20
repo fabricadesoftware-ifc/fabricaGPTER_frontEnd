@@ -1,8 +1,8 @@
 <script setup>
   import { testDetails, testResult } from '@/mocks';
-  import SubpageTitle from '@/components/SubpageTitle.vue';
-  import PatientDetails from '@/components/PatientDetails.vue';
-  import DiagnosticDetails from '@/components/DiagnosticDetails.vue';
+  import SubpageTitle from '@/components/ui/SubpageTitle.vue';
+  import PatientDetails from '@/components/tests/PatientDetails.vue';
+  import DiagnosticDetails from '@/components/tests/DiagnosticDetails.vue';
 
   import { useDisplay } from 'vuetify';
 

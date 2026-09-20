@@ -1,6 +1,6 @@
 <script setup>
   import { Calendar, Check, Clock, Hand, RotateCcw, Stethoscope, User, Zap } from 'lucide-vue-next';
-  import RemakeButton from '@/components/RemakeButton.vue';
+  import RemakeButton from '@/components/ui/RemakeButton.vue';
 
   defineProps({
     patient: {

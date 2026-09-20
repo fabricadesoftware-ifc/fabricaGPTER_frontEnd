@@ -1,7 +1,7 @@
 <script setup>
   import { testDetails } from '@/mocks';
-  import SubpageTitle from '@/components/SubpageTitle.vue';
-  import PatientDetails from '@/components/PatientDetails.vue';
+  import SubpageTitle from '@/components/ui/SubpageTitle.vue';
+  import PatientDetails from '@/components/tests/PatientDetails.vue';
 
 </script>
 

@@ -1,7 +1,7 @@
 <script setup>
   import { professionalPersonalInfos as personalInfos } from '@/mocks';
   import { useDisplay } from 'vuetify';
-  import PersonalInfos from '@/components/PersonalInfos.vue';
+  import PersonalInfos from '@/components/profile/PersonalInfos.vue';
   import { ChevronLeft } from 'lucide-vue-next';
 
   const { smAndDown } = useDisplay();

@@ -1,5 +1,5 @@
 <script setup>
-  import PageTitle from '@/components/PageTitle.vue';
+  import PageTitle from '@/components/ui/PageTitle.vue';
   import { useDisplay } from 'vuetify';
 
   const { mdAndUp, smAndDown } = useDisplay()

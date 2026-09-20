@@ -1,8 +1,8 @@
 <script setup>
   import { testHistory as patients } from '@/mocks';
   import { computed, ref } from 'vue'
-  import PageTitle from '@/components/PageTitle.vue';
-  import PatientPatientsList from '@/components/PatientPatientsList.vue';
+  import PageTitle from '@/components/ui/PageTitle.vue';
+  import PatientPatientsList from '@/components/tests/PatientPatientsList.vue';
   import { useDisplay } from 'vuetify';
 
   const { xs, mdAndUp } = useDisplay();

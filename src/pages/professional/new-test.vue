@@ -3,8 +3,8 @@
   import { Play } from 'lucide-vue-next';
   import { useDisplay } from 'vuetify';
 
-  import PageTitle from '@/components/PageTitle.vue';
-  import ConfirmButton from '@/components/ConfirmButton.vue';
+  import PageTitle from '@/components/ui/PageTitle.vue';
+  import ConfirmButton from '@/components/ui/ConfirmButton.vue';
 
   const hands = ref(['Esquerda', 'Direita', 'Ambidestro']);
   const tempos = ref(['30s', '60s', '120s']);

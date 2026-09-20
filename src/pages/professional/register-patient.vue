@@ -1,6 +1,6 @@
 <script setup>
-  import SubpageTitle from '@/components/SubpageTitle.vue';
-  import PatientForm from '@/components/PatientForm.vue';
+  import SubpageTitle from '@/components/ui/SubpageTitle.vue';
+  import PatientForm from '@/components/patients/PatientForm.vue';
   import { useDisplay } from 'vuetify';
 
   const { smAndDown } = useDisplay();

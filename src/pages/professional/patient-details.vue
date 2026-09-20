@@ -1,9 +1,9 @@
 <script setup>
   import { patients } from '@/mocks';
   import { ChevronLeft, Play } from 'lucide-vue-next';
-  import SubpageTitle from '@/components/SubpageTitle.vue';
-  import InfoCard from '@/components/InfoCard.vue';
-  import TestsList from '@/components/TestsList.vue';
+  import SubpageTitle from '@/components/ui/SubpageTitle.vue';
+  import InfoCard from '@/components/patients/InfoCard.vue';
+  import TestsList from '@/components/tests/TestsList.vue';
   import { useDisplay } from 'vuetify';
 
   const patient = patients[0];

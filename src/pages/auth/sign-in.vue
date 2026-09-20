@@ -2,7 +2,7 @@
   import { useDisplay } from 'vuetify';
   import { reactive, ref } from 'vue'
   import { useRouter } from 'vue-router'
-  import AppLogo from '@/components/AppLogo.vue';
+  import AppLogo from '@/components/ui/AppLogo.vue';
   import { useSessionStore } from '@/stores/auth.js'
   const showPassword = ref(false)
   const { mdAndUp, smAndDown } = useDisplay();

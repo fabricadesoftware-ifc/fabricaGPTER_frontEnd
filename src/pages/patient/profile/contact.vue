@@ -1,6 +1,6 @@
 <script setup>
   import { contactInfos } from '@/mocks';
-  import SubpageTitle from '@/components/SubpageTitle.vue';
+  import SubpageTitle from '@/components/ui/SubpageTitle.vue';
   import { ChevronLeft, Mail, Phone } from 'lucide-vue-next';
   import { useDisplay } from 'vuetify';
 

@@ -1,7 +1,7 @@
 <script setup>
   import { patientProfile as profile } from '@/mocks';
   import { onMounted, ref } from 'vue';
-  import Sidebar from '@/components/Sidebar.vue';
+  import Sidebar from '@/components/profile/Sidebar.vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useDisplay } from 'vuetify';
   import { ChevronRight, Info, LockKeyhole, LogOut, Phone } from 'lucide-vue-next';

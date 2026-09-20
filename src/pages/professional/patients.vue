@@ -5,8 +5,8 @@
   import { useDisplay } from 'vuetify';
   import { useRouter } from 'vue-router';
 
-  import PageTitle from '@/components/PageTitle.vue';
-  import PatientsList from '@/components/PatientsList.vue';
+  import PageTitle from '@/components/ui/PageTitle.vue';
+  import PatientsList from '@/components/patients/PatientsList.vue';
 
   import { CirclePlus } from 'lucide-vue-next';
 
