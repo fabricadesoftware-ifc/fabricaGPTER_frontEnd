@@ -1,6 +1,6 @@
 <script setup>
-  import { useSessionStore } from '@/stores/auth'
-  const session = useSessionStore()
+  import { useLogout } from '@/composables/useLogout'
+  const { session, selectSetting } = useLogout()
 
   import { ChevronRight } from 'lucide-vue-next';
 
@@ -34,8 +34,9 @@
         v-for="setting in settings.slice(0, 5)"
         :key="setting.name"
         class="bg-grey-lighten-3 py-4"
-        :to="setting.link"
-        @click="setting.name === 'Sair' && session.logout()"
+        :disabled="setting.name === 'Sair' && session.loading"
+        :to="setting.name === 'Sair' ? undefined : setting.link"
+        @click="selectSetting(setting)"
       >
         <template #prepend>
           <component :is="setting.icon" class="mr-3 opacity-70" />
@@ -49,8 +50,9 @@
         v-for="setting in settings.slice(5)"
         :key="setting.name"
         class="bg-grey-lighten-3 py-4"
-        :to="setting.link"
-        @click="setting.name === 'Sair' && session.logout()"
+        :disabled="setting.name === 'Sair' && session.loading"
+        :to="setting.name === 'Sair' ? undefined : setting.link"
+        @click="selectSetting(setting)"
       >
         <template #prepend>
           <component :is="setting.icon" class="mr-3 opacity-70" />

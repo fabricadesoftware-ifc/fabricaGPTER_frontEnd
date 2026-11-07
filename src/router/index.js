@@ -8,6 +8,9 @@
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
+import pinia from '../stores/index.js'
+import { useSessionStore } from '../stores/auth.js'
+import { createAuthGuard } from './authGuard.js'
 
 const routesWithLayouts = routes.map(route => {
   // Verifica rotas de autenticação e aplica o layout 'auth'
@@ -29,7 +32,7 @@ const router = createRouter({
   routes: setupLayouts(
     [
       ...routesWithLayouts,
-      { path: '/', redirect: '/professional/patients' },
+      { path: '/', redirect: '/auth/sign-in' },
       { path: '/professional', redirect: '/professional/patients' },
       { path: '/patient', redirect: '/patient/test-history' },
       {
@@ -43,6 +46,8 @@ const router = createRouter({
     ]),
 
 })
+
+router.beforeEach(createAuthGuard(useSessionStore(pinia)))
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
 router.onError((err, to) => {

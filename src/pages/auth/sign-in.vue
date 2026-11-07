@@ -2,6 +2,28 @@
   import { useDisplay } from 'vuetify'
   import { ref } from 'vue'
   import AppLogo from '@/components/ui/AppLogo.vue'
+  import { useRouter } from 'vue-router'
+  import { useSessionStore } from '@/stores/auth'
+  import { homeFor } from '@/router/authGuard'
+
+  const session = useSessionStore()
+  const router = useRouter()
+  const username = ref('')
+  const password = ref('')
+  async function submit () {
+    if (!username.value.trim() || !password.value || session.loading) return
+    if (await session.login(username.value.trim(), password.value)) {
+      password.value = ''
+      showPassword.value = false
+      await router.replace({ name: homeFor(session.user) })
+    }
+  }
+  async function resume () {
+    session.error = ''
+    try {
+      if (await session.checkSession()) await router.replace({ name: homeFor(session.user) })
+    } catch (failure) { session.error = failure.message }
+  }
 
   const showPassword = ref(false)
   const { mdAndUp, smAndDown } = useDisplay()
@@ -21,7 +43,7 @@
     >
       <!-- Logo mobile -->
       <AppLogo class="mt-12 mb-10 d-flex d-md-none flex-0-0" />
-      <form @submit.prevent>
+      <form @submit.prevent="submit">
         <v-card
           class="rounded-xl pa-4"
           :class="mdAndUp ? 'position-relative' : 'position-absolute'"
@@ -43,32 +65,69 @@
             Bem-vindo
           </v-card-title>
 
-          <v-text-field
-            autocomplete="username"
-            class="mb-3"
-            label="Usuário"
-            rounded="lg"
-            variant="outlined"
-          />
-          <v-text-field
-            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            autocomplete="current-password"
-            class="mb-5"
-            label="Senha"
-            rounded="lg"
-            :type="showPassword ? 'text' : 'password'"
-            variant="outlined"
-            @click:append-inner="showPassword = !showPassword"
-          />
-          <v-btn
-            block
-            class="darken-blue-gradient text-white"
-            height="50px"
-            rounded="lg"
-            type="submit"
-          >
-            Login
-          </v-btn>
+          <v-alert
+            v-if="session.error"
+            class="mb-4"
+            role="alert"
+            type="error"
+            variant="tonal"
+          >{{ session.error }}</v-alert>
+          <v-alert
+            v-if="session.notice"
+            class="mb-4"
+            role="status"
+            type="warning"
+            variant="tonal"
+          >{{ session.notice }}</v-alert>
+          <template v-if="session.isAuthenticated">
+            <v-alert v-if="!['paciente', 'profissional'].includes(session.user.profile)" class="mb-4" type="warning" variant="tonal">
+              Perfil não configurado. Entre em contato com o administrador.
+            </v-alert>
+            <v-btn
+              v-else
+              block
+              class="mb-3"
+              :disabled="session.loading"
+              @click="resume"
+            >Tentar acessar minha área</v-btn>
+            <v-btn block :loading="session.loading" @click="session.logout()">Sair</v-btn>
+          </template>
+          <template v-else>
+            <v-text-field
+              v-model="username"
+              autocomplete="username"
+              class="mb-3"
+              :disabled="session.loading || session.initializing"
+              label="Usuário"
+              required
+              rounded="lg"
+              variant="outlined"
+            />
+            <v-text-field
+              v-model="password"
+              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              autocomplete="current-password"
+              class="mb-5"
+              :disabled="session.loading || session.initializing"
+              label="Senha"
+              required
+              rounded="lg"
+              :type="showPassword ? 'text' : 'password'"
+              variant="outlined"
+              @click:append-inner="showPassword = !showPassword"
+            />
+            <v-btn
+              block
+              class="darken-blue-gradient text-white"
+              :disabled="session.initializing || !username.trim() || !password"
+              height="50px"
+              :loading="session.loading"
+              rounded="lg"
+              type="submit"
+            >
+              Login
+            </v-btn>
+          </template>
         </v-card>
       </form>
     </v-container>
