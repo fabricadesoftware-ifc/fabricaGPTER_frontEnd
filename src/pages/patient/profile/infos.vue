@@ -1,5 +1,13 @@
 <script setup>
-  import { patientPersonalInfos as personalInfos } from '@/mocks';
+  import { computed } from 'vue'
+  import { useSessionStore } from '@/stores/auth'
+  import { useDataStore } from '@/stores/data'
+  const session = useSessionStore()
+  const data = useDataStore()
+  const personalInfos = computed(() => {
+    const profile = data.patients.find(patient => patient.id === session.user?.profileId) || {}
+    return [['Nome', 'name', 'user'], ['Email', 'email', 'mail'], ['Telefone', 'phone', 'phone'], ['Data de Nascimento', 'birthDate', 'calendar'], ['CPF', 'cpf', 'fingerprint']].map(([name, key, icon]) => ({ name, icon, info: profile[key] || 'Não informado' }))
+  })
   import { useDisplay } from 'vuetify';
   import PersonalInfos from '@/components/profile/PersonalInfos.vue';
   import { ChevronLeft } from 'lucide-vue-next';
@@ -13,6 +21,7 @@
     <div class="d-flex align-center mb-4">
       <v-btn
         v-if="smAndDown"
+        aria-label="Voltar"
         class="d-flex align-center"
         variant="text"
         @click="$router.back()"

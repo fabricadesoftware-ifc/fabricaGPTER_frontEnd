@@ -1,6 +1,0 @@
-export * from './patients'
-export * from './professionals'
-export * from './tests'
-export * from './testsResults'
-export * from './support'
-export * from './session'

@@ -1,5 +1,11 @@
 <script setup>
-  import { contactInfos } from '@/mocks';
+  import { computed } from 'vue'
+  import { useDataStore } from '@/stores/data'
+  const data = useDataStore()
+  const contactInfos = computed(() => [
+    { name: 'Email', icon: 'mail', info: data.support?.email || 'Não informado' },
+    { name: 'Telefone', icon: 'phone', info: data.support?.phone || 'Não informado' },
+  ])
   import SubpageTitle from '@/components/ui/SubpageTitle.vue';
   import { ChevronLeft, Mail, Phone } from 'lucide-vue-next';
   import { useDisplay } from 'vuetify';
@@ -11,7 +17,13 @@
 <template>
   <v-container>
     <div class="d-flex align-center mb-4">
-      <v-btn v-if="smAndDown" class="d-flex align-center" variant="text" @click="$router.back()">
+      <v-btn
+        v-if="smAndDown"
+        aria-label="Voltar"
+        class="d-flex align-center"
+        variant="text"
+        @click="$router.back()"
+      >
         <ChevronLeft class="opacity-70 mr-2" />
       </v-btn>
 

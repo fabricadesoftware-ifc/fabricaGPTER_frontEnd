@@ -1,4 +1,7 @@
 <script setup>
+  import { useSessionStore } from '@/stores/auth'
+  const session = useSessionStore()
+
   import { ChevronRight } from 'lucide-vue-next';
 
   defineProps({
@@ -32,6 +35,7 @@
         :key="setting.name"
         class="bg-grey-lighten-3 py-4"
         :to="setting.link"
+        @click="setting.name === 'Sair' && session.logout()"
       >
         <template #prepend>
           <component :is="setting.icon" class="mr-3 opacity-70" />
@@ -46,6 +50,7 @@
         :key="setting.name"
         class="bg-grey-lighten-3 py-4"
         :to="setting.link"
+        @click="setting.name === 'Sair' && session.logout()"
       >
         <template #prepend>
           <component :is="setting.icon" class="mr-3 opacity-70" />

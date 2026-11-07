@@ -11,7 +11,7 @@ import { routes } from 'vue-router/auto-routes'
 
 const routesWithLayouts = routes.map(route => {
   // Verifica rotas de autenticação e aplica o layout 'auth'
-  if (route.path === '/auth') {
+  if (route.path.startsWith('/auth') || route.path.startsWith('/errors')) {
     return {
       ...route,
       meta: {
@@ -29,6 +29,9 @@ const router = createRouter({
   routes: setupLayouts(
     [
       ...routesWithLayouts,
+      { path: '/', redirect: '/professional/patients' },
+      { path: '/professional', redirect: '/professional/patients' },
+      { path: '/patient', redirect: '/patient/test-history' },
       {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
@@ -39,13 +42,6 @@ const router = createRouter({
       },
     ]),
 
-})
-
-router.beforeEach((to, from, next) => {
-  if (to.path === '/' || to.path === '/professional/') {
-    return next('/auth/sign-in')
-  }
-  next()
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804

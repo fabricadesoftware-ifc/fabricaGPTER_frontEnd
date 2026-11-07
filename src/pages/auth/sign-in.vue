@@ -1,41 +1,10 @@
 <script setup>
-  import { useDisplay } from 'vuetify';
-  import { reactive, ref } from 'vue'
-  import { useRouter } from 'vue-router'
-  import AppLogo from '@/components/ui/AppLogo.vue';
-  import { useSessionStore } from '@/stores/auth.js'
+  import { useDisplay } from 'vuetify'
+  import { ref } from 'vue'
+  import AppLogo from '@/components/ui/AppLogo.vue'
+
   const showPassword = ref(false)
-  const { mdAndUp, smAndDown } = useDisplay();
-
-  const router = useRouter()
-  const useSession = useSessionStore()
-  const dados = reactive({
-    user: '',
-    senha: '',
-  })
-
-  const accByProfile = {
-    professional: '/professional/patients',
-    patient: '/patient/test-history',
-  }
-
-  async function submit () {
-    for (const campo in dados) {
-      if (dados[campo] === ''){
-        alert('Todos os campos devem estar preenchidos')
-        return
-      }
-    }
-
-    try {
-      const authenticatedUser = await useSession.login(dados.user, dados.senha)
-      const destination = accByProfile[authenticatedUser.role]
-      await router.replace(destination)
-    } catch {
-      alert('Email ou senha invalida')
-    }
-  }
-
+  const { mdAndUp, smAndDown } = useDisplay()
 </script>
 
 <template>
@@ -52,7 +21,7 @@
     >
       <!-- Logo mobile -->
       <AppLogo class="mt-12 mb-10 d-flex d-md-none flex-0-0" />
-      <form @submit.prevent="submit">
+      <form @submit.prevent>
         <v-card
           class="rounded-xl pa-4"
           :class="mdAndUp ? 'position-relative' : 'position-absolute'"
@@ -75,15 +44,15 @@
           </v-card-title>
 
           <v-text-field
-            v-model="dados.user"
+            autocomplete="username"
             class="mb-3"
             label="Usuário"
             rounded="lg"
             variant="outlined"
           />
           <v-text-field
-            v-model="dados.senha"
             :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            autocomplete="current-password"
             class="mb-5"
             label="Senha"
             rounded="lg"

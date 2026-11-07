@@ -1,6 +1,12 @@
 <script setup>
-  import { patientProfile as profile } from '@/mocks';
-  import { onMounted, ref } from 'vue';
+  import { useSessionStore } from '@/stores/auth'
+  const session = useSessionStore()
+  function selectSetting (setting) { if (setting.name === 'Sair') session.logout() }
+
+  import { useDataStore } from '@/stores/data'
+  const data = useDataStore()
+  const profile = computed(() => data.patients.find(patient => patient.id === session.user?.profileId) || { name: '', photo: '' })
+  import { ref, watch } from 'vue';
   import Sidebar from '@/components/profile/Sidebar.vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useDisplay } from 'vuetify';
@@ -38,13 +44,9 @@
     },
   ]);
 
-  // Verifica o tamanho da tela e redireciona para a página de informações se for desktop
-  onMounted(() => {
-    console.log(route.name);
-    if (route.name === '/professional/profile' && !smAndDown.value) {
-      router.push('/professional/profile/infos');
-    }
-  })
+  watch([() => route.name, smAndDown], ([name, mobile]) => {
+    if (name === '/patient/profile' && !mobile) router.replace('/patient/profile/infos')
+  }, { immediate: true })
 </script>
 
 <template>
@@ -65,6 +67,7 @@
             :cols="smAndDown ? 3 : 5"
           >
             <v-img
+              :alt="profile.name"
               aspect-ratio="16/9"
               cover
               :src="profile.photo"
@@ -83,6 +86,7 @@
             :key="setting.name"
             class="bg-grey-lighten-3 hover:bg-red-4 transition-colors duration-200 cursor-pointer"
             :to="setting.link"
+            @click="selectSetting(setting)"
           >
             <template #prepend>
               <component :is="setting.icon" class="mr-3 opacity-70" color="black" />
@@ -99,6 +103,7 @@
             :key="setting.name"
             class="bg-grey-lighten-3"
             :to="setting.link"
+            @click="selectSetting(setting)"
           >
             <template #prepend>
               <component :is="setting.icon" class="mr-3 opacity-70" color="black" />
@@ -115,6 +120,7 @@
             :key="setting.name"
             class="bg-grey-lighten-3 text-red rounded-xl"
             :to="setting.link"
+            @click="selectSetting(setting)"
           >
             <template #prepend>
               <component :is="setting.icon" class="mr-3 opacity-70" color="red" />
