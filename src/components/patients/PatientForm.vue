@@ -103,7 +103,6 @@
     <v-text-field
       v-for="field in fields"
       :key="field.label"
-      :model-value="form[field.key]"
       :autocomplete="field.type === 'password' ? 'new-password' : field.autocomplete"
       density="comfortable"
       :error-messages="field.key === 'cep' ? cepError : undefined"
@@ -112,6 +111,7 @@
       :label="field.label"
       :loading="field.key === 'cep' && cepLoading"
       :maxlength="field.maxlength"
+      :model-value="form[field.key]"
       :required="field.key !== 'cep' && (field.type !== 'password' || !editing)"
       rounded="lg"
       :type="field.type"
