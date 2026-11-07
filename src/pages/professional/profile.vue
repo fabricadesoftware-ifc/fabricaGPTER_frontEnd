@@ -1,11 +1,10 @@
 <script setup>
-  import { useSessionStore } from '@/stores/auth'
-  const session = useSessionStore()
-  function selectSetting (setting) { if (setting.name === 'Sair') session.logout() }
+  import { useLogout } from '@/composables/useLogout'
+  const { session, selectSetting } = useLogout()
 
   import { useDataStore } from '@/stores/data'
   const data = useDataStore()
-  const profile = computed(() => data.professionalProfile || { name: '', photo: '' })
+  const profile = computed(() => data.professionalProfile || { name: session.user?.display_name || session.user?.username || '', photo: '' })
   import { watch } from 'vue';
   import Sidebar from '@/components/profile/Sidebar.vue';
   import { useRoute, useRouter } from 'vue-router';
@@ -93,7 +92,8 @@
             v-for="setting in settings.slice(0, 2)"
             :key="setting.name"
             class="bg-grey-lighten-3 hover:bg-red-4 transition-colors duration-200 cursor-pointer"
-            :to="setting.link"
+            :disabled="setting.name === 'Sair' && session.loading"
+            :to="setting.name === 'Sair' ? undefined : setting.link"
             @click="selectSetting(setting)"
           >
             <template #prepend>
@@ -110,7 +110,8 @@
             v-for="setting in settings.slice(2, 4)"
             :key="setting.name"
             class="bg-grey-lighten-3"
-            :to="setting.link"
+            :disabled="setting.name === 'Sair' && session.loading"
+            :to="setting.name === 'Sair' ? undefined : setting.link"
             @click="selectSetting(setting)"
           >
             <template #prepend>
@@ -127,7 +128,8 @@
             v-for="setting in settings.slice(4)"
             :key="setting.name"
             class="bg-grey-lighten-3 text-red rounded-xl"
-            :to="setting.link"
+            :disabled="setting.name === 'Sair' && session.loading"
+            :to="setting.name === 'Sair' ? undefined : setting.link"
             @click="selectSetting(setting)"
           >
             <template #prepend>

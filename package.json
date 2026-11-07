@@ -8,12 +8,14 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "start": "serve -s dist -l tcp://0.0.0.0:$PORT"
   },
   "dependencies": {
     "@fontsource/roboto": "5.2.5",
     "@mdi/font": "7.4.47",
     "lucide-vue-next": "^0.525.0",
+    "serve": "^14.2.7",
     "vue": "^3.5.13",
     "vuetify": "^3.8.1"
   },
@@ -33,5 +35,8 @@
     "vite-plugin-vue-layouts-next": "^0.0.8",
     "vite-plugin-vuetify": "^2.1.1",
     "vue-router": "^4.5.0"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
