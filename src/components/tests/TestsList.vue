@@ -1,12 +1,14 @@
 <script setup>
-  import { recentTests as tests } from '@/mocks';
+  import { computed } from 'vue'
+  import { useDataStore } from '@/stores/data'
+  import { formatDateBR } from '@/utils/date'
+  const props = defineProps({ patientId: { type: Number, required: true } })
+  const data = useDataStore()
+  const tests = computed(() => data.tests.filter(test => test.patientId === props.patientId && ['running', 'finished', 'validated'].includes(test.status)).sort((a, b) => Number(b.status === 'running') - Number(a.status === 'running') || b.date.localeCompare(a.date) || b.id - a.id).slice(0, 3))
   import { useDisplay } from 'vuetify';
 
   const { mdAndUp, smAndDown } = useDisplay();
 
-  const formatDateBR = dateStr => {
-    return new Date(dateStr).toLocaleDateString('pt-BR');
-  };
 
 </script>
 
@@ -32,8 +34,9 @@
         <v-list-item
           v-for="test in tests"
           :key="test.id"
-          aria-label="teste-recente"
+          :aria-label="test.name + ' em ' + formatDateBR(test.date)"
           class="pa-0"
+          :to="{ path: test.status === 'running' ? '/professional/test-progress' : '/professional/test-result', query: { id: test.id } }"
         >
           <div class="d-flex flex-row justify-space-between align-center w-100">
             <v-list-item-title class="text-body-1">{{ test.name }}</v-list-item-title>

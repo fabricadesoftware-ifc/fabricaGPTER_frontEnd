@@ -18,20 +18,20 @@
     <v-row>
       <v-col class="pl-6 d-flex align-center">
         <User class="mr-2" color="#005BBB" />
-        <v-text class="text-subtitle-1 font-weight-bold">
+        <span class="text-subtitle-1 font-weight-bold">
           Pico de contração:
-          <v-text class="font-weight-light">{{ patient.peak }}</v-text>
-        </v-text>
+          <span class="font-weight-light">{{ patient.peak }}</span>
+        </span>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col class="pl-6 d-flex align-center">
         <Clock class="mr-2" color="#005BBB" />
-        <v-text class="text-subtitle-1 font-weight-bold">
+        <span class="text-subtitle-1 font-weight-bold">
           Período máximo de força:
-          <v-text class="font-weight-light">{{ patient.period }}</v-text>
-        </v-text>
+          <span class="font-weight-light">{{ patient.period }}</span>
+        </span>
       </v-col>
     </v-row>
   </v-card>

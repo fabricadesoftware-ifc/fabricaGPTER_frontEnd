@@ -1,8 +1,16 @@
 <script setup>
   import { Calendar, Check, Clock, Hand, RotateCcw, Stethoscope, User, Zap } from 'lucide-vue-next';
+  import { useDataStore } from '@/stores/data'
+  import { useRouter } from 'vue-router'
+  const data = useDataStore()
+  const router = useRouter()
+  function validate () {
+    try { data.updateTest(props.patient.id, 'validated'); alert('Teste validado.') } catch (error) { alert(error.message) }
+  }
+  function remake () { router.push({ path: '/professional/new-test', query: { patientId: props.patient.patientId, source: props.patient.id } }) }
   import RemakeButton from '@/components/ui/RemakeButton.vue';
 
-  defineProps({
+  const props = defineProps({
     patient: {
       type: Object,
       required: true,
@@ -31,59 +39,59 @@
       <v-row>
         <v-col class="d-flex align-center ga-2">
           <User color="#005BBB" />
-          <v-text class="text-subtitle-1 font-weight-bold">
+          <span class="text-subtitle-1 font-weight-bold">
             Paciente:
-            <v-text class="font-weight-regular">{{ patient.name }}</v-text>
-          </v-text>
+            <span class="font-weight-regular">{{ patient.name }}</span>
+          </span>
         </v-col>
       </v-row>
       <v-row>
         <v-col class="d-flex align-center ga-2">
           <Stethoscope color="#005BBB" />
-          <v-text class="text-subtitle-1 font-weight-bold">
+          <span class="text-subtitle-1 font-weight-bold">
             Profissional:
-            <v-text class="font-weight-regular">{{ patient.profissional }}</v-text>
-          </v-text>
+            <span class="font-weight-regular">{{ patient.profissional }}</span>
+          </span>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col class="d-flex align-center ga-2">
           <Clock color="#005BBB" />
-          <v-text class="text-subtitle-1 font-weight-bold">
+          <span class="text-subtitle-1 font-weight-bold">
             Tipo de teste:
-            <v-text class="font-weight-regular">{{ patient.type }}</v-text>
-          </v-text>
+            <span class="font-weight-regular">{{ patient.type }}</span>
+          </span>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col class="d-flex align-center ga-2">
           <Hand color="#005BBB" />
-          <v-text class="text-subtitle-1 font-weight-bold">
+          <span class="text-subtitle-1 font-weight-bold">
             N° de repetições:
-            <v-text class="font-weight-regular">{{ patient.reps }}</v-text>
-          </v-text>
+            <span class="font-weight-regular">{{ patient.reps }}</span>
+          </span>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col class="d-flex align-center ga-2">
           <Zap color="#005BBB" />
-          <v-text class="text-subtitle-1 font-weight-bold">
+          <span class="text-subtitle-1 font-weight-bold">
             Braço testado:
-            <v-text class="font-weight-regular">{{ patient.arm }}</v-text>
-          </v-text>
+            <span class="font-weight-regular">{{ patient.arm }}</span>
+          </span>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col class="d-flex align-center ga-2">
           <Calendar color="#005BBB" />
-          <v-text class="text-subtitle-1 font-weight-bold">
+          <span class="text-subtitle-1 font-weight-bold">
             Data:
-            <v-text class="font-weight-regular">{{ patient.date }}</v-text>
-          </v-text>
+            <span class="font-weight-regular">{{ patient.date }}</span>
+          </span>
         </v-col>
       </v-row>
     </div>
@@ -94,8 +102,10 @@
           <ConfirmButton
             class="px-4 py-2 rounded"
             color="blue"
+            :disabled="patient.status === 'validated'"
             height="60"
             text="Validar Teste"
+            @click="validate"
           >
             <Check color="#ffffff" />
           </ConfirmButton>
@@ -107,6 +117,7 @@
             class="px-4 py-2 rounded bg-white border border-black"
             color="blue"
             text="Refazer Teste"
+            @click="remake"
           >
             <RotateCcw color="#000000" />
           </RemakeButton>

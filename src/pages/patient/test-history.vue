@@ -1,5 +1,9 @@
 <script setup>
-  import { testHistory as patients } from '@/mocks';
+  import { useDataStore } from '@/stores/data'
+  import { useSessionStore } from '@/stores/auth'
+  const data = useDataStore()
+  const session = useSessionStore()
+  const patients = computed(() => data.tests.filter(test => test.patientId === session.user?.profileId && ['finished', 'validated'].includes(test.status)).sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id))
   import { computed, ref } from 'vue'
   import PageTitle from '@/components/ui/PageTitle.vue';
   import PatientPatientsList from '@/components/tests/PatientPatientsList.vue';
@@ -11,12 +15,12 @@
 
   const PacientesPaginados = computed(() => {
     const inicio = (currentPage.value - 1) * clientePorPagina
-    return patients.slice(inicio, inicio + clientePorPagina)
+    return patients.value.slice(inicio, inicio + clientePorPagina)
   })
 
   //quando for integrar com o backend, trocar *patients.value.length pelo total retornado pela API
   const totalPaginas = computed(() =>
-    Math.ceil(patients.length / clientePorPagina)
+    Math.max(1, Math.ceil(patients.value.length / clientePorPagina))
   )
 </script>
 

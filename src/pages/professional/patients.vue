@@ -1,6 +1,11 @@
 <script setup>
-  import { patients } from '@/mocks';
-  // Funções reais (create, edit, delete, pagination, details) serão implementadas posteriormente, com o backend
+  import { computed, watch } from 'vue'
+  import { useDataStore } from '@/stores/data'
+  const data = useDataStore()
+  const search = ref('')
+  const filtered = computed(() => data.patients.filter(patient => patient.name.toLocaleLowerCase('pt-BR').includes(search.value.trim().toLocaleLowerCase('pt-BR'))))
+  const pages = computed(() => Math.max(1, Math.ceil(filtered.value.length / 9)))
+  const patients = computed(() => filtered.value.slice((currentPage.value - 1) * 9, currentPage.value * 9))
   import { ref } from 'vue';
   import { useDisplay } from 'vuetify';
   import { useRouter } from 'vue-router';
@@ -14,6 +19,8 @@
   const { mdAndUp, xs } = useDisplay();
 
   const currentPage = ref(1);
+  watch(search, () => { currentPage.value = 1 })
+  watch(pages, count => { currentPage.value = Math.min(count, currentPage.value) })
 
 </script>
 
@@ -30,6 +37,7 @@
       <v-col align-self="end" class="text-right d-flex justify-end align-end py-0 mb-2">
         <v-btn
           v-if="xs"
+          aria-label="Registrar paciente"
           class="d-flex align-center"
           icon
           variant="text"
@@ -49,6 +57,7 @@
     <v-row justify="center">
       <v-col v-if="mdAndUp" cols="auto">
         <v-text-field
+          v-model="search"
           class="mb-3"
           label="Buscar paciente"
           prepend-inner-icon="mdi-magnify"
@@ -59,7 +68,7 @@
       </v-col>
       <v-col>
         <PatientsList :patients="patients" />
-        <v-pagination v-model="currentPage" :length="4" />
+        <v-pagination v-model="currentPage" :length="pages" />
       </v-col>
     </v-row>
 

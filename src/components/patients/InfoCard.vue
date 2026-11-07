@@ -16,7 +16,7 @@
     },
   })
 
-  const infos = ref([
+  const infos = computed(() => [
     {
       name: 'Endereço',
       icon: MapPinHouse,
@@ -55,7 +55,7 @@
           </div>
           <div>
             <span class="font-weight-bold text-subtitle-1">{{ info.name }}:</span>
-            <span :class="info.name === 'Status' ? 'ml-1 text-subtitle-1 bg-blue-lighten-4 text-blue-darken-4 rounded-xl px-2 py-1' : 'ml-1 text-subtitle-1'">{{ info.prop }}</span>
+            <span :class="info.name === 'Status' ? 'ml-1 text-subtitle-1 bg-blue-lighten-4 text-blue-darken-4 rounded-xl px-2 py-1' : 'ml-1 text-subtitle-1'">{{ info.prop || 'Não informado' }}</span>
           </div>
         </div>
       </div>
