@@ -3,6 +3,7 @@
   import { useRoute, useRouter } from 'vue-router'
   import { useDataStore } from '@/stores/data'
   import { validatePatient } from '@/utils/patient'
+  import { formatCep, useCep } from '@/composables/useCep'
   import ConfirmButton from '@/components/ui/ConfirmButton.vue';
   import CancelButton from '@/components/ui/CancelButton.vue';
 
@@ -16,8 +17,9 @@
   const form = reactive({})
   watch(() => route.query.id, () => {
     const patient = editing.value ? data.patients.find(item => item.id === Number(route.query.id)) : null
-    Object.assign(form, { name: '', email: '', cpf: '', street: '', city: '', state: '', neighborhood: '', number: '', ...patient, password: '', confirmation: '' })
+    Object.assign(form, { name: '', email: '', cpf: '', cep: '', street: '', city: '', state: '', neighborhood: '', number: '', ...patient, password: '', confirmation: '' })
   }, { immediate: true })
+  const { loading: cepLoading, error: cepError } = useCep(form)
   async function submit () {
     if (busy.value) return
     const values = Object.fromEntries(Object.entries(form).map(([key, value]) => [key, typeof value === 'string' && !['password', 'confirmation'].includes(key) ? value.trim() : value]))
@@ -49,6 +51,12 @@
     {
       label: 'Confirmar senha', key: 'confirmation',
       type: 'password',
+    },
+    {
+      label: 'CEP', key: 'cep',
+      type: 'text',
+      autocomplete: 'postal-code',
+      maxlength: 9,
     },
     {
       label: 'Logradouro', key: 'street',
@@ -95,15 +103,20 @@
     <v-text-field
       v-for="field in fields"
       :key="field.label"
-      v-model="form[field.key]"
-      :autocomplete="field.type === 'password' ? 'new-password' : undefined"
+      :model-value="form[field.key]"
+      :autocomplete="field.type === 'password' ? 'new-password' : field.autocomplete"
       density="comfortable"
-      :inputmode="field.key === 'cpf' ? 'numeric' : undefined"
+      :error-messages="field.key === 'cep' ? cepError : undefined"
+      :hint="field.key === 'cep' ? 'Digite o CEP para preencher o endereço automaticamente.' : undefined"
+      :inputmode="['cpf', 'cep'].includes(field.key) ? 'numeric' : undefined"
       :label="field.label"
-      :required="field.type !== 'password' || !editing"
+      :loading="field.key === 'cep' && cepLoading"
+      :maxlength="field.maxlength"
+      :required="field.key !== 'cep' && (field.type !== 'password' || !editing)"
       rounded="lg"
       :type="field.type"
       variant="outlined"
+      @update:model-value="form[field.key] = field.key === 'cep' ? formatCep($event) : $event"
     />
 
     <v-row class="ma-0">
