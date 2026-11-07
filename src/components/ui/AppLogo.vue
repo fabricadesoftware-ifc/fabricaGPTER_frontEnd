@@ -1,5 +1,6 @@
 <template>
   <v-img
+    alt="GPTER"
     class="flex-0-0"
     src="@/assets/logo-gpter.png"
     :style="{
