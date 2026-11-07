@@ -1,45 +1,30 @@
+<script setup>
+  import { useTest } from '@/composables/useTest'
+  const { test: testResult, details: testDetails } = useTest(['finished', 'validated'])
+  import SubpageTitle from '@/components/ui/SubpageTitle.vue';
+  import PatientDetails from '@/components/tests/PatientDetails.vue';
+  import DiagnosticDetails from '@/components/tests/DiagnosticDetails.vue';
+
+  import { useDisplay } from 'vuetify';
+
+  const { smAndDown } = useDisplay();
+
+</script>
+
 <template>
-  <v-container>
-    <SubpageTitle :title="Details[0].time" />
+  <v-container v-if="testDetails">
+    <SubpageTitle :title="testDetails.name" />
     <main
       class="d-flex ga-8 mt-8"
       :class="smAndDown ? 'flex-column' : 'flex-row'"
     >
-
-      <PatientDetails :patient="Details[0]" />
+      <PatientDetails :patient="testDetails" />
       <!-- <TestGraph /> -->
-      <DiagnosticDetails :patient="info[0]" />
+      <DiagnosticDetails :patient="testResult" />
     </main>
   </v-container>
+  <v-container v-else>
+    <SubpageTitle title="Resultado do teste" />
+    <p class="text-subtitle-1 text-grey-darken-1 mt-4">Nenhum registro disponível.</p>
+  </v-container>
 </template>
-
-<script setup>
-  import { ref } from 'vue';
-  import SubpageTitle from '@/components/SubpageTitle.vue';
-  import PatientDetails from '@/components/PatientDetails.vue';
-  import DiagnosticDetails from '@/components/DiagnosticDetails.vue';
-  const Details = ref([
-    {
-      id: 1,
-      name: 'Roberto Santos',
-      time: 'Roberto Santos - teste 1',
-      type: '60s',
-      reps: 6,
-      arm: 'Direito',
-      date: '04/07/2025',
-      profissional: 'Daniela Silva',
-    },
-  ]);
-
-  const info = ref([
-    {
-      peak: '15s',
-      period: '6s',
-
-    },
-  ])
-  import { useDisplay } from 'vuetify';
-
-  const { mdAndUp, smAndDown } = useDisplay();
-
-</script>

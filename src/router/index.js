@@ -9,17 +9,39 @@ import { createRouter, createWebHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: setupLayouts(routes),
+const routesWithLayouts = routes.map(route => {
+  // Verifica rotas de autenticação e aplica o layout 'auth'
+  if (route.path.startsWith('/auth') || route.path.startsWith('/errors')) {
+    return {
+      ...route,
+      meta: {
+        ...route.meta,
+        layout: 'auth',
+      },
+    }
+  }
+
+  return route
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.path === '/') {
-    console.log('Current route:', to.fullPath, 'Redirecting to /patients')
-    next('/patients')
-  }
-  next()
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: setupLayouts(
+    [
+      ...routesWithLayouts,
+      { path: '/', redirect: '/professional/patients' },
+      { path: '/professional', redirect: '/professional/patients' },
+      { path: '/patient', redirect: '/patient/test-history' },
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: () => import('@/pages/errors/NotFound.vue'),
+        meta: {
+          layout: 'auth',
+        },
+      },
+    ]),
+
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804

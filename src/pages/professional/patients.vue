@@ -1,3 +1,29 @@
+<script setup>
+  import { computed, watch } from 'vue'
+  import { useDataStore } from '@/stores/data'
+  const data = useDataStore()
+  const search = ref('')
+  const filtered = computed(() => data.patients.filter(patient => patient.name.toLocaleLowerCase('pt-BR').includes(search.value.trim().toLocaleLowerCase('pt-BR'))))
+  const pages = computed(() => Math.max(1, Math.ceil(filtered.value.length / 9)))
+  const patients = computed(() => filtered.value.slice((currentPage.value - 1) * 9, currentPage.value * 9))
+  import { ref } from 'vue';
+  import { useDisplay } from 'vuetify';
+  import { useRouter } from 'vue-router';
+
+  import PageTitle from '@/components/ui/PageTitle.vue';
+  import PatientsList from '@/components/patients/PatientsList.vue';
+
+  import { CirclePlus } from 'lucide-vue-next';
+
+  const router = useRouter()
+  const { mdAndUp, xs } = useDisplay();
+
+  const currentPage = ref(1);
+  watch(search, () => { currentPage.value = 1 })
+  watch(pages, count => { currentPage.value = Math.min(count, currentPage.value) })
+
+</script>
+
 <template>
   <v-container :class="{ 'px-8 mt-6': mdAndUp }" max-width="none">
     <v-row align="start" class="w-full" justify="space-between">
@@ -11,10 +37,11 @@
       <v-col align-self="end" class="text-right d-flex justify-end align-end py-0 mb-2">
         <v-btn
           v-if="xs"
+          aria-label="Registrar paciente"
           class="d-flex align-center"
           icon
           variant="text"
-          @click="goToRoute('register-patient')"
+          @click="router.push('/professional/register-patient')"
         ><CirclePlus :size="24" /></v-btn>
         <v-btn
           v-else
@@ -22,7 +49,7 @@
           flat
           height="60"
           width="160"
-          @click="goToRoute('register-patient')"
+          @click="router.push('/professional/register-patient')"
         >Registrar paciente</v-btn>
       </v-col>
     </v-row>
@@ -30,6 +57,7 @@
     <v-row justify="center">
       <v-col v-if="mdAndUp" cols="auto">
         <v-text-field
+          v-model="search"
           class="mb-3"
           label="Buscar paciente"
           prepend-inner-icon="mdi-magnify"
@@ -40,66 +68,10 @@
       </v-col>
       <v-col>
         <PatientsList :patients="patients" />
-        <v-pagination v-model="currentPage" :length="4" />
+        <v-pagination v-model="currentPage" :length="pages" />
       </v-col>
     </v-row>
 
     <v-row class="d-flex justify-center align-center" />
   </v-container>
 </template>
-
-<script setup>
-// Funções reais (create, edit, delete, pagination, details) serão implementadas posteriormente, com o backend
-  import { ref } from 'vue';
-  import { useDisplay } from 'vuetify';
-  import { useRouter } from 'vue-router';
-
-  import PageTitle from '@/components/PageTitle.vue';
-  import PatientsList from '@/components/PatientsList.vue';
-
-  import { CirclePlus } from 'lucide-vue-next';
-
-  const router = useRouter()
-  const { mdAndUp, smAndDown, xs } = useDisplay();
-
-  const currentPage = ref(1);
-
-  const patients = ref([
-    {
-      id: 1,
-      name: 'Roberto Santos',
-    },
-    {
-      id: 2,
-      name: 'Fábio Longo de Moura',
-    },
-    {
-      id: 3,
-      name: 'João Vitor Guiotti',
-    },
-    {
-      id: 4,
-      name: 'Tiago Veigh',
-    },
-    {
-      id: 5,
-      name: 'Adamo Dalberto',
-    },
-    {
-      id: 6,
-      name: 'Larissa dos Santos',
-    },
-    {
-      id: 7,
-      name: 'João Tarzan',
-    },
-    {
-      id: 8,
-      name: 'Marr Candré',
-    },
-  ]);
-
-  const goToRoute = route => {
-    router.push(`/${route}`);
-  };
-</script>

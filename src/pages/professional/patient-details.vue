@@ -1,11 +1,28 @@
+<script setup>
+  import { useDataStore } from '@/stores/data'
+  import { computed } from 'vue'
+  import { useRoute } from 'vue-router'
+  const data = useDataStore()
+  const route = useRoute()
+  import { ChevronLeft, Play } from 'lucide-vue-next';
+  import SubpageTitle from '@/components/ui/SubpageTitle.vue';
+  import InfoCard from '@/components/patients/InfoCard.vue';
+  import TestsList from '@/components/tests/TestsList.vue';
+  import { useDisplay } from 'vuetify';
+
+  const patient = computed(() => data.patients.find(item => item.id === Number(route.query.id)))
+
+  const { mdAndUp, smAndDown } = useDisplay()
+
+</script>
 <template>
-  <v-container>
+  <v-container v-if="patient">
     <div class="d-flex align-center mb-4">
-      <v-btn class="d-flex align-center" variant="text" @click="$router.back()">
+      <v-btn aria-label="Voltar" class="d-flex align-center" variant="text" @click="$router.back()">
         <ChevronLeft class="opacity-70 mr-2" />
       </v-btn>
 
-      <SubpageTitle title="Roberto Santos" />
+      <SubpageTitle :title="patient.name" />
     </div>
     <p v-if="mdAndUp" class="opacity-50 pr-0">Informações e testes recentes do paciente</p>
     <div
@@ -13,16 +30,16 @@
       :class="smAndDown ? 'flex-column' : 'flex-row'"
     >
       <InfoCard
-        address="Avenida Nereu Ramos, 154, Centro, Balneário Piçarras"
+        :address="patient.address"
         class="d-flex flex-column ga-2"
-        email="roberto@gmail.com"
-        status="Ativo"
+        :email="patient.email"
+        :status="patient.status"
       />
 
       <div
         class="d-flex flex-column ga-2"
       >
-        <TestsList />
+        <TestsList :patient-id="patient.id" />
       </div>
 
       <div v-if="smAndDown">
@@ -30,6 +47,7 @@
           class="darken-blue-gradient text-white"
           height="50px"
           rounded="lg"
+          :to="{ path: '/professional/new-test', query: { patientId: patient.id } }"
           width="90vw"
         >
           <div class="d-flex flex-row justify-center align-center ga-2">
@@ -45,6 +63,7 @@
         height="50px"
         rounded="lg"
         style="position: relative; margin-top: 20px;"
+        :to="{ path: '/professional/new-test', query: { patientId: patient.id } }"
         width="300px"
       >
         <div class="d-flex flex-row justify-center align-center ga-2">
@@ -55,18 +74,11 @@
     </div>
 
   </v-container>
+  <v-container v-else>
+    <SubpageTitle title="Informações do paciente" />
+    <p class="text-subtitle-1 text-grey-darken-1 mt-4">Nenhum registro disponível.</p>
+  </v-container>
 </template>
-
-<script setup>
-  import { ChevronLeft, Play } from 'lucide-vue-next';
-  import SubpageTitle from '@/components/SubpageTitle.vue';
-  import InfoCard from '@/components/InfoCard.vue';
-  import TestsList from '@/components/TestsList.vue';
-  import { useDisplay } from 'vuetify';
-
-  const { mdAndUp, smAndDown } = useDisplay()
-
-</script>
 
 <style>
 .darken-blue-gradient {
