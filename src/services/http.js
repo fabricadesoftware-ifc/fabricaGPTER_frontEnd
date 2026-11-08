@@ -49,7 +49,7 @@ function messageFor (code, serverMessage) {
   if (code === 'conflict') return serverMessage || 'Não foi possível concluir a operação porque o registro está em uso.'
   if (code === 'throttled') return 'Excesso de tentativas. Aguarde antes de tentar novamente.'
   if (code === 'validation_error') return serverMessage || 'Revise os campos informados.'
-  if (code === 'server_error') return 'O servidor não conseguiu concluir a solicitação. Tente novamente mais tarde.'
+  if (code === 'server_error') return serverMessage || 'O servidor não conseguiu concluir a solicitação. Tente novamente mais tarde.'
   if (code === 'invalid_response') return 'O servidor retornou uma resposta inesperada. Tente novamente.'
   return serverMessage || 'Não foi possível concluir a solicitação.'
 }
@@ -102,8 +102,8 @@ async function send (url, { method, headers, body }) {
 }
 
 export function createApiClient ({ getCsrfToken, setCsrfToken, onUnauthorized }) {
-  // In production the API is exposed under the same domain. Local development
-  // can still override this with VITE_API_BASE_URL=http://localhost:8000/api.
+  // VITE_API_BASE_URL is the official configuration. Local development can
+  // still override this with VITE_API_BASE_URL=http://localhost:8000/api.
   const base = (import.meta.env?.VITE_API_BASE_URL || '/api').replace(/\/$/, '')
   let csrfRequest
 

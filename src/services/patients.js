@@ -137,10 +137,10 @@ export function normalizePatientPage (data, { page = 1, pageSize = 9 } = {}) {
 }
 
 export async function fetchPatients (request, { page = 1, pageSize = 9, search = '' } = {}) {
-  const params = new URLSearchParams({
-    page: String(page),
-    page_size: String(pageSize),
-  })
+  // Let the API apply its configured page size. Some backend deployments
+  // reject the optional page_size query parameter even though they support
+  // server-side pagination through page.
+  const params = new URLSearchParams({ page: String(page) })
   if (search) params.set('search', search)
   const data = await request(`${endpoints.patients}?${params.toString()}`)
   return normalizePatientPage(data, { page, pageSize })
