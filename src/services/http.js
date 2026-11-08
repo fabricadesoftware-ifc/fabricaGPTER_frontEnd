@@ -8,7 +8,9 @@ export class ApiError extends Error {
 }
 
 export function createApiClient ({ getCsrfToken, setCsrfToken, onUnauthorized }) {
-  const base = (import.meta.env?.VITE_API_BASE_URL || 'http://localhost:8000/api').replace(/\/$/, '')
+  // In production the API is exposed under the same domain. Local development
+  // can still override this with VITE_API_BASE_URL=http://localhost:8000/api.
+  const base = (import.meta.env?.VITE_API_BASE_URL || '/api').replace(/\/$/, '')
   let csrfRequest
 
   async function refreshCsrf () {
