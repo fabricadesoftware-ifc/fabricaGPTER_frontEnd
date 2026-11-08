@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppLogo: typeof import('./src/components/ui/AppLogo.vue')['default']
     CancelButton: typeof import('./src/components/ui/CancelButton.vue')['default']
+    ChangePasswordForm: typeof import('./src/components/profile/ChangePasswordForm.vue')['default']
     ConfirmButton: typeof import('./src/components/ui/ConfirmButton.vue')['default']
     DesktopNavBar: typeof import('./src/components/layout/DesktopNavBar.vue')['default']
     DiagnosticDetails: typeof import('./src/components/tests/DiagnosticDetails.vue')['default']
@@ -22,11 +23,14 @@ declare module 'vue' {
     PatientsList: typeof import('./src/components/patients/PatientsList.vue')['default']
     PersonalInfos: typeof import('./src/components/profile/PersonalInfos.vue')['default']
     ProfessionalInfos: typeof import('./src/components/profile/ProfessionalInfos.vue')['default']
+    ProfileAvatar: typeof import('./src/components/profile/ProfileAvatar.vue')['default']
     RemakeButton: typeof import('./src/components/ui/RemakeButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('./src/components/profile/Sidebar.vue')['default']
     SubpageTitle: typeof import('./src/components/ui/SubpageTitle.vue')['default']
+    SupportInfo: typeof import('./src/components/profile/SupportInfo.vue')['default']
+    TermsContent: typeof import('./src/components/profile/TermsContent.vue')['default']
     TestsList: typeof import('./src/components/tests/TestsList.vue')['default']
   }
 }

@@ -1,10 +1,12 @@
 <script setup>
+  import { computed } from 'vue'
   import { useLogout } from '@/composables/useLogout'
+  import ProfileAvatar from '@/components/profile/ProfileAvatar.vue'
+  import { ChevronRight } from 'lucide-vue-next'
+
   const { session, selectSetting } = useLogout()
 
-  import { ChevronRight } from 'lucide-vue-next';
-
-  defineProps({
+  const props = defineProps({
     profile: {
       type: Object,
       required: true,
@@ -13,17 +15,17 @@
       type: Array,
       required: true,
     },
-  });
+  })
+
+  const firstName = computed(() => (props.profile?.name || '').split(' ')[0] || 'Usuário')
 </script>
 
 <template>
   <v-navigation-drawer location="left" permanent>
     <template #prepend>
       <div class="pa-6 text-center blue-gradient">
-        <v-avatar size="96">
-          <v-img :alt="profile.name" cover :src="profile.photo" />
-        </v-avatar>
-        <div class="text-h5 font-weight-bold mt-3 text-white">{{ profile.name.split(' ')[0] }}</div>
+        <ProfileAvatar :name="profile.name" :photo="profile.photo" :size="96" />
+        <div class="text-h5 font-weight-bold mt-3 text-white">{{ firstName }}</div>
       </div>
     </template>
 

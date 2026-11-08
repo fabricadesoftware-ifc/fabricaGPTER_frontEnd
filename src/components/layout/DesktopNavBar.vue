@@ -1,14 +1,21 @@
 <script setup>
+  import { computed } from 'vue'
   import { useTheme } from 'vuetify'
+  import { useRoute } from 'vue-router'
+  import { useDataStore } from '@/stores/data'
+  import { useSessionStore } from '@/stores/auth'
+  import ProfileAvatar from '@/components/profile/ProfileAvatar.vue'
+  import { Moon } from 'lucide-vue-next'
+
   const theme = useTheme()
   const dark = computed({ get: () => theme.global.name.value === 'dark', set: value => { theme.global.name.value = value ? 'dark' : 'light' } })
-  import { computed } from 'vue'
-  import { useRoute } from 'vue-router'
   const route = useRoute()
+  const data = useDataStore()
+  const session = useSessionStore()
   const professional = computed(() => route.path.startsWith('/professional'))
   const base = computed(() => professional.value ? '/professional' : '/patient')
-
-  import { Moon, User } from 'lucide-vue-next';
+  const profile = computed(() => data.profile || session.user || {})
+  const displayName = computed(() => profile.value.name || profile.value.displayName || profile.value.username || 'Perfil')
 </script>
 <template>
   <v-app-bar class="px-6" :elevation="1" height="70">
@@ -50,8 +57,11 @@
         <Moon />
       </v-row>
 
-      <v-btn aria-label="Perfil" class="pa-0" variant="text" @click="$router.push(base + '/profile/infos')">
-        <User />
+      <v-btn aria-label="Perfil" class="pa-0 text-none" variant="text" @click="$router.push(base + '/profile/infos')">
+        <div class="d-flex align-center ga-2">
+          <ProfileAvatar :name="profile.name" :photo="profile.photo" :size="36" />
+          <span class="text-body-2">{{ displayName }}</span>
+        </div>
       </v-btn>
     </v-toolbar-items>
   </v-app-bar>
