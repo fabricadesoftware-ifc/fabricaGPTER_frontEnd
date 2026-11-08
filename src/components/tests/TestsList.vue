@@ -2,9 +2,9 @@
   import { computed } from 'vue'
   import { useDataStore } from '@/stores/data'
   import { formatDateBR } from '@/utils/date'
-  const props = defineProps({ patientId: { type: Number, required: true } })
+  const props = defineProps({ patientId: { type: [Number, String], required: true } })
   const data = useDataStore()
-  const tests = computed(() => data.tests.filter(test => test.patientId === props.patientId && ['running', 'finished', 'validated'].includes(test.status)).sort((a, b) => Number(b.status === 'running') - Number(a.status === 'running') || b.date.localeCompare(a.date) || b.id - a.id).slice(0, 3))
+  const tests = computed(() => data.tests.filter(test => String(test.patientId) === String(props.patientId) && ['running', 'finished', 'validated'].includes(test.status)).sort((a, b) => Number(b.status === 'running') - Number(a.status === 'running') || b.date.localeCompare(a.date) || String(b.id).localeCompare(String(a.id))).slice(0, 3))
   import { useDisplay } from 'vuetify';
 
   const { mdAndUp, smAndDown } = useDisplay();

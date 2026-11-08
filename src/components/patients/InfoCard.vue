@@ -1,6 +1,8 @@
 <script setup>
-  import { useDisplay } from 'vuetify';
-  import { Clock, Mail, MapPinHouse } from 'lucide-vue-next';
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { Calendar, Clock, Fingerprint, Mail, MapPinHouse, Phone, User } from 'lucide-vue-next'
+  import { formatDateBR } from '@/utils/date'
 
   const { mdAndUp, smAndDown } = useDisplay()
 
@@ -14,9 +16,26 @@
     status: {
       type: String,
     },
+    username: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    cpf: {
+      type: String,
+    },
+    birthDate: {
+      type: String,
+    },
   })
 
   const infos = computed(() => [
+    {
+      name: 'Usuário',
+      icon: User,
+      prop: props.username,
+    },
     {
       name: 'Endereço',
       icon: MapPinHouse,
@@ -28,11 +47,26 @@
       prop: props.email,
     },
     {
+      name: 'Telefone',
+      icon: Phone,
+      prop: props.phone,
+    },
+    {
+      name: 'CPF',
+      icon: Fingerprint,
+      prop: props.cpf,
+    },
+    {
+      name: 'Data de Nascimento',
+      icon: Calendar,
+      prop: formatDateBR(props.birthDate),
+    },
+    {
       name: 'Status',
       icon: Clock,
       prop: props.status,
     },
-  ])
+  ].filter(info => info.prop || ['Endereço', 'Email', 'Status'].includes(info.name)))
 </script>
 <template>
   <v-card
@@ -48,8 +82,8 @@
     <v-divider color="grey-darken-4" length="100%" />
 
     <v-card-text :class="['pa-0', {'mt-6': mdAndUp, 'mt-4': smAndDown}]">
-      <div :class="['d-flex flex-column', {'ga-8' : mdAndUp, 'ga-4': smAndDown}]">
-        <div v-for="info in infos" :key="info.prop" class="d-flex align-start ga-3">
+      <div :class="['d-flex flex-column', {'ga-4' : mdAndUp, 'ga-3': smAndDown}]">
+        <div v-for="info in infos" :key="info.name" class="d-flex align-start ga-3">
           <div>
             <component :is="info.icon" class="text-blue" :size="20" />
           </div>

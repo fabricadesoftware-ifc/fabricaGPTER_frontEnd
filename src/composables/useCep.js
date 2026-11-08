@@ -4,13 +4,14 @@ export function formatCep (value) {
   return String(value ?? '').replace(/\D/g, '').slice(0, 8).replace(/^(\d{5})(\d)/, '$1-$2')
 }
 
-export function useCep (form) {
+export function useCep (form, { enabled = () => true } = {}) {
   const loading = ref(false)
   const error = ref('')
 
   watch(() => String(form.cep ?? '').replace(/\D/g, ''), async (cep, previous, onCleanup) => {
     error.value = ''
     loading.value = false
+    if (!enabled()) return
     if (cep.length !== 8) return
 
     const controller = new AbortController()

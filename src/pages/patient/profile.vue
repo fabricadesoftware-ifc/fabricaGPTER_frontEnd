@@ -1,19 +1,19 @@
 <script setup>
+  import { ref, watch } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+  import { useDisplay } from 'vuetify'
   import { useLogout } from '@/composables/useLogout'
+  import { useProfile } from '@/composables/useProfile'
+  import Sidebar from '@/components/profile/Sidebar.vue'
+  import ProfileAvatar from '@/components/profile/ProfileAvatar.vue'
+  import { ChevronRight, Info, LockKeyhole, LogOut, Phone } from 'lucide-vue-next'
+
   const { session, selectSetting } = useLogout()
+  const { profile, firstName, loading, error, load } = useProfile()
 
-  import { useDataStore } from '@/stores/data'
-  const data = useDataStore()
-  const profile = computed(() => data.patients.find(patient => patient.id === session.user?.profileId) || { name: session.user?.display_name || session.user?.username || '', photo: '' })
-  import { ref, watch } from 'vue';
-  import Sidebar from '@/components/profile/Sidebar.vue';
-  import { useRoute, useRouter } from 'vue-router';
-  import { useDisplay } from 'vuetify';
-  import { ChevronRight, Info, LockKeyhole, LogOut, Phone } from 'lucide-vue-next';
-
-  const route = useRoute();
-  const router = useRouter();
-  const { smAndDown, mdAndUp } = useDisplay();
+  const route = useRoute()
+  const router = useRouter()
+  const { smAndDown, mdAndUp } = useDisplay()
 
   const settings = ref([
     {
@@ -41,7 +41,7 @@
       icon: LogOut,
       link: '/auth/sign-in',
     },
-  ]);
+  ])
 
   watch([() => route.name, smAndDown], ([name, mobile]) => {
     if (name === '/patient/profile' && !mobile) router.replace('/patient/profile/infos')
@@ -65,20 +65,34 @@
             class="d-flex justify-center align-center"
             :cols="smAndDown ? 3 : 5"
           >
-            <v-img
-              :alt="profile.name"
-              aspect-ratio="16/9"
-              cover
-              :src="profile.photo"
-              :width="300"
-            />
+            <ProfileAvatar :name="profile.name" :photo="profile.photo" :size="96" />
           </v-col>
           <v-col class="d-flex justify-center align-center" cols="3">
-            <p class="text-h5 font-weight-bold text-white"> {{ profile.name.split(' ')[0] }} </p>
+            <p class="text-h5 font-weight-bold text-white">{{ firstName }}</p>
           </v-col>
         </div>
       </v-container>
       <v-container>
+        <v-progress-linear
+          v-if="loading"
+          aria-label="Carregando perfil"
+          class="mb-4"
+          indeterminate
+          rounded
+        />
+        <v-alert
+          v-if="error"
+          class="mb-4"
+          role="alert"
+          type="error"
+          variant="tonal"
+        >
+          <div class="d-flex flex-column ga-3">
+            <span>{{ error }}</span>
+            <v-btn size="small" variant="outlined" @click="load(true)">Tentar novamente</v-btn>
+          </div>
+        </v-alert>
+
         <v-list class="rounded-xl mb-4">
           <v-list-item
             v-for="setting in settings.slice(0, 2)"

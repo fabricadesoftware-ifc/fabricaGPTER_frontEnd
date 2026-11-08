@@ -9,10 +9,11 @@ export function useTest (statuses) {
   const data = useDataStore()
   const session = useSessionStore()
   const test = computed(() => {
-    const record = data.tests.find(item => item.id === Number(route.query.id))
-    if (!record || !statuses.includes(record.status) || (session.user?.role === 'patient' && record.patientId !== session.user.profileId)) return null
+    const record = data.tests.find(item => String(item.id) === String(route.query.id))
+    if (!record || !statuses.includes(record.status)) return null
+    if (session.user?.profile === 'paciente' && String(record.patientId) !== String(session.user.profileId)) return null
     return record
   })
-  const details = computed(() => test.value ? { ...test.value, name: data.patients.find(patient => patient.id === test.value.patientId)?.name || '', type: `${test.value.seconds}s`, date: formatDateBR(test.value.date) } : null)
+  const details = computed(() => test.value ? { ...test.value, name: data.patients.find(patient => String(patient.id) === String(test.value.patientId))?.name || '', type: `${test.value.seconds}s`, date: formatDateBR(test.value.date) } : null)
   return { test, details, data, router }
 }

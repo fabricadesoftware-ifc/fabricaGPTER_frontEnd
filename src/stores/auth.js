@@ -1,6 +1,9 @@
 ﻿import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { createApiClient } from '../services/http.js'
+import { endpoints } from '../services/endpoints.js'
+import { normalizeSessionUser } from '../services/profile.js'
+import { resetSessionScope } from '../services/sessionScope.js'
 
 export const useSessionStore = defineStore('session', () => {
   const user = ref(null)
@@ -19,6 +22,18 @@ export const useSessionStore = defineStore('session', () => {
     user.value = null
     csrfToken.value = ''
     notice.value = 'Sua sessão expirou ou não é válida. Entre novamente.'
+    resetSessionScope()
+  }
+
+  function applyUser (value) {
+    const next = normalizeSessionUser(value)
+    const previous = user.value
+    if (previous && next && String(previous.id ?? '') !== String(next.id ?? '')) {
+      resetSessionScope()
+      authVersion += 1
+    }
+    user.value = next
+    return next
   }
 
   const api = createApiClient({
@@ -32,8 +47,8 @@ export const useSessionStore = defineStore('session', () => {
     const version = authVersion
     sessionCheck = (async () => {
       try {
-        const result = await api.request('/auth/me/', { handleAuth: false })
-        if (version === authVersion) user.value = result.user
+        const result = await api.request(endpoints.me, { handleAuth: false })
+        if (version === authVersion) applyUser(result.user)
         return true
       } catch (failure) {
         if (failure.status !== 401) throw failure
@@ -72,12 +87,13 @@ export const useSessionStore = defineStore('session', () => {
     loading.value = true
     error.value = ''
     notice.value = ''
+    resetSessionScope()
     try {
       await initialize()
       await api.refreshCsrf()
       authVersion++
-      const result = await api.request('/auth/login/', { method: 'POST', body: { username, password }, handleAuth: false })
-      user.value = result.user
+      const result = await api.request(endpoints.login, { method: 'POST', body: { username, password }, handleAuth: false })
+      applyUser(result.user)
       csrfToken.value = result.csrf_token
       initialized.value = true
       error.value = ''
@@ -93,9 +109,10 @@ export const useSessionStore = defineStore('session', () => {
     loading.value = true
     authVersion++
     error.value = ''
+    resetSessionScope()
     try {
       if (!csrfToken.value) await api.refreshCsrf()
-      await api.request('/auth/logout/', { method: 'POST', body: {}, handleAuth: false })
+      await api.request(endpoints.logout, { method: 'POST', body: {}, handleAuth: false })
     } catch (failure) {
       if (failure.status !== 401) {
         error.value = failure.code === 'network_error'
@@ -107,11 +124,29 @@ export const useSessionStore = defineStore('session', () => {
     user.value = null
     csrfToken.value = ''
     notice.value = ''
+    resetSessionScope()
     return true
   }
 
-  function changePassword () {
-    throw new Error('A alteração de senha estará disponível após a integração com o backend.')
+  async function changePassword (currentPassword, newPassword, confirmation) {
+    const result = await api.request(endpoints.changePassword, {
+      method: 'POST',
+      body: {
+        current_password: currentPassword,
+        new_password: newPassword,
+        confirmation,
+      },
+    })
+    if (result?.csrf_token) csrfToken.value = result.csrf_token
+    if (result?.user) applyUser(result.user)
+    try {
+      await api.refreshCsrf()
+    } catch (failure) {
+      // The password was already changed; only an explicit session loss should
+      // force the user back to the login screen.
+      if (failure.status === 401) expire()
+    }
+    return result
   }
 
   return { user, csrfToken, initialized, initializing, loading, error, notice, isAuthenticated, initialize, checkSession, login, logout, changePassword, request: api.request }

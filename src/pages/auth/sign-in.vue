@@ -10,19 +10,26 @@
   const router = useRouter()
   const username = ref('')
   const password = ref('')
+  const redirecting = ref(false)
   async function submit () {
     if (!username.value.trim() || !password.value || session.loading) return
     if (await session.login(username.value.trim(), password.value)) {
       password.value = ''
       showPassword.value = false
+      redirecting.value = true
       await router.replace({ name: homeFor(session.user) })
     }
   }
   async function resume () {
     session.error = ''
+    redirecting.value = true
     try {
       if (await session.checkSession()) await router.replace({ name: homeFor(session.user) })
-    } catch (failure) { session.error = failure.message }
+      else redirecting.value = false
+    } catch (failure) {
+      redirecting.value = false
+      session.error = failure.message
+    }
   }
 
   const showPassword = ref(false)
@@ -79,7 +86,13 @@
             type="warning"
             variant="tonal"
           >{{ session.notice }}</v-alert>
-          <template v-if="session.isAuthenticated">
+          <template v-if="session.isAuthenticated && redirecting">
+            <div class="d-flex flex-column align-center justify-center ga-4 py-6" role="status">
+              <v-progress-circular aria-label="Acessando sua área" color="primary" indeterminate />
+              <span class="text-body-2 text-grey-darken-1">Acessando sua área...</span>
+            </div>
+          </template>
+          <template v-else-if="session.isAuthenticated">
             <v-alert v-if="!['paciente', 'profissional'].includes(session.user.profile)" class="mb-4" type="warning" variant="tonal">
               Perfil não configurado. Entre em contato com o administrador.
             </v-alert>

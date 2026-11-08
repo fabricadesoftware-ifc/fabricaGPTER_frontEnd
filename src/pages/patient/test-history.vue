@@ -3,7 +3,7 @@
   import { useSessionStore } from '@/stores/auth'
   const data = useDataStore()
   const session = useSessionStore()
-  const patients = computed(() => data.tests.filter(test => test.patientId === session.user?.profileId && ['finished', 'validated'].includes(test.status)).sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id))
+  const patients = computed(() => data.tests.filter(test => String(test.patientId) === String(session.user?.profileId) && ['finished', 'validated'].includes(test.status)).sort((a, b) => b.date.localeCompare(a.date) || String(b.id).localeCompare(String(a.id))))
   import { computed, ref } from 'vue'
   import PageTitle from '@/components/ui/PageTitle.vue';
   import PatientPatientsList from '@/components/tests/PatientPatientsList.vue';
