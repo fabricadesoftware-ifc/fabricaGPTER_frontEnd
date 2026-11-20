@@ -4,6 +4,7 @@
   import { useDataStore } from '@/stores/data'
   import { useSessionStore } from '@/stores/auth'
   import {
+    dominantHands,
     emptyPatientForm,
     hasValidationErrors,
     patientFormFromRecord,
@@ -112,6 +113,7 @@
       await router.push('/professional/patients')
     } catch (failure) {
       const aliases = {
+        dominantHand: 'dominant_hand',
         zip_code: 'cep',
         postal_code: 'cep',
         address: 'street',
@@ -258,27 +260,40 @@
       variant="tonal"
     >{{ formError }}</v-alert>
 
-    <v-text-field
-      v-for="field in fields"
-      :key="field.key"
-      :autocomplete="field.type === 'password' ? 'new-password' : field.autocomplete"
-      density="comfortable"
-      :disabled="busy"
-      :error-messages="field.key === 'cep' ? [errors.cep, cepError].filter(Boolean) : errors[field.key]"
-      :hint="hintFor(field)"
-      :inputmode="['cpf', 'cep'].includes(field.key) ? 'numeric' : undefined"
-      :label="labelFor(field)"
-      :loading="field.key === 'cep' && cepLoading"
-      :maxlength="field.maxlength"
-      :model-value="form[field.key]"
-      :persistent-hint="Boolean(hintFor(field))"
-      :readonly="isUsernameReadonly(field)"
-      :required="field.key !== 'cep' && (field.type !== 'password' || !editing)"
-      rounded="lg"
-      :type="field.type"
-      variant="outlined"
-      @update:model-value="updateField(field.key, $event)"
-    />
+    <template v-for="field in fields" :key="field.key">
+      <v-text-field
+        :autocomplete="field.type === 'password' ? 'new-password' : field.autocomplete"
+        density="comfortable"
+        :disabled="busy"
+        :error-messages="field.key === 'cep' ? [errors.cep, cepError].filter(Boolean) : errors[field.key]"
+        :hint="hintFor(field)"
+        :inputmode="['cpf', 'cep'].includes(field.key) ? 'numeric' : undefined"
+        :label="labelFor(field)"
+        :loading="field.key === 'cep' && cepLoading"
+        :maxlength="field.maxlength"
+        :model-value="form[field.key]"
+        :persistent-hint="Boolean(hintFor(field))"
+        :readonly="isUsernameReadonly(field)"
+        :required="field.type !== 'password' || !editing"
+        rounded="lg"
+        :type="field.type"
+        variant="outlined"
+        @update:model-value="updateField(field.key, $event)"
+      />
+      <v-select
+        v-if="field.key === 'name'"
+        density="comfortable"
+        :disabled="busy"
+        :error-messages="errors.dominant_hand"
+        :items="dominantHands"
+        label="Mão dominante"
+        :model-value="form.dominant_hand"
+        :required="!editing"
+        rounded="lg"
+        variant="outlined"
+        @update:model-value="updateField('dominant_hand', $event)"
+      />
+    </template>
 
     <v-row class="ma-0">
       <v-col class="pa-0" cols="8">

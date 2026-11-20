@@ -1,6 +1,6 @@
 <script setup>
   import { useTest } from '@/composables/useTest'
-  const { test: testResult, details: testDetails } = useTest(['finished', 'validated'])
+  const { loading, error, test: testResult, details: testDetails } = useTest(['finished', 'validated'])
   import SubpageTitle from '@/components/ui/SubpageTitle.vue';
   import PatientDetails from '@/components/tests/PatientDetails.vue';
   import DiagnosticDetails from '@/components/tests/DiagnosticDetails.vue';
@@ -12,7 +12,9 @@
 </script>
 
 <template>
-  <v-container v-if="testDetails">
+  <v-container v-if="loading"><v-progress-linear aria-label="Carregando avaliação" indeterminate /></v-container>
+  <v-container v-else-if="error"><v-alert role="alert" type="error">{{ error }}</v-alert></v-container>
+  <v-container v-else-if="testDetails">
     <SubpageTitle :title="testDetails.name" />
     <main
       class="d-flex ga-8 mt-8"

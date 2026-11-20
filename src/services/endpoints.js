@@ -8,6 +8,8 @@ export const endpoints = {
   changePassword: '/auth/change-password/',
   patients: '/patients/',
   patient: id => `/patients/${encodeURIComponent(id)}/`,
+  assessments: '/assessments/',
+  assessment: id => `/assessments/${encodeURIComponent(id)}/`,
   profile: '/profile/',
   support: '/support/',
   terms: '/terms/',

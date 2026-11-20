@@ -22,6 +22,7 @@
     phone: {
       type: String,
     },
+    dominantHand: String,
     cpf: {
       type: String,
     },
@@ -31,6 +32,7 @@
   })
 
   const infos = computed(() => [
+    { name: 'Mão dominante', icon: Fingerprint, prop: props.dominantHand || 'Não informada' },
     {
       name: 'Usuário',
       icon: User,

@@ -4,8 +4,26 @@
   import { useRouter } from 'vue-router'
   const data = useDataStore()
   const router = useRouter()
-  function validate () {
-    try { data.updateTest(props.patient.id, 'validated'); alert('Teste validado.') } catch (error) { alert(error.message) }
+  const editing = ref(false)
+  const saving = ref(false)
+  const draft = ref('')
+  const errorMessage = ref('')
+  async function saveNotes () {
+    if (saving.value) return
+    saving.value = true
+    errorMessage.value = ''
+    try {
+      await data.updateTest(props.patient.id, { observations: draft.value.trim() })
+      editing.value = false
+    } catch (error) {
+      errorMessage.value = Object.values(error.fields || {}).flat().join(' ') || error.message
+    } finally {
+      saving.value = false
+    }
+  }
+  import { ref, watch } from 'vue'
+  async function validate () {
+    try { await data.updateTest(props.patient.id, 'validated'); alert('Teste validado.') } catch (error) { alert(error.message) }
   }
   function remake () { router.push({ path: '/professional/new-test', query: { patientId: props.patient.patientId, source: props.patient.id } }) }
   import RemakeButton from '@/components/ui/RemakeButton.vue';
@@ -15,6 +33,7 @@
       type: Object,
       required: true,
     },
+    editable: Boolean,
     buttons: {
       type: Boolean,
       default: false,
@@ -23,6 +42,7 @@
 
   import { useDisplay } from 'vuetify';
 
+  watch(() => props.patient.id, () => { editing.value = false; errorMessage.value = '' })
   const { mdAndUp } = useDisplay();
 </script>
 <template>
@@ -69,18 +89,27 @@
         <v-col class="d-flex align-center ga-2">
           <Hand color="#005BBB" />
           <span class="text-subtitle-1 font-weight-bold">
-            N° de repetições:
-            <span class="font-weight-regular">{{ patient.reps }}</span>
+            Observações:
+            <span style="white-space: pre-wrap; overflow-wrap: anywhere" class="font-weight-regular">{{ patient.observations || 'Nenhuma observação registrada.' }}</span>
           </span>
         </v-col>
       </v-row>
 
+      <div v-if="buttons || editable">
+        <v-btn v-if="!editing" variant="text" @click="draft = patient.observations || ''; editing = true">Editar observações</v-btn>
+        <v-form v-else @submit.prevent="saveNotes">
+          <v-textarea v-model="draft" auto-grow :disabled="saving" label="Observações (opcional)" variant="outlined" />
+          <v-alert v-if="errorMessage" role="alert" type="error">{{ errorMessage }}</v-alert>
+          <v-btn :loading="saving" type="submit">Salvar</v-btn>
+          <v-btn :disabled="saving" variant="text" @click="editing = false">Cancelar</v-btn>
+        </v-form>
+      </div>
       <v-row>
         <v-col class="d-flex align-center ga-2">
           <Zap color="#005BBB" />
           <span class="text-subtitle-1 font-weight-bold">
             Braço testado:
-            <span class="font-weight-regular">{{ patient.arm }}</span>
+            <span class="font-weight-regular">{{ patient.arm || 'Não informado' }}</span>
           </span>
         </v-col>
       </v-row>

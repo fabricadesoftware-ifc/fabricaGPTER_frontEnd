@@ -1,4 +1,5 @@
 import { endpoints } from './endpoints.js'
+import { normalizeHand } from '../utils/patient.js'
 
 // Fields accepted by the patient create/update contract. Everything else
 // (store internals, privileged profile, chosen owner, etc.) must never be sent.
@@ -7,6 +8,7 @@ export const PATIENT_WRITABLE_FIELDS = [
   'name',
   'email',
   'cpf',
+  'dominant_hand',
   'password',
   'confirmation',
   'cep',
@@ -61,6 +63,7 @@ export function normalizePatient (raw) {
     username: firstFrom(sources, 'username', 'user_name', 'login'),
     name: firstFrom(sources, 'name', 'full_name', 'fullName', 'nome'),
     email: firstFrom(sources, 'email', 'email_address', 'emailAddress', 'mail'),
+    dominant_hand: normalizeHand(firstFrom(sources, 'dominantHand', 'dominant_hand')),
     cpf: firstFrom(sources, 'cpf', 'CPF', 'document', 'document_number', 'documentNumber', 'cpf_number', 'tax_id'),
     phone: firstFrom(sources, 'phone', 'telefone', 'telephone', 'phone_number', 'phoneNumber'),
     birthDate: firstFrom(sources, 'birthDate', 'birth_date', 'data_nascimento', 'date_of_birth', 'dateOfBirth'),
@@ -168,6 +171,7 @@ export async function deletePatient (request, id) {
 export function buildPatientPayload (values, { editing = false, usernameEditable = true } = {}) {
   const payload = {}
   for (const key of PATIENT_WRITABLE_FIELDS) {
+    if (key === 'dominant_hand' && !normalizeHand(values[key])) continue
     if (key === 'username' && editing && !usernameEditable) continue
     if (key === 'password' || key === 'confirmation') {
       if (!values[key]) continue
@@ -176,7 +180,7 @@ export function buildPatientPayload (values, { editing = false, usernameEditable
     }
     const value = typeof values[key] === 'string' ? values[key].trim() : values[key]
     if (value === undefined || value === null) continue
-    payload[key] = value
+    payload[key === 'dominant_hand' ? 'dominantHand' : key] = value
   }
   return payload
 }
