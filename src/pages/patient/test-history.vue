@@ -4,7 +4,7 @@
   const data = useDataStore()
   const session = useSessionStore()
   const patients = computed(() => data.tests.filter(test => String(test.patientId) === String(session.user?.profileId) && ['finished', 'validated'].includes(test.status)).sort((a, b) => b.date.localeCompare(a.date) || String(b.id).localeCompare(String(a.id))))
-  import { computed, ref } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import PageTitle from '@/components/ui/PageTitle.vue';
   import PatientPatientsList from '@/components/tests/PatientPatientsList.vue';
   import { useDisplay } from 'vuetify';
@@ -22,6 +22,22 @@
   const totalPaginas = computed(() =>
     Math.max(1, Math.ceil(patients.value.length / clientePorPagina))
   )
+  const loading = ref(false)
+  const error = ref('')
+  watch(() => session.user?.profileId, async (id, _, onCleanup) => {
+    let active = true
+    onCleanup(() => { active = false })
+    error.value = ''
+    loading.value = Boolean(id)
+    if (!id) return
+    try {
+      await data.loadTests(id)
+    } catch (failure) {
+      if (active) error.value = failure.message
+    } finally {
+      if (active) loading.value = false
+    }
+  }, { immediate: true })
 </script>
 
 <template>
@@ -37,7 +53,9 @@
     </v-row>
     <v-row justify="center">
       <v-col>
-        <PatientPatientsList :patients="PacientesPaginados" />
+      <v-progress-linear v-if="loading" aria-label="Carregando avaliações" indeterminate />
+      <v-alert v-else-if="error" role="alert" type="error">{{ error }}</v-alert>
+        <PatientPatientsList v-else :patients="PacientesPaginados" />
         <v-pagination v-model="currentPage" :length="totalPaginas" />
       </v-col>
     </v-row>

@@ -1,18 +1,46 @@
 <script setup>
-  import { reactive, ref } from 'vue'
+  import { computed, reactive, ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { useDataStore } from '@/stores/data'
   const route = useRoute()
   const router = useRouter()
   const data = useDataStore()
-  const form = reactive({ time: '', reps: '', arm: '' })
-  const source = data.tests.find(test => test.id === Number(route.query.source) && test.patientId === Number(route.query.patientId))
-  if (source) Object.assign(form, { time: `${source.seconds}s`, reps: source.reps, arm: source.arm })
-  function start () {
+  const form = reactive({ time: '', observations: '', arm: '' })
+  const recommendedHand = ref('')
+  const handOptions = computed(() => dominantHands.map(value => ({
+    value,
+    title: value === recommendedHand.value ? `${value} (recomendada)` : value,
+  })))
+  watch([() => route.query.patientId, () => route.query.source], async ([patientId, sourceId], _, onCleanup) => {
+    let active = true
+    onCleanup(() => { active = false })
+    const source = data.tests.find(test => String(test.id) === sourceId && String(test.patientId) === patientId)
+    recommendedHand.value = ''
+    Object.assign(form, {
+      time: source ? `${source.seconds}s` : '',
+      observations: source?.observations || '',
+      arm: source?.arm || '',
+    })
+    if (!patientId) return
+    const patient = await data.loadPatient(patientId)
+    if (!active || !patient) return
+    recommendedHand.value = patient.dominant_hand
+    if (!form.arm) form.arm = recommendedHand.value
+  }, { immediate: true })
+  const saving = ref(false)
+  const errorMessage = ref('')
+  async function start () {
+    if (saving.value) return
+    saving.value = true
+    errorMessage.value = ''
     try {
-      const test = data.startTest(Number(route.query.patientId), form)
+      const test = await data.startTest(route.query.patientId, form)
       router.push({ path: '/professional/test-progress', query: { id: test.id } })
-    } catch (error) { alert(error.message) }
+    } catch (error) {
+      errorMessage.value = Object.values(error.fields || {}).flat().join(' ') || error.message
+    } finally {
+      saving.value = false
+    }
   }
 
   import { Play } from 'lucide-vue-next';
@@ -21,7 +49,7 @@
   import PageTitle from '@/components/ui/PageTitle.vue';
   import ConfirmButton from '@/components/ui/ConfirmButton.vue';
 
-  const hands = ref(['Esquerda', 'Direita', 'Ambidestro']);
+  import { dominantHands } from '@/utils/patient'
   const tempos = ref(['30s', '60s', '120s']);
 
   const { mdAndUp, smAndDown } = useDisplay()
@@ -39,7 +67,8 @@
 
       <span class="text-subtitle-1 text-grey-darken-1">Configure os parâmetros para iniciar o teste</span>
       <v-form
-        v-if="smAndDown"
+        :disabled="saving"
+        style="max-width: 600px"
         class="w-100 pa-4 p elevation-3 rounded-xl mt-4"
         @submit.prevent="start"
       >
@@ -54,26 +83,13 @@
           variant="outlined"
         />
 
-        <span class="text-subtitle-2">Número de repetições</span>
-        <v-text-field
-          v-model="form.reps"
-          class="mt-2"
-          label="Selecione o número de repetições"
-          max="100"
-          min="1"
-          name="repeticoes"
-          required
-          rounded="lg"
-          step="1"
-          type="number"
-          variant="outlined"
-        />
-
+        <v-textarea v-model="form.observations" auto-grow label="Observações (opcional)" rounded="lg" variant="outlined" />
+        <v-alert v-if="errorMessage" class="mb-3" role="alert" type="error">{{ errorMessage }}</v-alert>
         <span class="text-subtitle-2">Mão</span>
         <v-select
           v-model="form.arm"
           class="mt-2"
-          :items="hands"
+          :items="handOptions"
           label="Mão"
           required
           rounded="lg"
@@ -84,62 +100,14 @@
         <ConfirmButton
           class="rounded-lg font-weight-bold"
           height="50"
+          :loading="saving"
+          :disabled="saving"
           text="Iniciar teste"
           type="submit"
         ><Play :size="16" />
         </ConfirmButton>
       </v-form>
-      <v-form
-        v-if="mdAndUp"
-        class="w-50 pa-4 p elevation-3 rounded-xl mt-4"
-        @submit.prevent="start"
-      >
-        <span class="text-subtitle-2">Tempo</span>
-        <v-select
-          v-model="form.time"
-          class="mt-2"
-          :items="tempos"
-          label="Tempo"
-          required
-          rounded="lg"
-          variant="outlined"
-        />
 
-        <span class="text-subtitle-2">Número de repetições</span>
-        <v-text-field
-          v-model="form.reps"
-          class="mt-2"
-          label="Selecione o número de repetições"
-          max="100"
-          min="1"
-          name="repeticoes"
-          required
-          rounded="lg"
-          step="1"
-          type="number"
-          variant="outlined"
-        />
-
-        <span class="text-subtitle-2">Mão</span>
-        <v-select
-          v-model="form.arm"
-          class="mt-2"
-          :items="hands"
-          label="Mão"
-          required
-          rounded="lg"
-          variant="outlined"
-        />
-
-
-        <ConfirmButton
-          class="rounded-lg font-weight-bold"
-          height="50"
-          text="Iniciar teste"
-          type="submit"
-        ><Play :size="16" />
-        </ConfirmButton>
-      </v-form>
     </div>
   </v-container>
 </template>

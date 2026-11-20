@@ -13,9 +13,8 @@ import {
 import { complementProfileWithPatient, fetchProfile } from '../services/profile.js'
 import { fetchSupport, fetchTerms } from '../services/content.js'
 
-function unavailable () {
-  throw new Error('Esta operação estará disponível em uma próxima etapa da integração com o backend.')
-}
+import { endpoints } from '../services/endpoints.js'
+import { createAssessment, normalizeAssessment, updateAssessment } from '../services/assessments.js'
 
 export const useDataStore = defineStore('data', () => {
   const session = useSessionStore()
@@ -48,6 +47,38 @@ export const useDataStore = defineStore('data', () => {
   const termsError = ref('')
 
   const tests = ref([])
+
+  function rememberTest (raw, generation) {
+    if (generation !== sessionGeneration()) throw new Error('Sessão encerrada.')
+    const record = normalizeAssessment(raw)
+    tests.value = [...tests.value.filter(test => String(test.id) !== String(record.id)), record]
+    return record
+  }
+
+  async function startTest (patientId, form) {
+    const generation = sessionGeneration()
+    const raw = await createAssessment(session.request, patientId, form)
+    return rememberTest(raw, generation)
+  }
+
+  async function loadTest (id) {
+    const generation = sessionGeneration()
+    return rememberTest(await session.request(endpoints.assessment(id)), generation)
+  }
+
+  async function loadTests (patientId) {
+    const generation = sessionGeneration()
+    const response = await session.request(`${endpoints.assessments}?patient=${encodeURIComponent(patientId)}`)
+    for (const raw of response.results ?? response) rememberTest(raw, generation)
+  }
+
+  async function updateTest (id, changes) {
+    const generation = sessionGeneration()
+    const body = typeof changes === 'string' ? { status: changes } : changes
+    const raw = await updateAssessment(session.request, id, body)
+    const previous = tests.value.find(test => String(test.id) === String(id))
+    return rememberTest({ ...previous, ...body, ...raw }, generation)
+  }
 
   let listRequestId = 0
   let patientRequestId = 0
@@ -321,7 +352,9 @@ export const useDataStore = defineStore('data', () => {
     loadSupport,
     loadTerms,
     clearPrivateData,
-    startTest: unavailable,
-    updateTest: unavailable,
+    startTest,
+    updateTest,
+    loadTest,
+    loadTests,
   }
 })

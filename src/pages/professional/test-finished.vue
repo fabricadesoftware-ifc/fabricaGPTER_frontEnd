@@ -1,6 +1,6 @@
 <script setup>
   import { useTest } from '@/composables/useTest'
-  const { test } = useTest(['finished', 'validated'])
+  const { loading, error, test } = useTest(['finished', 'validated'])
   import { CircleCheck } from 'lucide-vue-next';
   import { useDisplay } from 'vuetify';
   const { smAndDown } = useDisplay();
@@ -8,7 +8,9 @@
 </script>
 
 <template>
-  <v-container v-if="test" class="fill-height d-flex flex-column align-center justify-center ga-6">
+  <v-container v-if="loading"><v-progress-linear aria-label="Carregando avaliação" indeterminate /></v-container>
+  <v-container v-else-if="error"><v-alert role="alert" type="error">{{ error }}</v-alert></v-container>
+  <v-container v-else-if="test" class="fill-height d-flex flex-column align-center justify-center ga-6">
     <span v-if="smAndDown" class="text-h4 font-weight-bold text-center">
       Teste finalizado
       <CircleCheck color="#005BBB" />

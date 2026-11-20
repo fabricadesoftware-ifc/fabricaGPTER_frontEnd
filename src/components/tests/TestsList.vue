@@ -1,5 +1,5 @@
 <script setup>
-  import { computed } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { useDataStore } from '@/stores/data'
   import { formatDateBR } from '@/utils/date'
   const props = defineProps({ patientId: { type: [Number, String], required: true } })
@@ -10,6 +10,22 @@
   const { mdAndUp, smAndDown } = useDisplay();
 
 
+  const loading = ref(false)
+  const error = ref('')
+  watch(() => props.patientId, async (id, _, onCleanup) => {
+    let active = true
+    onCleanup(() => { active = false })
+    error.value = ''
+    loading.value = Boolean(id)
+    if (!id) return
+    try {
+      await data.loadTests(id)
+    } catch (failure) {
+      if (active) error.value = failure.message
+    } finally {
+      if (active) loading.value = false
+    }
+  }, { immediate: true })
 </script>
 
 <template>
@@ -30,7 +46,9 @@
     <v-divider color="grey-darken-4" />
 
     <v-card-text :class="['pa-0', { 'mt-6': mdAndUp, 'mt-4': smAndDown }]">
-      <v-list class="d-flex flex-column rounded-xl pa-0">
+      <v-progress-linear v-if="loading" aria-label="Carregando avaliações" indeterminate />
+      <v-alert v-else-if="error" role="alert" type="error">{{ error }}</v-alert>
+      <v-list v-else class="d-flex flex-column rounded-xl pa-0">
         <v-list-item
           v-for="test in tests"
           :key="test.id"

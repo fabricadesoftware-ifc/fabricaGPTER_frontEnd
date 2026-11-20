@@ -78,21 +78,7 @@
         :username="patient.username"
       />
 
-      <v-card
-        class="pa-4 pa-md-6 rounded-xl elevation-2 mx-auto"
-        max-width="550"
-        :min-height="mdAndUp ? '349' : '300'"
-      >
-        <v-card-title class="text-h6 text-md-h5 font-weight-medium pa-0 mb-3 mb-md-6">
-          Histórico de testes
-        </v-card-title>
-        <v-divider color="grey-darken-4" length="100%" />
-        <v-card-text class="pa-0 mt-4 mt-md-6">
-          <p class="text-body-1 text-grey-darken-1">
-            O histórico de testes deste paciente ainda não está integrado a esta versão.
-          </p>
-        </v-card-text>
-      </v-card>
+      <TestsList :patient-id="patient.id" />
 
       <div v-if="smAndDown">
         <v-btn
