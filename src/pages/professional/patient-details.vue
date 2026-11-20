@@ -71,6 +71,7 @@
         :birth-date="patient.birthDate"
         class="d-flex flex-column ga-2"
         :cpf="patient.cpf"
+        :dominant-hand="patient.dominant_hand"
         :email="patient.email"
         :phone="patient.phone"
         :status="patient.status"

@@ -1,11 +1,18 @@
 import { PASSWORD_MIN_LENGTH } from './password.js'
 
+export const dominantHands = ['Direita', 'Esquerda']
+
+export function normalizeHand (value) {
+  return dominantHands.includes(value) ? value : ''
+}
+
 export function emptyPatientForm () {
   return {
     username: '',
     name: '',
     email: '',
     cpf: '',
+    dominant_hand: '',
     password: '',
     confirmation: '',
     cep: '',
@@ -30,6 +37,9 @@ export function patientFormFromRecord (patient) {
 
 export function validatePatient (values, { editing = false, usernameRequired = true } = {}) {
   const errors = {}
+  if ((!editing || values.dominant_hand) && !dominantHands.includes(values.dominant_hand)) {
+    errors.dominant_hand = 'Selecione a mão dominante.'
+  }
   const required = ['name', 'email', 'cpf', 'street', 'city', 'state', 'neighborhood', 'number']
   if (usernameRequired && !String(values.username || '').trim()) {
     errors.username = 'Informe o usuário.'
@@ -45,7 +55,9 @@ export function validatePatient (values, { editing = false, usernameRequired = t
   for (const key of required.slice(3)) {
     if (!String(values[key] || '').trim()) errors[key] = 'Campo obrigatório.'
   }
-  if (values.cep && !/^\d{8}$/.test(String(values.cep).replace(/\D/g, ''))) {
+  if (!values.cep) {
+    errors.cep = 'Informe o CEP.'
+  } else if (!/^\d{8}$/.test(String(values.cep).replace(/\D/g, ''))) {
     errors.cep = 'O CEP deve conter 8 dígitos.'
   }
 
