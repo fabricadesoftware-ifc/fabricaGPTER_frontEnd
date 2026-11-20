@@ -13,14 +13,15 @@
 </script>
 
 <template>
-  <v-card class="w-100 elevation-2 rounded-xl mb-6 pl-3 pb-4 h-100 ">
-    <v-card-title class="text-h6 text-left font-weight-bold mt-2 mb-0">Detalhes do teste</v-card-title>
+  <v-card class="w-100 elevation-2 rounded-lg pl-3 pb-4 ">
+    <v-card-title class="text-h6 text-left font-weight-bold mt-2 mb-0">Detalhes do diagnóstico</v-card-title>
+    <v-divider class="my-3" />
     <v-row>
       <v-col class="pl-6 d-flex align-center">
         <User class="mr-2" color="#005BBB" />
         <span class="text-subtitle-1 font-weight-bold">
           Pico de contração:
-          <span class="font-weight-light">{{ patient.peak }}</span>
+          <span class="font-weight-light">{{ patient.peak ?? '—' }}</span>
         </span>
       </v-col>
     </v-row>
@@ -30,7 +31,7 @@
         <Clock class="mr-2" color="#005BBB" />
         <span class="text-subtitle-1 font-weight-bold">
           Período máximo de força:
-          <span class="font-weight-light">{{ patient.period }}</span>
+          <span class="font-weight-light">{{ patient.period ?? '—' }}</span>
         </span>
       </v-col>
     </v-row>
