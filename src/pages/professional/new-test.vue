@@ -2,6 +2,7 @@
   import { computed, reactive, ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { useDataStore } from '@/stores/data'
+  import { rememberTestPort, requestDynamometerPort } from '@/services/dynamometer'
   const route = useRoute()
   const router = useRouter()
   const data = useDataStore()
@@ -34,8 +35,17 @@
     saving.value = true
     errorMessage.value = ''
     try {
+      let port
+      if (navigator.serial && route.query.patientId && form.arm && ['30s', '60s'].includes(form.time)) {
+        try {
+          port = await requestDynamometerPort()
+        } catch (error) {
+          if (error.name !== 'NotFoundError') throw error
+        }
+      }
       const test = await data.startTest(route.query.patientId, form)
-      router.push({ path: '/professional/test-progress', query: { id: test.id } })
+      if (port) rememberTestPort(test.id, port)
+      await router.push({ path: '/professional/test-progress', query: { id: test.id } })
     } catch (error) {
       errorMessage.value = Object.values(error.fields || {}).flat().join(' ') || error.message
     } finally {

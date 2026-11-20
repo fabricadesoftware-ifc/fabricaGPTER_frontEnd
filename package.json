@@ -15,6 +15,7 @@
   "dependencies": {
     "@fontsource/roboto": "5.2.5",
     "@mdi/font": "7.4.47",
+    "chart.js": "^4.6.1",
     "lucide-vue-next": "^0.525.0",
     "serve": "^14.2.7",
     "vue": "^3.5.13",

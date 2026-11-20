@@ -5,24 +5,21 @@
   import PatientDetails from '@/components/tests/PatientDetails.vue';
   import DiagnosticDetails from '@/components/tests/DiagnosticDetails.vue';
 
-  import { useDisplay } from 'vuetify';
-
-  const { smAndDown } = useDisplay();
-
 </script>
 
 <template>
   <v-container v-if="loading"><v-progress-linear aria-label="Carregando avaliação" indeterminate /></v-container>
   <v-container v-else-if="error"><v-alert role="alert" type="error">{{ error }}</v-alert></v-container>
   <v-container v-else-if="testDetails">
-    <SubpageTitle :title="testDetails.name" />
-    <main
-      class="d-flex ga-8 mt-8"
-      :class="smAndDown ? 'flex-column' : 'flex-row'"
-    >
+    <SubpageTitle :title="`${testDetails.name} - teste ${testDetails.id}`" />
+    <main class="result-layout">
       <PatientDetails :patient="testDetails" />
-      <!-- <TestGraph /> -->
-      <DiagnosticDetails :patient="testResult" />
+      <div class="result-panels">
+        <v-card class="rounded-lg elevation-2">
+          <ForceTimeChart :samples="testResult.measurements || []" :seconds="Number(testResult.seconds)" />
+        </v-card>
+        <DiagnosticDetails :patient="testResult" />
+      </div>
     </main>
   </v-container>
   <v-container v-else>
@@ -30,3 +27,5 @@
     <p class="text-subtitle-1 text-grey-darken-1 mt-4">Nenhum registro disponível.</p>
   </v-container>
 </template>
+
+<style scoped src="@/styles/test-result.css"></style>
