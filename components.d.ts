@@ -14,6 +14,8 @@ declare module 'vue' {
     ConfirmButton: typeof import('./src/components/ui/ConfirmButton.vue')['default']
     DesktopNavBar: typeof import('./src/components/layout/DesktopNavBar.vue')['default']
     DiagnosticDetails: typeof import('./src/components/tests/DiagnosticDetails.vue')['default']
+    DynamometerPanel: typeof import('./src/components/tests/DynamometerPanel.vue')['default']
+    ForceTimeChart: typeof import('./src/components/tests/ForceTimeChart.vue')['default']
     InfoCard: typeof import('./src/components/patients/InfoCard.vue')['default']
     MobileNavBar: typeof import('./src/components/layout/MobileNavBar.vue')['default']
     PageTitle: typeof import('./src/components/ui/PageTitle.vue')['default']
