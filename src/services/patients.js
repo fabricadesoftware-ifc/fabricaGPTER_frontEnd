@@ -160,8 +160,9 @@ export async function createPatient (request, payload) {
 }
 
 export function registerPublicPatient (request, values) {
+  const body = buildPatientPayload(values)
   return request(endpoints.publicRegistration, {
-    method: 'POST', body: buildPatientPayload(values, { publicRegistration: true }), anonymous: true,
+    method: 'POST', body, anonymous: true,
   })
 }
 
@@ -174,10 +175,9 @@ export async function deletePatient (request, id) {
   return request(endpoints.patient(id), { method: 'DELETE' })
 }
 
-export function buildPatientPayload (values, { editing = false, usernameEditable = true, publicRegistration = false } = {}) {
+export function buildPatientPayload (values, { editing = false, usernameEditable = true } = {}) {
   const payload = {}
   for (const key of PATIENT_WRITABLE_FIELDS) {
-    if (publicRegistration && ['username', 'password', 'confirmation'].includes(key)) continue
     if (key === 'dominant_hand' && !normalizeHand(values[key])) continue
     if (key === 'username' && editing && !usernameEditable) continue
     if (key === 'password' || key === 'confirmation') {

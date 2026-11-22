@@ -104,11 +104,7 @@
         typeof value === 'string' && !['password', 'confirmation'].includes(key) ? value.trim() : value,
       ]),
     )
-    const validation = validatePatient(values, {
-      editing: editing.value,
-      usernameRequired: !props.publicRegistration,
-      passwordRequired: !props.publicRegistration && !editing.value,
-    })
+    const validation = validatePatient(values, { editing: editing.value })
     Object.assign(errors, validation)
     if (hasValidationErrors(validation)) {
       await showError('Revise os campos informados.')
@@ -198,10 +194,6 @@
     },
   ])
 
-  const visibleFields = computed(() => props.publicRegistration
-    ? fields.value.filter(field => field.key !== 'username' && field.type !== 'password')
-    : fields.value)
-
   const states = [
     'AC',
     'AL',
@@ -233,6 +225,7 @@
   ]
 
   function labelFor (field) {
+    if (props.publicRegistration && field.key === 'password') return 'Senha'
     if (field.key === 'password') return editing.value ? 'Nova senha (opcional)' : 'Senha inicial'
     if (field.key === 'confirmation') return editing.value ? 'Confirmar nova senha' : 'Confirmar senha'
     return field.label
@@ -289,7 +282,7 @@
       variant="tonal"
     >{{ formError }}</v-alert>
 
-    <template v-for="field in visibleFields" :key="field.key">
+    <template v-for="field in fields" :key="field.key">
       <v-text-field
         :autocomplete="field.type === 'password' ? 'new-password' : field.autocomplete"
         density="comfortable"
