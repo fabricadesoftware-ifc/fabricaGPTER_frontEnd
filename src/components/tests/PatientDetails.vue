@@ -1,5 +1,5 @@
 <script setup>
-  import { Calendar, Check, Clock, Hand, Stethoscope, User } from 'lucide-vue-next';
+  import { Calendar, Check, Clock, Stethoscope, User } from 'lucide-vue-next';
   import { useDataStore } from '@/stores/data'
   import { useRouter } from 'vue-router'
   const data = useDataStore()
@@ -58,7 +58,6 @@
           [User, 'Paciente', patient.name],
           [Stethoscope, 'Profissional', patient.profissional || patient.professional_name],
           [Clock, 'Tipo de teste', patient.type],
-          [Hand, 'Nº de repetições', patient.repetitions],
           [Calendar, 'Data', patient.date],
         ]" :key="field[1]">
           <component :is="field[0]" aria-hidden="true" />

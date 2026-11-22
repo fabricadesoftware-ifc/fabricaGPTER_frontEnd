@@ -51,6 +51,7 @@ export const useDataStore = defineStore('data', () => {
   function rememberTest (raw, generation) {
     if (generation !== sessionGeneration()) throw new Error('Sessão encerrada.')
     const record = normalizeAssessment(raw)
+    if (!record) return null
     tests.value = [...tests.value.filter(test => String(test.id) !== String(record.id)), record]
     return record
   }

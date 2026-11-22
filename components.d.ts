@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppLogo: typeof import('./src/components/ui/AppLogo.vue')['default']
+    AssessmentDetails: typeof import('./src/components/tests/AssessmentDetails.vue')['default']
     CancelButton: typeof import('./src/components/ui/CancelButton.vue')['default']
     ChangePasswordForm: typeof import('./src/components/profile/ChangePasswordForm.vue')['default']
     ConfirmButton: typeof import('./src/components/ui/ConfirmButton.vue')['default']
