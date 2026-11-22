@@ -6,6 +6,7 @@ export function homeFor (user) {
 
 export function createAuthGuard (session) {
   return async to => {
+    if (to.meta?.publicRegistration) return true
     const wasInitialized = session.initialized
     await session.initialize()
     const requiredProfile = /^\/patient(?:\/|$)/.test(to.path) ? 'paciente'

@@ -84,12 +84,12 @@ function resolveError (response, data, retryAfterHeader) {
   }
 }
 
-async function send (url, { method, headers, body }) {
+async function send (url, { method, headers, body, credentials }) {
   try {
     return await fetch(url, {
       method,
       headers,
-      credentials: 'include',
+      credentials,
       body: body === undefined ? undefined : JSON.stringify(body),
       signal: AbortSignal.timeout(15000),
     })
@@ -119,15 +119,18 @@ export function createApiClient ({ getCsrfToken, setCsrfToken, onUnauthorized })
     return csrfRequest
   }
 
-  function buildHeaders (method, body) {
+  function buildHeaders (method, body, anonymous) {
     const headers = { Accept: 'application/json' }
     if (body !== undefined) headers['Content-Type'] = 'application/json'
-    if (!['GET', 'HEAD', 'OPTIONS'].includes(method) && getCsrfToken()) headers['X-CSRFToken'] = getCsrfToken()
+    if (!anonymous && !['GET', 'HEAD', 'OPTIONS'].includes(method) && getCsrfToken()) headers['X-CSRFToken'] = getCsrfToken()
     return headers
   }
 
-  async function request (path, { method = 'GET', body, handleAuth = true, renewCsrf = true } = {}) {
-    const response = await send(`${base}${path}`, { method, headers: buildHeaders(method, body), body })
+  async function request (path, { method = 'GET', body, handleAuth = true, renewCsrf = true, anonymous = false } = {}) {
+    const response = await send(`${base}${path}`, {
+      method, body, headers: buildHeaders(method, body, anonymous),
+      credentials: anonymous ? 'omit' : 'include',
+    })
     if (response.status === 204 || response.status === 205) return null
 
     const { data, html, parsed, empty } = parsePayload(await response.text())
@@ -140,8 +143,8 @@ export function createApiClient ({ getCsrfToken, setCsrfToken, onUnauthorized })
     }
 
     const details = resolveError(response, data, response.headers.get('Retry-After'))
-    if (response.status === 401 && handleAuth) onUnauthorized()
-    if (details.code === 'csrf_failed' && renewCsrf) {
+    if (response.status === 401 && !anonymous && handleAuth) onUnauthorized()
+    if (details.code === 'csrf_failed' && !anonymous && renewCsrf) {
       await refreshCsrf()
       details.message = 'A proteção de segurança foi atualizada. Repita a ação. Se o erro continuar, verifique a origem autorizada no servidor.'
     }

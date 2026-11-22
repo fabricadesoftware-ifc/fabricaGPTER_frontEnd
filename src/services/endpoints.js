@@ -6,6 +6,7 @@ export const endpoints = {
   me: '/auth/me/',
   logout: '/auth/logout/',
   changePassword: '/auth/change-password/',
+  publicRegistration: '/patients/register/',
   patients: '/patients/',
   patient: id => `/patients/${encodeURIComponent(id)}/`,
   assessments: '/assessments/',

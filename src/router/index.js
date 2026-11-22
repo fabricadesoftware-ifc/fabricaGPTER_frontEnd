@@ -13,8 +13,8 @@ import { useSessionStore } from '../stores/auth.js'
 import { createAuthGuard } from './authGuard.js'
 
 const routesWithLayouts = routes.map(route => {
-  // Verifica rotas de autenticação e aplica o layout 'auth'
-  if (route.path.startsWith('/auth') || route.path.startsWith('/errors')) {
+  // O layout é aplicado à rota pai gerada para cada diretório de páginas.
+  if (/^\/(auth|cadastro|errors)(\/|$)/.test(route.path)) {
     return {
       ...route,
       meta: {

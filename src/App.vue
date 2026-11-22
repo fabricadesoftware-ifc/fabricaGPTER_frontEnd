@@ -4,7 +4,7 @@
     <v-overlay class="align-center justify-center" :model-value="session.initializing" persistent>
       <v-progress-circular aria-label="Restaurando sessão" indeterminate />
     </v-overlay>
-    <v-snackbar :model-value="!!message && route.path !== '/auth/sign-in'" :timeout="-1">
+    <v-snackbar :model-value="!!message && !route.meta.publicRegistration && route.path !== '/auth/sign-in'" :timeout="-1">
       {{ message }}
       <template #actions>
         <v-btn @click="session.error = ''; session.notice = ''">Fechar</v-btn>
@@ -23,7 +23,7 @@
   const message = computed(() => session.error || session.notice)
   let timer
   async function checkSession () {
-    if (!session.isAuthenticated || session.loading || document.visibilityState !== 'visible') return
+    if (route.meta.publicRegistration || !session.isAuthenticated || session.loading || document.visibilityState !== 'visible') return
     try { await session.checkSession() } catch (failure) { session.error = failure.message }
   }
   watch(() => session.isAuthenticated, authenticated => {
