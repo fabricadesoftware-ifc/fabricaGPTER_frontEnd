@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, onMounted, reactive, ref, watch } from 'vue'
+  import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { useDataStore } from '@/stores/data'
   import { useSessionStore } from '@/stores/auth'
@@ -12,9 +12,13 @@
   } from '@/utils/patient'
   import { formatCep, useCep } from '@/composables/useCep'
   import { applyServerFieldErrors } from '@/services/errors'
+  import { registerPublicPatient } from '@/services/patients'
   import ConfirmButton from '@/components/ui/ConfirmButton.vue'
   import CancelButton from '@/components/ui/CancelButton.vue'
 
+  const props = defineProps({ publicRegistration: Boolean })
+  const emit = defineEmits(['registered'])
+  const publicSubmitting = ref(false)
   const router = useRouter()
   const route = useRoute()
   const data = useDataStore()
@@ -23,6 +27,7 @@
   const form = reactive(emptyPatientForm())
   const errors = reactive({})
   const formError = ref('')
+  const errorSummary = ref(null)
   const loading = ref(false)
   const loadError = ref('')
   const usernameEditable = ref(true)
@@ -30,7 +35,7 @@
 
   const editing = computed(() => route.path.includes('edit-patient'))
   const patientId = computed(() => route.query.id ?? '')
-  const busy = computed(() => data.patientSubmitting)
+  const busy = computed(() => props.publicRegistration ? publicSubmitting.value : data.patientSubmitting)
   const { loading: cepLoading, error: cepError } = useCep(form, { enabled: () => !loading.value })
 
   function clearErrors () {
@@ -82,6 +87,12 @@
     formError.value = ''
   }
 
+  async function showError (message) {
+    formError.value = message
+    await nextTick()
+    errorSummary.value?.$el.focus()
+  }
+
   async function submit () {
     if (busy.value || loading.value || loadError.value) return
     clearErrors()
@@ -93,10 +104,14 @@
         typeof value === 'string' && !['password', 'confirmation'].includes(key) ? value.trim() : value,
       ]),
     )
-    const validation = validatePatient(values, { editing: editing.value })
+    const validation = validatePatient(values, {
+      editing: editing.value,
+      usernameRequired: !props.publicRegistration,
+      passwordRequired: !props.publicRegistration && !editing.value,
+    })
     Object.assign(errors, validation)
     if (hasValidationErrors(validation)) {
-      formError.value = 'Revise os campos informados.'
+      await showError('Revise os campos informados.')
       return
     }
     if (editing.value && !patientId.value) {
@@ -105,6 +120,12 @@
     }
 
     try {
+      if (props.publicRegistration) {
+        publicSubmitting.value = true
+        await registerPublicPatient(session.request, values)
+        emit('registered')
+        return
+      }
       const saved = await data.savePatient(values, { id: patientId.value, editing: editing.value })
       if (!saved) return
       session.notice = editing.value
@@ -131,10 +152,12 @@
       for (const [key, message] of Object.entries(serverErrors)) {
         if (key in form) errors[key] = message
       }
-      formError.value = serverErrors.non_field_errors
+      await showError(serverErrors.non_field_errors
         || serverErrors.detail
         || failure.message
-        || 'Não foi possível salvar o paciente.'
+        || 'Não foi possível salvar o paciente.')
+    } finally {
+      publicSubmitting.value = false
     }
   }
 
@@ -174,6 +197,10 @@
       type: 'text',
     },
   ])
+
+  const visibleFields = computed(() => props.publicRegistration
+    ? fields.value.filter(field => field.key !== 'username' && field.type !== 'password')
+    : fields.value)
 
   const states = [
     'AC',
@@ -254,13 +281,15 @@
   >
     <v-alert
       v-if="formError"
+      ref="errorSummary"
       class="mb-4"
       role="alert"
+      tabindex="-1"
       type="error"
       variant="tonal"
     >{{ formError }}</v-alert>
 
-    <template v-for="field in fields" :key="field.key">
+    <template v-for="field in visibleFields" :key="field.key">
       <v-text-field
         :autocomplete="field.type === 'password' ? 'new-password' : field.autocomplete"
         density="comfortable"
@@ -352,11 +381,11 @@
     </v-row>
 
     <v-row class="ma-0">
-      <v-col class="pa-0 py-0" cols="6">
+      <v-col v-if="!publicRegistration" class="pa-0 py-0" cols="6">
         <CancelButton text="Cancelar" type="button" @click="router.back()" />
       </v-col>
-      <v-col class="pr-0 py-0" cols="6">
-        <ConfirmButton :disabled="busy || loading" :loading="busy" text="Salvar" type="submit" />
+      <v-col :class="publicRegistration ? 'pa-0' : 'pr-0 py-0'" :cols="publicRegistration ? 12 : 6">
+        <ConfirmButton :disabled="busy || loading" :loading="busy" :text="publicRegistration ? 'Concluir cadastro' : 'Salvar'" type="submit" />
       </v-col>
     </v-row>
   </v-form>

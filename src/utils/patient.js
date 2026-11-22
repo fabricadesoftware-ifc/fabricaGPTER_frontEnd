@@ -35,7 +35,7 @@ export function patientFormFromRecord (patient) {
   }
 }
 
-export function validatePatient (values, { editing = false, usernameRequired = true } = {}) {
+export function validatePatient (values, { editing = false, usernameRequired = true, passwordRequired = !editing } = {}) {
   const errors = {}
   if ((!editing || values.dominant_hand) && !dominantHands.includes(values.dominant_hand)) {
     errors.dominant_hand = 'Selecione a mão dominante.'
@@ -61,7 +61,12 @@ export function validatePatient (values, { editing = false, usernameRequired = t
     errors.cep = 'O CEP deve conter 8 dígitos.'
   }
 
-  if (!editing && !values.password) {
+  return { ...errors, ...validatePatientPassword(values, passwordRequired) }
+}
+
+function validatePatientPassword (values, passwordRequired) {
+  const errors = {}
+  if (passwordRequired && !values.password) {
     errors.password = 'Informe a senha inicial.'
   } else if (values.password && values.password.length < PASSWORD_MIN_LENGTH) {
     errors.password = `A senha deve ter pelo menos ${PASSWORD_MIN_LENGTH} caracteres.`
