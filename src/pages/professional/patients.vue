@@ -5,6 +5,7 @@
   import { useRouter } from 'vue-router'
 
   import PageTitle from '@/components/ui/PageTitle.vue'
+  import RegistrationShare from '@/components/patients/RegistrationShare.vue'
   import PatientsList from '@/components/patients/PatientsList.vue'
 
   import { CirclePlus } from 'lucide-vue-next'
@@ -74,6 +75,19 @@
         >Registrar paciente</v-btn>
       </v-col>
     </v-row>
+
+    <div class="d-flex flex-wrap align-center ga-2 my-4">
+      <RegistrationShare />
+      <v-btn
+        class="text-none"
+        :disabled="data.patientsLoading"
+        prepend-icon="mdi-refresh"
+        variant="text"
+        @click="reload"
+      >
+        Atualizar lista
+      </v-btn>
+    </div>
 
     <v-row justify="center">
       <v-col v-if="mdAndUp" cols="auto">

@@ -24,6 +24,7 @@ declare module 'vue' {
     PersonalInfos: typeof import('./src/components/profile/PersonalInfos.vue')['default']
     ProfessionalInfos: typeof import('./src/components/profile/ProfessionalInfos.vue')['default']
     ProfileAvatar: typeof import('./src/components/profile/ProfileAvatar.vue')['default']
+    RegistrationShare: typeof import('./src/components/patients/RegistrationShare.vue')['default']
     RemakeButton: typeof import('./src/components/ui/RemakeButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
