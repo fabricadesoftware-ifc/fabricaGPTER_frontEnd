@@ -48,13 +48,14 @@
     <v-card-text :class="['pa-0', { 'mt-6': mdAndUp, 'mt-4': smAndDown }]">
       <v-progress-linear v-if="loading" aria-label="Carregando avaliações" indeterminate />
       <v-alert v-else-if="error" role="alert" type="error">{{ error }}</v-alert>
+      <p v-else-if="!tests.length">Nenhuma avaliação encontrada.</p>
       <v-list v-else class="d-flex flex-column rounded-xl pa-0">
         <v-list-item
           v-for="test in tests"
           :key="test.id"
           :aria-label="test.name + ' em ' + formatDateBR(test.date)"
           class="pa-0"
-          :to="{ path: test.status === 'running' ? '/professional/test-progress' : '/professional/test-result', query: { id: test.id } }"
+          :to="{ path: '/professional/assessment-details', query: { id: test.id, patientId } }"
         >
           <div class="d-flex flex-row justify-space-between align-center w-100">
             <v-list-item-title class="text-body-1">{{ test.name }}</v-list-item-title>

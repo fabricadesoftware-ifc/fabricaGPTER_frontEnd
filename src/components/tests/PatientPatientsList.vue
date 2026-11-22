@@ -15,7 +15,7 @@
 <template>
   <v-list border="md" class="w-100 rounded-xl pa-0">
     <template v-for="(patient, i) in patients" :key="patient.id">
-      <v-list-item link :title="patient.name" @click="router.push({ path: '/patient/test-result', query: { id: patient.id } })">
+      <v-list-item link :title="patient.name" @click="router.push({ path: '/patient/assessment-details', query: { id: patient.id } })">
         <template #append>
           <p class="text-subtitle-1">{{ formatDateBR(patient.date) }}</p>
         </template>

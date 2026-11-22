@@ -53,8 +53,9 @@
     </v-row>
     <v-row justify="center">
       <v-col>
-      <v-progress-linear v-if="loading" aria-label="Carregando avaliações" indeterminate />
-      <v-alert v-else-if="error" role="alert" type="error">{{ error }}</v-alert>
+        <v-progress-linear v-if="loading" aria-label="Carregando avaliações" indeterminate />
+        <v-alert v-else-if="error" role="alert" type="error">{{ error }}</v-alert>
+        <v-alert v-else-if="!PacientesPaginados.length" type="info" variant="tonal">Nenhuma avaliação encontrada.</v-alert>
         <PatientPatientsList v-else :patients="PacientesPaginados" />
         <v-pagination v-model="currentPage" :length="totalPaginas" />
       </v-col>
