@@ -1,4 +1,5 @@
 <script setup>
-  import Manual from '../professional/manual.vue'
+  import ManualContent from '@/components/ui/ManualContent.vue'
 </script>
-<template><Manual /></template>
+
+<template><ManualContent /></template>

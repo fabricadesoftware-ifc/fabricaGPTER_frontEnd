@@ -5,7 +5,7 @@ export function useLogout () {
   const session = useSessionStore()
   const router = useRouter()
   async function selectSetting (setting) {
-    if (setting.name === 'Sair' && await session.logout()) await router.replace({ name: '/auth/sign-in' })
+    if (setting.logout && await session.logout()) await router.replace({ name: '/auth/sign-in' })
   }
   return { session, selectSetting }
 }

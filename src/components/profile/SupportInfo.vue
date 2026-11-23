@@ -1,14 +1,14 @@
 <script setup>
   import { computed, onMounted } from 'vue'
-  import { useDataStore } from '@/stores/data'
   import { Mail, Phone } from 'lucide-vue-next'
+  import { useDataStore } from '@/stores/data'
 
   const data = useDataStore()
 
   const contacts = computed(() => {
     const items = []
-    if (data.support?.email) items.push({ name: 'Email', icon: Mail, info: data.support.email })
-    if (data.support?.phone) items.push({ name: 'Telefone', icon: Phone, info: data.support.phone })
+    if (data.support?.email) items.push({ name: 'E-mail', icon: Mail, info: data.support.email, href: `mailto:${data.support.email}` })
+    if (data.support?.phone) items.push({ name: 'Telefone', icon: Phone, info: data.support.phone, href: `tel:${data.support.phone.replace(/[^\d+]/g, '')}` })
     return items
   })
 
@@ -20,42 +20,39 @@
 </script>
 
 <template>
-  <v-card class="pa-4 rounded-xl elevation-2">
-    <v-card-title class="text-h6 font-weight-bold pa-0 mb-6">Suporte</v-card-title>
+  <v-card v-if="data.supportLoading"><v-progress-linear aria-label="Carregando contatos de suporte" indeterminate /><div class="pa-8" /></v-card>
 
-    <v-progress-linear
-      v-if="data.supportLoading"
-      aria-label="Carregando contatos de suporte"
-      class="mb-4"
-      indeterminate
-      rounded
-    />
+  <v-alert
+    v-else-if="data.supportError"
+    role="alert"
+    type="error"
+  >
+    {{ data.supportError }}
+    <template #append><v-btn size="small" variant="outlined" @click="load">Tentar novamente</v-btn></template>
+  </v-alert>
 
-    <v-alert
-      v-else-if="data.supportError"
-      role="alert"
-      type="error"
-      variant="tonal"
+  <div v-else-if="contacts.length" class="contacts">
+    <v-card
+      v-for="info in contacts"
+      :key="info.name"
+      class="contact"
+      :href="info.href"
     >
-      <div class="d-flex flex-column ga-3">
-        <span>{{ data.supportError }}</span>
-        <v-btn size="small" variant="outlined" @click="load">Tentar novamente</v-btn>
-      </div>
-    </v-alert>
+      <span class="contact__icon"><component :is="info.icon" :size="20" /></span>
+      <span>
+        <span class="contact__label">{{ info.name }}</span>
+        <span class="contact__value">{{ info.info }}</span>
+      </span>
+    </v-card>
+  </div>
 
-    <template v-else>
-      <v-row v-for="info in contacts" :key="info.name" class="ga-2">
-        <v-col align="center" cols="1" justify="center">
-          <Component :is="info.icon" color="#005BBB" />
-        </v-col>
-        <v-col class="d-flex flex-column">
-          <p class="text-p font-weight-bold">{{ info.name }}</p>
-          <p class="text-p opacity-80 font-weight-light">{{ info.info }}</p>
-        </v-col>
-      </v-row>
-      <p v-if="!contacts.length" class="text-body-1 text-grey-darken-1">
-        Nenhum contato de suporte disponível no momento.
-      </p>
-    </template>
-  </v-card>
+  <v-card v-else class="pa-8 text-center text-muted">Nenhum contato de suporte disponível no momento.</v-card>
 </template>
+
+<style scoped>
+.contacts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+.contact { display: flex; align-items: center; gap: 14px; padding: 18px 20px; }
+.contact__icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--app-primary-soft); color: var(--app-primary); flex: none; }
+.contact__label { display: block; font-size: 0.8125rem; color: var(--app-ink-subtle); }
+.contact__value { display: block; font-weight: 600; overflow-wrap: anywhere; }
+</style>

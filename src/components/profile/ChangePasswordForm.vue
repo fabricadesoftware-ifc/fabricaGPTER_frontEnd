@@ -10,11 +10,18 @@
   const formError = ref('')
   const success = ref('')
   const busy = ref(false)
+  const showPasswords = ref(false)
 
   const canSubmit = computed(() => !busy.value && Boolean(form.current) && Boolean(form.password) && Boolean(form.confirmation))
 
   function clearErrors () {
     for (const key of Object.keys(errors)) delete errors[key]
+  }
+
+  function touch (key) {
+    delete errors[key]
+    formError.value = ''
+    success.value = ''
   }
 
   async function submit () {
@@ -67,86 +74,80 @@
 </script>
 
 <template>
-  <v-form
-    class="w-100 pa-4 rounded-xl mt-4"
-    @submit.prevent="submit"
-  >
-    <v-alert
-      v-if="formError"
-      class="mb-4"
-      role="alert"
-      type="error"
-      variant="tonal"
-    >{{ formError }}</v-alert>
-    <v-alert
-      v-if="success"
-      class="mb-4"
-      role="status"
-      type="success"
-      variant="tonal"
-    >{{ success }}</v-alert>
+  <v-card class="password-card">
+    <v-form class="card-section" @submit.prevent="submit">
+      <v-alert
+        v-if="formError"
+        class="mb-4"
+        density="compact"
+        role="alert"
+        type="error"
+      >{{ formError }}</v-alert>
+      <v-alert
+        v-if="success"
+        class="mb-4"
+        density="compact"
+        role="status"
+        type="success"
+      >{{ success }}</v-alert>
 
-    <span class="text-subtitle-2 font-weight-light">Senha atual</span>
-    <v-text-field
-      v-model="form.current"
-      aria-label="Senha atual"
-      autocomplete="current-password"
-      class="mt-2"
-      :disabled="busy"
-      :error-messages="errors.current"
-      name="senha-atual"
-      required
-      rounded="lg"
-      type="password"
-      variant="outlined"
-      @update:model-value="delete errors.current; formError = ''; success = ''"
-    />
+      <v-text-field
+        v-model="form.current"
+        autocomplete="current-password"
+        class="mb-2"
+        :disabled="busy"
+        :error-messages="errors.current"
+        label="Senha atual"
+        name="senha-atual"
+        required
+        :type="showPasswords ? 'text' : 'password'"
+        @update:model-value="touch('current')"
+      />
+      <v-text-field
+        v-model="form.password"
+        autocomplete="new-password"
+        class="mb-2"
+        :disabled="busy"
+        :error-messages="errors.password"
+        hint="Mínimo de 8 caracteres"
+        label="Nova senha"
+        name="nova-senha"
+        persistent-hint
+        required
+        :type="showPasswords ? 'text' : 'password'"
+        @update:model-value="touch('password')"
+      />
+      <v-text-field
+        v-model="form.confirmation"
+        autocomplete="new-password"
+        :disabled="busy"
+        :error-messages="errors.confirmation"
+        label="Confirmar nova senha"
+        name="confirmar-senha"
+        required
+        :type="showPasswords ? 'text' : 'password'"
+        @update:model-value="touch('confirmation')"
+      />
+      <v-checkbox
+        v-model="showPasswords"
+        density="compact"
+        hide-details
+        label="Mostrar senhas"
+      />
 
-    <span class="text-subtitle-2 font-weight-light">Nova senha</span>
-    <v-text-field
-      v-model="form.password"
-      aria-label="Nova senha"
-      autocomplete="new-password"
-      class="mt-2"
-      :disabled="busy"
-      :error-messages="errors.password"
-      name="nova-senha"
-      required
-      rounded="lg"
-      type="password"
-      variant="outlined"
-      @update:model-value="delete errors.password; formError = ''; success = ''"
-    />
-
-    <span class="text-subtitle-2 font-weight-light">Confirmar nova senha</span>
-    <v-text-field
-      v-model="form.confirmation"
-      aria-label="Confirmar nova senha"
-      autocomplete="new-password"
-      class="mt-2"
-      :disabled="busy"
-      :error-messages="errors.confirmation"
-      name="confirmar-senha"
-      required
-      rounded="lg"
-      type="password"
-      variant="outlined"
-      @update:model-value="delete errors.confirmation; formError = ''; success = ''"
-    />
-
-    <v-btn
-      class="darken-blue-gradient text-white w-100 rounded-xl text-none text-subtitle-1"
-      :disabled="!canSubmit"
-      height="50"
-      :loading="busy"
-      type="submit"
-    >Alterar senha
-    </v-btn>
-  </v-form>
+      <div class="d-flex justify-end mt-4">
+        <v-btn
+          color="primary"
+          :disabled="!canSubmit"
+          :loading="busy"
+          size="large"
+          type="submit"
+        >Alterar senha</v-btn>
+      </div>
+    </v-form>
+  </v-card>
 </template>
 
 <style scoped>
-.darken-blue-gradient {
-  background-image: linear-gradient(90deg, #2877d7 0%, #0d519e 100%);
-}
+.password-card { max-width: 520px; }
 </style>

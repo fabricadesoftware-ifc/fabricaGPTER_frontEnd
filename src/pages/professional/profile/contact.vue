@@ -1,27 +1,10 @@
 <script setup>
-  import { useDisplay } from 'vuetify'
-  import SubpageTitle from '@/components/ui/SubpageTitle.vue'
+  import ProfileSubpage from '@/components/profile/ProfileSubpage.vue'
   import SupportInfo from '@/components/profile/SupportInfo.vue'
-  import { ChevronLeft } from 'lucide-vue-next'
-
-  const { smAndDown } = useDisplay()
 </script>
 
 <template>
-  <v-container>
-    <div class="d-flex align-center mb-4">
-      <v-btn
-        v-if="smAndDown"
-        aria-label="Voltar"
-        class="d-flex align-center"
-        variant="text"
-        @click="$router.back()"
-      >
-        <ChevronLeft class="opacity-70 mr-2" />
-      </v-btn>
-
-      <SubpageTitle title="Contato" />
-    </div>
+  <ProfileSubpage subtitle="Fale com a equipe em caso de dúvidas ou problemas." title="Contato e suporte">
     <SupportInfo />
-  </v-container>
+  </ProfileSubpage>
 </template>

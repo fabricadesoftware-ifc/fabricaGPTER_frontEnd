@@ -13,44 +13,32 @@
 </script>
 
 <template>
-  <v-container>
-    <v-progress-linear
-      v-if="data.termsLoading"
-      aria-label="Carregando termos de uso"
-      class="mb-4"
-      indeterminate
-      rounded
-    />
+  <v-card v-if="data.termsLoading"><v-progress-linear aria-label="Carregando termos de uso" indeterminate /><div class="pa-8" /></v-card>
 
-    <v-alert
-      v-else-if="data.termsError"
-      role="alert"
-      type="error"
-      variant="tonal"
-    >
-      <div class="d-flex flex-column ga-3">
-        <span>{{ data.termsError }}</span>
-        <v-btn size="small" variant="outlined" @click="load">Tentar novamente</v-btn>
-      </div>
-    </v-alert>
+  <v-alert
+    v-else-if="data.termsError"
+    role="alert"
+    type="error"
+  >
+    {{ data.termsError }}
+    <template #append><v-btn size="small" variant="outlined" @click="load">Tentar novamente</v-btn></template>
+  </v-alert>
 
-    <template v-else>
-      <span v-if="data.termsUpdatedAt" class="opacity-50">Última atualização: {{ formatDateBR(data.termsUpdatedAt) }}</span>
-      <v-list lines="four">
-        <v-list-item v-for="(section, index) in data.terms" :key="section.id ?? index" class="my-2">
-          <div class="text-h6 font-weight-bolder my-2">{{ section.title }}</div>
-          <div class="opacity-90 text-p">{{ section.content }}</div>
-        </v-list-item>
-        <v-list-item v-if="!data.terms.length">
-          Nenhum conteúdo de termos de uso disponível no momento.
-        </v-list-item>
-      </v-list>
-    </template>
-  </v-container>
+  <v-card v-else>
+    <div class="card-section terms">
+      <p v-if="data.termsUpdatedAt" class="text-body-2 text-subtle mb-6">Última atualização: {{ formatDateBR(data.termsUpdatedAt) }}</p>
+      <section v-for="(section, index) in data.terms" :key="section.id ?? index" class="terms__section">
+        <h3>{{ section.title }}</h3>
+        <p>{{ section.content }}</p>
+      </section>
+      <p v-if="!data.terms.length" class="text-muted">Nenhum conteúdo de termos de uso disponível no momento.</p>
+    </div>
+  </v-card>
 </template>
 
-<style>
-.blue-gradient {
-  background-image: linear-gradient(180deg, #2877d7 0%, #0d519e 100%);
-}
+<style scoped>
+.terms { max-width: 72ch; }
+.terms__section + .terms__section { margin-top: 24px; }
+.terms__section h3 { font-size: 1rem; font-weight: 600; margin: 0 0 6px; }
+.terms__section p { margin: 0; color: var(--app-ink-muted); line-height: 1.65; white-space: pre-wrap; }
 </style>
