@@ -1,20 +1,27 @@
 <script setup>
   import { computed, ref, watch } from 'vue'
+  import { Activity, ChevronRight } from 'lucide-vue-next'
   import { useDataStore } from '@/stores/data'
   import { formatDateBR } from '@/utils/date'
+  import { compareAssessmentsDesc } from '@/services/assessments'
+  import StatusChip from '@/components/ui/StatusChip.vue'
+
+  const RECENT_LIMIT = 5
   const props = defineProps({ patientId: { type: [Number, String], required: true } })
   const data = useDataStore()
-  const tests = computed(() => data.tests.filter(test => String(test.patientId) === String(props.patientId) && ['running', 'finished', 'validated'].includes(test.status)).sort((a, b) => Number(b.status === 'running') - Number(a.status === 'running') || b.date.localeCompare(a.date) || String(b.id).localeCompare(String(a.id))).slice(0, 3))
-  import { useDisplay } from 'vuetify';
 
-  const { mdAndUp, smAndDown } = useDisplay();
-
+  const showAll = ref(false)
+  const allTests = computed(() => data.tests
+    .filter(test => String(test.patientId) === String(props.patientId) && ['running', 'finished', 'validated'].includes(test.status))
+    .sort((a, b) => Number(b.status === 'running') - Number(a.status === 'running') || compareAssessmentsDesc(a, b)))
+  const tests = computed(() => showAll.value ? allTests.value : allTests.value.slice(0, RECENT_LIMIT))
 
   const loading = ref(false)
   const error = ref('')
   watch(() => props.patientId, async (id, _, onCleanup) => {
     let active = true
     onCleanup(() => { active = false })
+    showAll.value = false
     error.value = ''
     loading.value = Boolean(id)
     if (!id) return
@@ -29,44 +36,59 @@
 </script>
 
 <template>
-  <v-card
-    :class="['mx-auto', { 'pa-4': smAndDown, 'pa-6': mdAndUp }]"
-    elevation="2"
-    :min-height="mdAndUp ? '349' : '300'"
-    :min-width="mdAndUp ? '590' : '90vw'"
-    rounded="xl"
-  >
-    <v-card-title
-      class="font-weight-medium pa-0"
-      :class="{ 'text-h6 mb-3': smAndDown, 'text-h5 mb-6': mdAndUp }"
-    >
-      Testes recentes
-    </v-card-title>
-
-    <v-divider color="grey-darken-4" />
-
-    <v-card-text :class="['pa-0', { 'mt-6': mdAndUp, 'mt-4': smAndDown }]">
-      <v-progress-linear v-if="loading" aria-label="Carregando avaliações" indeterminate />
-      <v-alert v-else-if="error" role="alert" type="error">{{ error }}</v-alert>
-      <p v-else-if="!tests.length">Nenhuma avaliação encontrada.</p>
-      <v-list v-else class="d-flex flex-column rounded-xl pa-0">
-        <v-list-item
-          v-for="test in tests"
-          :key="test.id"
-          :aria-label="test.name + ' em ' + formatDateBR(test.date)"
-          class="pa-0"
-          :to="{ path: '/professional/assessment-details', query: { id: test.id, patientId } }"
-        >
-          <div class="d-flex flex-row justify-space-between align-center w-100">
-            <v-list-item-title class="text-body-1">{{ test.name }}</v-list-item-title>
-            <div class="text-right">
-              <v-list-item-title class="text-grey-darken-2">
-                {{ formatDateBR(test.date) }}
-              </v-list-item-title>
-            </div>
-          </div>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
+  <v-card>
+    <div class="card-header">
+      <h2>Avaliações</h2>
+      <span v-if="allTests.length" class="text-body-2 text-subtle">{{ allTests.length }} no total</span>
+    </div>
+    <v-progress-linear v-if="loading" aria-label="Carregando avaliações" indeterminate />
+    <v-alert
+      v-else-if="error"
+      class="ma-4"
+      role="alert"
+      type="error"
+    >{{ error }}</v-alert>
+    <div v-else-if="!tests.length" class="empty">
+      <Activity class="mb-2 text-subtle" :size="28" />
+      <p class="font-weight-semibold mb-1">Nenhuma avaliação ainda</p>
+      <p class="text-body-2 text-muted">Use “Iniciar teste” para registrar a primeira.</p>
+    </div>
+    <template v-else>
+      <ul class="tests">
+        <li v-for="test in tests" :key="test.id">
+          <router-link class="test-row" :to="{ path: '/professional/assessment-details', query: { id: test.id, patientId } }">
+            <span class="test-row__icon"><Activity :size="18" /></span>
+            <span class="test-row__main">
+              <span class="test-row__title">Teste de {{ test.seconds }}s</span>
+              <span class="test-row__meta">{{ formatDateBR(test.date) }} · mão {{ (test.arm || 'não informada').toLowerCase() }}</span>
+            </span>
+            <span class="test-row__status"><StatusChip :status="test.status" /></span>
+            <ChevronRight class="text-subtle" :size="18" />
+          </router-link>
+        </li>
+      </ul>
+      <div v-if="allTests.length > RECENT_LIMIT" class="pa-2 text-center">
+        <v-btn variant="text" @click="showAll = !showAll">
+          {{ showAll ? 'Mostrar menos' : `Ver todas (${allTests.length})` }}
+        </v-btn>
+      </div>
+    </template>
   </v-card>
 </template>
+
+<style scoped>
+.empty { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 40px 24px; }
+.tests { list-style: none; margin: 0; padding: 0; }
+.tests li + li { border-top: 1px solid var(--app-border); }
+.test-row { display: flex; align-items: center; gap: 14px; padding: 14px 20px; color: inherit; text-decoration: none; transition: background-color 0.15s ease; }
+.test-row:hover { background: #F8FAFC; }
+.test-row:focus-visible { outline: 2px solid var(--app-primary); outline-offset: -2px; }
+.test-row__icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--app-primary-soft); color: var(--app-primary); flex: none; }
+.test-row__main { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.test-row__title { font-weight: 600; }
+@media (max-width: 599px) {
+  .test-row { flex-wrap: wrap; row-gap: 6px; }
+  .test-row__status { order: 3; flex-basis: 100%; padding-left: 50px; }
+}
+.test-row__meta { font-size: 0.8125rem; color: var(--app-ink-subtle); }
+</style>

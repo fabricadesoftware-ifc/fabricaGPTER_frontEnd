@@ -1,34 +1,38 @@
 <script setup>
+  import { computed, ref, watch } from 'vue'
   import { useDataStore } from '@/stores/data'
   import { useSessionStore } from '@/stores/auth'
+  import { compareAssessmentsDesc } from '@/services/assessments'
+  import PageHeader from '@/components/ui/PageHeader.vue'
+  import TestHistoryList from '@/components/tests/TestHistoryList.vue'
+
+  const PAGE_SIZE = 9
   const data = useDataStore()
   const session = useSessionStore()
-  const patients = computed(() => data.tests.filter(test => String(test.patientId) === String(session.user?.profileId) && ['finished', 'validated'].includes(test.status)).sort((a, b) => b.date.localeCompare(a.date) || String(b.id).localeCompare(String(a.id))))
-  import { computed, ref, watch } from 'vue'
-  import PageTitle from '@/components/ui/PageTitle.vue';
-  import PatientPatientsList from '@/components/tests/PatientPatientsList.vue';
-  import { useDisplay } from 'vuetify';
 
-  const { xs, mdAndUp } = useDisplay();
-  const currentPage = ref(1);
-  const clientePorPagina = 9;
+  const profileId = computed(() => session.user?.profileId)
+  const tests = computed(() => data.tests
+    .filter(test => String(test.patientId) === String(profileId.value) && ['finished', 'validated'].includes(test.status))
+    .sort(compareAssessmentsDesc))
 
-  const PacientesPaginados = computed(() => {
-    const inicio = (currentPage.value - 1) * clientePorPagina
-    return patients.value.slice(inicio, inicio + clientePorPagina)
+  const currentPage = ref(1)
+  const totalPages = computed(() => Math.max(1, Math.ceil(tests.value.length / PAGE_SIZE)))
+  const pageTests = computed(() => {
+    const start = (currentPage.value - 1) * PAGE_SIZE
+    return tests.value.slice(start, start + PAGE_SIZE)
+  })
+  watch(totalPages, total => {
+    if (currentPage.value > total) currentPage.value = total
   })
 
-  //quando for integrar com o backend, trocar *patients.value.length pelo total retornado pela API
-  const totalPaginas = computed(() =>
-    Math.max(1, Math.ceil(patients.value.length / clientePorPagina))
-  )
   const loading = ref(false)
   const error = ref('')
-  watch(() => session.user?.profileId, async (id, _, onCleanup) => {
+  watch(profileId, async (id, _, onCleanup) => {
     let active = true
     onCleanup(() => { active = false })
-    error.value = ''
+    currentPage.value = 1
     loading.value = Boolean(id)
+    error.value = id ? '' : 'Seu usuário não está vinculado a um cadastro de paciente. Entre em contato com o suporte.'
     if (!id) return
     try {
       await data.loadTests(id)
@@ -41,24 +45,29 @@
 </script>
 
 <template>
-  <v-container :class="{ 'px-8 mt-6': mdAndUp }" max-width="none">
-    <v-row align="start" class="w-full" justify="space-between">
-      <v-col class="py-0 d-flex flex-column aligin-start">
-        <PageTitle :class="{ 'mb-7': xs }" title="Historico de testes" />
-        <p
-          v-if="xs"
-          class="text-subtitle-1 font-weight-bold"
-        >Teste Realizados</p>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col>
-        <v-progress-linear v-if="loading" aria-label="Carregando avaliações" indeterminate />
-        <v-alert v-else-if="error" role="alert" type="error">{{ error }}</v-alert>
-        <v-alert v-else-if="!PacientesPaginados.length" type="info" variant="tonal">Nenhuma avaliação encontrada.</v-alert>
-        <PatientPatientsList v-else :patients="PacientesPaginados" />
-        <v-pagination v-model="currentPage" :length="totalPaginas" />
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="page page--narrow">
+    <PageHeader
+      :subtitle="loading ? 'Carregando avaliações…' : `${tests.length} ${tests.length === 1 ? 'avaliação concluída' : 'avaliações concluídas'}`"
+      title="Histórico de testes"
+    />
+    <v-card v-if="loading"><v-progress-linear aria-label="Carregando avaliações" indeterminate /><div class="pa-8" /></v-card>
+    <v-alert v-else-if="error" role="alert" type="error">{{ error }}</v-alert>
+    <v-card v-else-if="!pageTests.length" class="empty">
+      <p class="font-weight-semibold mb-1">Nenhuma avaliação ainda</p>
+      <p class="text-body-2 text-muted">Seus testes aparecerão aqui depois que o profissional finalizá-los.</p>
+    </v-card>
+    <template v-else>
+      <v-card><TestHistoryList :tests="pageTests" /></v-card>
+      <v-pagination
+        v-if="totalPages > 1"
+        v-model="currentPage"
+        class="mt-4"
+        :length="totalPages"
+      />
+    </template>
+  </div>
 </template>
+
+<style scoped>
+.empty { padding: 40px 24px; text-align: center; }
+</style>

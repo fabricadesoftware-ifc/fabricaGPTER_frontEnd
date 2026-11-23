@@ -5,7 +5,9 @@
   import { useSessionStore } from '@/stores/auth'
   import { formatLocalDateTime } from '@/utils/date'
   import { fetchPatient } from '@/services/patients'
-  import SubpageTitle from '@/components/ui/SubpageTitle.vue'
+  import { ArrowRight, Calendar, Clock, Hand, Hash, User } from 'lucide-vue-next'
+  import PageHeader from '@/components/ui/PageHeader.vue'
+  import StatusChip from '@/components/ui/StatusChip.vue'
 
   const route = useRoute()
   const data = useDataStore()
@@ -25,7 +27,6 @@
     (String(data.currentPatient?.id) === String(assessment.value?.patientId) ? data.currentPatient?.name : '') ||
     (!professional.value ? session.user?.displayName : '') || 'Não informado')
   const startedAt = computed(() => formatLocalDateTime(assessment.value?.startedAt))
-  const statusLabels = { running: 'Em andamento', finished: 'Finalizada', validated: 'Validada', cancelled: 'Cancelada' }
   let requestId = 0
 
   async function load () {
@@ -60,48 +61,64 @@
 </script>
 
 <template>
-  <v-container class="py-6" style="max-width: 960px">
-    <v-btn
-      class="mb-4 text-none"
-      prepend-icon="mdi-arrow-left"
-      :to="history"
-      variant="text"
-    >Voltar ao histórico</v-btn>
-    <SubpageTitle title="Detalhes da avaliação" />
-    <v-progress-linear v-if="loading" aria-label="Carregando avaliação" class="mt-4" indeterminate />
+  <div class="page page--narrow">
+    <PageHeader
+      :back="history"
+      :back-label="professional ? 'Paciente' : 'Histórico'"
+      :subtitle="assessment ? patientName : ''"
+      :title="assessment ? `Avaliação #${assessment.id}` : 'Detalhes da avaliação'"
+    >
+      <template v-if="assessment" #badge><StatusChip :status="assessment.status" /></template>
+    </PageHeader>
+
+    <v-progress-linear v-if="loading" aria-label="Carregando avaliação" indeterminate />
     <v-alert
       v-else-if="error"
-      class="mt-4"
       role="alert"
       type="error"
-      variant="tonal"
     >
-      <div>{{ error }}</div>
-      <v-btn class="mt-2 text-none" size="small" variant="outlined" @click="load">Tentar novamente</v-btn>
+      {{ error }}
+      <template #append>
+        <v-btn size="small" variant="outlined" @click="load">Tentar novamente</v-btn>
+      </template>
     </v-alert>
-    <v-alert v-else-if="!assessment" class="mt-4" type="info" variant="tonal">Nenhuma avaliação disponível.</v-alert>
-    <v-card v-else class="mt-4 pa-5 rounded-xl" elevation="2">
-      <v-card-title class="pa-0 mb-4">Avaliação {{ assessment.id }}</v-card-title>
-      <v-divider class="mb-4" />
-      <dl class="assessment-details">
-        <div><dt>Paciente</dt><dd>{{ patientName }}</dd></div>
-        <div><dt>Identificação do paciente</dt><dd>{{ assessment.patientId ?? 'Não informada' }}</dd></div>
-        <div><dt>Profissional</dt><dd>{{ assessment.professional_name || assessment.profissional || assessment.professional?.name || 'Não informado' }}</dd></div>
-        <div><dt>Início</dt><dd>{{ startedAt || 'Não informado' }}</dd></div>
-        <div><dt>Situação</dt><dd>{{ statusLabels[assessment.status] || assessment.status || 'Não informada' }}</dd></div>
-        <div><dt>Duração</dt><dd>{{ assessment.seconds != null ? `${assessment.seconds} segundos` : 'Não informada' }}</dd></div>
-        <div><dt>Mão testada</dt><dd>{{ assessment.arm || 'Não informada' }}</dd></div>
-      </dl>
-      <div class="mt-5"><strong>Observações</strong><p class="observations mt-1">{{ assessment.observations || 'Nenhuma observação registrada.' }}</p></div>
-      <v-btn v-if="['finished', 'validated'].includes(assessment.status)" class="mt-5 text-none" color="primary" :to="{ path: professional ? '/professional/test-result' : '/patient/test-result', query: { id: assessment.id } }">Ver resultados disponíveis</v-btn>
-      <v-btn v-else-if="professional && assessment.status === 'running'" class="mt-5 text-none" color="primary" :to="{ path: '/professional/test-progress', query: { id: assessment.id } }">Acessar teste em andamento</v-btn>
+    <v-alert v-else-if="!assessment" type="info">Nenhuma avaliação disponível.</v-alert>
+
+    <v-card v-else>
+      <div class="card-section">
+        <dl class="info-list">
+          <div><dt><User :size="14" />Paciente</dt><dd>{{ patientName }}</dd></div>
+          <div><dt><Hash :size="14" />Identificação do paciente</dt><dd>{{ assessment.patientId ?? 'Não informada' }}</dd></div>
+          <div><dt><Calendar :size="14" />Início</dt><dd>{{ startedAt || 'Não informado' }}</dd></div>
+          <div><dt><Clock :size="14" />Duração</dt><dd>{{ assessment.seconds != null ? `${assessment.seconds} segundos` : 'Não informada' }}</dd></div>
+          <div><dt><Hand :size="14" />Mão testada</dt><dd>{{ assessment.arm || 'Não informada' }}</dd></div>
+        </dl>
+      </div>
+      <v-divider />
+      <div class="card-section">
+        <h2 class="notes-title">Observações</h2>
+        <p class="notes" :class="{ 'text-subtle': !assessment.observations }">{{ assessment.observations || 'Nenhuma observação registrada.' }}</p>
+      </div>
+      <template v-if="['finished', 'validated'].includes(assessment.status) || (professional && assessment.status === 'running')">
+        <v-divider />
+        <div class="d-flex justify-end pa-4">
+          <v-btn
+            v-if="['finished', 'validated'].includes(assessment.status)"
+            color="primary"
+            :to="{ path: professional ? '/professional/test-result' : '/patient/test-result', query: { id: assessment.id } }"
+          >Ver resultado<ArrowRight class="ml-2" :size="16" /></v-btn>
+          <v-btn
+            v-else
+            color="primary"
+            :to="{ path: '/professional/test-progress', query: { id: assessment.id } }"
+          >Continuar teste<ArrowRight class="ml-2" :size="16" /></v-btn>
+        </div>
+      </template>
     </v-card>
-  </v-container>
+  </div>
 </template>
 
 <style scoped>
-.assessment-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 1rem; }
-.assessment-details dt { font-weight: 600; }
-.assessment-details dd { margin: 0; overflow-wrap: anywhere; }
-.observations { white-space: pre-wrap; overflow-wrap: anywhere; }
+.notes-title { font-size: 0.875rem; font-weight: 600; margin: 0 0 8px; }
+.notes { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
 </style>
