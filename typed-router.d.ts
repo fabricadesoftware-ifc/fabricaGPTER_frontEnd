@@ -28,7 +28,6 @@ declare module 'vue-router/auto-routes' {
     '/patient/profile/contact': RouteRecordInfo<'/patient/profile/contact', '/patient/profile/contact', Record<never, never>, Record<never, never>>,
     '/patient/profile/infos': RouteRecordInfo<'/patient/profile/infos', '/patient/profile/infos', Record<never, never>, Record<never, never>>,
     '/patient/profile/terms-of-use': RouteRecordInfo<'/patient/profile/terms-of-use', '/patient/profile/terms-of-use', Record<never, never>, Record<never, never>>,
-    '/patient/terms-of-use': RouteRecordInfo<'/patient/terms-of-use', '/patient/terms-of-use', Record<never, never>, Record<never, never>>,
     '/patient/test-history': RouteRecordInfo<'/patient/test-history', '/patient/test-history', Record<never, never>, Record<never, never>>,
     '/patient/test-result': RouteRecordInfo<'/patient/test-result', '/patient/test-result', Record<never, never>, Record<never, never>>,
     '/professional/assessment-details': RouteRecordInfo<'/professional/assessment-details', '/professional/assessment-details', Record<never, never>, Record<never, never>>,
