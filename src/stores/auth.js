@@ -90,7 +90,7 @@ export const useSessionStore = defineStore('session', () => {
     resetSessionScope()
     try {
       await initialize()
-      await api.refreshCsrf()
+      if (!csrfToken.value) await api.refreshCsrf()
       authVersion++
       const result = await api.request(endpoints.login, { method: 'POST', body: { username, password }, handleAuth: false })
       applyUser(result.user)
@@ -109,7 +109,7 @@ export const useSessionStore = defineStore('session', () => {
     loading.value = true
     authVersion++
     error.value = ''
-    resetSessionScope()
+    // Private data is cleared only after the server confirms the logout.
     try {
       if (!csrfToken.value) await api.refreshCsrf()
       await api.request(endpoints.logout, { method: 'POST', body: {}, handleAuth: false })

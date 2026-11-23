@@ -181,7 +181,8 @@ export function buildPatientPayload (values, { editing = false, usernameEditable
     if (key === 'dominant_hand' && !normalizeHand(values[key])) continue
     if (key === 'username' && editing && !usernameEditable) continue
     if (key === 'password' || key === 'confirmation') {
-      if (!values[key]) continue
+      // PATCH /patients/:id/ rejects password changes; the patient uses change-password.
+      if (editing || !values[key]) continue
       payload[key] = values[key]
       continue
     }

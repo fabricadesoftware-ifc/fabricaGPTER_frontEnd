@@ -102,11 +102,6 @@ export async function fetchProfile (request) {
 
 const COMPLEMENT_FIELDS = ['name', 'email', 'phone', 'birthDate', 'cpf', 'photo', 'username']
 
-export function profileNeedsPatientComplement (profile) {
-  if (!profile || typeof profile !== 'object') return true
-  return COMPLEMENT_FIELDS.some(key => !profile[key])
-}
-
 // /profile/ remains the primary source. Patient fields are used only to fill
 // blanks, so a more complete response from /profile/ is never overwritten.
 export function complementProfileWithPatient (profile, patient) {

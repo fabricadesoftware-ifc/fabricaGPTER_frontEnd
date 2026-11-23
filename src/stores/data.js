@@ -14,7 +14,7 @@ import { complementProfileWithPatient, fetchProfile } from '../services/profile.
 import { fetchSupport, fetchTerms } from '../services/content.js'
 
 import { endpoints } from '../services/endpoints.js'
-import { createAssessment, normalizeAssessment, updateAssessment } from '../services/assessments.js'
+import { createAssessment, fetchAllAssessments, normalizeAssessment, updateAssessment } from '../services/assessments.js'
 
 export const useDataStore = defineStore('data', () => {
   const session = useSessionStore()
@@ -69,8 +69,14 @@ export const useDataStore = defineStore('data', () => {
 
   async function loadTests (patientId) {
     const generation = sessionGeneration()
-    const response = await session.request(`${endpoints.assessments}?patient=${encodeURIComponent(patientId)}`)
-    for (const raw of response.results ?? response) rememberTest(raw, generation)
+    const records = await fetchAllAssessments(session.request, patientId)
+    if (generation !== sessionGeneration()) throw new Error('Sessão encerrada.')
+    const loaded = records.map(normalizeAssessment).filter(Boolean)
+    // Replace this patient's cached list so removed records do not linger.
+    tests.value = [
+      ...tests.value.filter(test => String(test.patientId) !== String(patientId)),
+      ...loaded,
+    ]
   }
 
   async function updateTest (id, changes) {
@@ -231,17 +237,14 @@ export const useDataStore = defineStore('data', () => {
     deletingPatientId.value = String(id)
     const generation = sessionGeneration()
     try {
+      // The API soft-deletes: the patient stays listed with status "inativo".
       await deletePatientRequest(session.request, id)
       if (generation !== sessionGeneration()) return true
 
-      patients.value = patients.value.filter(patient => String(patient.id ?? '') !== String(id))
-      patientsTotal.value = Math.max(0, patientsTotal.value - 1)
+      const index = patients.value.findIndex(patient => String(patient.id ?? '') === String(id))
+      if (index !== -1) patients.value.splice(index, 1, { ...patients.value[index], status: 'inativo' })
       if (isCurrentPatient(id, currentPatient.value)) {
-        currentPatient.value = null
-        patientError.value = ''
-      }
-      if (!patients.value.length && patientsPage.value > 1) {
-        patientsPage.value -= 1
+        currentPatient.value = { ...currentPatient.value, status: 'inativo' }
       }
       await loadPatients({ page: patientsPage.value })
       return true

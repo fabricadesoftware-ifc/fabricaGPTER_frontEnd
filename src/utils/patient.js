@@ -6,6 +6,16 @@ export function normalizeHand (value) {
   return dominantHands.includes(value) ? value : ''
 }
 
+const PATIENT_STATUS_LABELS = { ativo: 'Ativo', inativo: 'Inativo' }
+
+export function patientStatusLabel (status) {
+  return PATIENT_STATUS_LABELS[String(status || '').toLowerCase()] || status || ''
+}
+
+export function isInactivePatient (patient) {
+  return String(patient?.status || '').toLowerCase() === 'inativo'
+}
+
 export function emptyPatientForm () {
   return {
     username: '',

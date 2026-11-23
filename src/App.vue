@@ -4,10 +4,14 @@
     <v-overlay class="align-center justify-center" :model-value="session.initializing" persistent>
       <v-progress-circular aria-label="Restaurando sessão" indeterminate />
     </v-overlay>
-    <v-snackbar :model-value="!!message && !route.meta.publicRegistration && route.path !== '/auth/sign-in'" :timeout="-1">
+    <v-snackbar
+      :model-value="!!message && !route.meta.publicRegistration && route.path !== '/auth/sign-in'"
+      :timeout="session.error ? -1 : 6000"
+      @update:model-value="open => { if (!open) clearMessage() }"
+    >
       {{ message }}
       <template #actions>
-        <v-btn @click="session.error = ''; session.notice = ''">Fechar</v-btn>
+        <v-btn @click="clearMessage">Fechar</v-btn>
       </template>
     </v-snackbar>
   </v-app>
@@ -22,6 +26,10 @@
   const router = useRouter()
   const message = computed(() => session.error || session.notice)
   let timer
+  function clearMessage () {
+    session.error = ''
+    session.notice = ''
+  }
   async function checkSession () {
     if (route.meta.publicRegistration || !session.isAuthenticated || session.loading || document.visibilityState !== 'visible') return
     try { await session.checkSession() } catch (failure) { session.error = failure.message }

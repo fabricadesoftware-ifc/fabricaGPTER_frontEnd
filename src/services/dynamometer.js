@@ -121,8 +121,9 @@ export function createDynamometer ({ onState, onError, onSample, onEnd }) {
 
   return {
     connect, disconnect,
+    // Returns false when the collection cannot start; otherwise the command promise.
     start (seconds, zero) {
-      if (![30, 60].includes(seconds) || collecting || !writer) return
+      if (![30, 60].includes(seconds) || collecting || !writer) return false
       tare = zero
       tareBuf = []
       tareOffset = 0
