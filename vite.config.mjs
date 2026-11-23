@@ -1,0 +1,95 @@
+// Plugins
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import Fonts from 'unplugin-fonts/vite'
+import Layouts from 'vite-plugin-vue-layouts-next'
+import Vue from '@vitejs/plugin-vue'
+import VueRouter from 'unplugin-vue-router/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
+import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+
+// Utilities
+import { defineConfig } from 'vite'
+import { fileURLToPath, URL } from 'node:url'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    VueRouter(),
+    Layouts(),
+    Vue({
+      template: { transformAssetUrls },
+    }),
+    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
+    Vuetify({
+      autoImport: true,
+      styles: {
+        configFile: 'src/styles/settings.scss',
+      },
+    }),
+    Components(),
+    Fonts({
+      google: {
+        families: [{
+          name: 'Inter',
+          styles: 'wght@400;500;600;700',
+        }],
+      },
+    }),
+    AutoImport({
+      imports: [
+        'vue',
+        VueRouterAutoImports,
+        {
+          'pinia': ['defineStore', 'storeToRefs'],
+        },
+      ],
+      eslintrc: {
+        enabled: true,
+      },
+      vueTemplate: true,
+    }),
+  ],
+  optimizeDeps: {
+    exclude: [
+      'vuetify',
+      'vue-router',
+      'unplugin-vue-router/runtime',
+      'unplugin-vue-router/data-loaders',
+      'unplugin-vue-router/data-loaders/basic',
+    ],
+  },
+  define: { 'process.env': {} },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+    extensions: [
+      '.js',
+      '.json',
+      '.jsx',
+      '.mjs',
+      '.ts',
+      '.tsx',
+      '.vue',
+    ],
+  },
+  server: {
+    host: 'localhost',
+    port: 5173,
+    strictPort: true,
+    proxy: {
+      '/api/': { target: 'http://127.0.0.1:8000', changeOrigin: false },
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      sass: {
+        api: 'modern-compiler',
+      },
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
+  },
+})

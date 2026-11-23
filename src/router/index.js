@@ -1,0 +1,72 @@
+/**
+ * router/index.ts
+ *
+ * Automatic routes for `./src/pages/*.vue`
+ */
+
+// Composables
+import { createRouter, createWebHistory } from 'vue-router/auto'
+import { setupLayouts } from 'virtual:generated-layouts'
+import { routes } from 'vue-router/auto-routes'
+import pinia from '../stores/index.js'
+import { useSessionStore } from '../stores/auth.js'
+import { createAuthGuard } from './authGuard.js'
+
+const routesWithLayouts = routes.map(route => {
+  // O layout é aplicado à rota pai gerada para cada diretório de páginas.
+  if (/^\/(auth|cadastro|errors)(\/|$)/.test(route.path)) {
+    return {
+      ...route,
+      meta: {
+        ...route.meta,
+        layout: 'auth',
+      },
+    }
+  }
+
+  return route
+})
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: setupLayouts(
+    [
+      ...routesWithLayouts,
+      { path: '/', redirect: '/auth/sign-in' },
+      { path: '/professional', redirect: '/professional/patients' },
+      { path: '/patient', redirect: '/patient/test-history' },
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: () => import('@/pages/errors/NotFound.vue'),
+        meta: {
+          layout: 'auth',
+        },
+      },
+    ]),
+
+})
+
+router.beforeEach(createAuthGuard(useSessionStore(pinia)))
+
+// Workaround for https://github.com/vitejs/vite/issues/11804
+router.onError((err, to) => {
+  if (err?.message?.includes?.('Failed to fetch dynamically imported module')) {
+    if (!localStorage.getItem('vuetify:dynamic-reload')) {
+      console.log('Reloading page to fix dynamic import error')
+      localStorage.setItem('vuetify:dynamic-reload', 'true')
+      location.assign(to.fullPath)
+    }
+    else {
+      console.error('Dynamic import error, reloading page did not fix it', err)
+    }
+  } else {
+    console.error(err)
+  }
+})
+
+router.isReady().then(() => {
+  localStorage.removeItem('vuetify:dynamic-reload')
+})
+
+export default router
