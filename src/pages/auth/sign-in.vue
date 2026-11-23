@@ -1,8 +1,7 @@
 <script setup>
-  import { useDisplay } from 'vuetify'
   import { ref } from 'vue'
-  import AppLogo from '@/components/ui/AppLogo.vue'
   import { useRouter } from 'vue-router'
+  import { Activity, ChartLine, ShieldCheck } from 'lucide-vue-next'
   import { useSessionStore } from '@/stores/auth'
   import { homeFor } from '@/router/authGuard'
 
@@ -10,7 +9,15 @@
   const router = useRouter()
   const username = ref('')
   const password = ref('')
+  const showPassword = ref(false)
   const redirecting = ref(false)
+
+  const highlights = [
+    { icon: Activity, text: 'Coleta contínua com dinamômetro USB' },
+    { icon: ChartLine, text: 'Gráfico de força x tempo e pico de contração' },
+    { icon: ShieldCheck, text: 'Histórico seguro de cada paciente' },
+  ]
+
   async function submit () {
     if (!username.value.trim() || !password.value || session.loading) return
     if (await session.login(username.value.trim(), password.value)) {
@@ -20,6 +27,7 @@
       await router.replace({ name: homeFor(session.user) })
     }
   }
+
   async function resume () {
     session.error = ''
     redirecting.value = true
@@ -31,137 +39,132 @@
       session.error = failure.message
     }
   }
-
-  const showPassword = ref(false)
-  const { mdAndUp, smAndDown } = useDisplay()
 </script>
 
 <template>
-  <v-container
-    class="fill-height pa-0 ma-0 d-flex flex-column flex-md-row flex-nowrap align-center"
-    fluid
-  >
-    <v-container
-      class="ma-0 pa-0 d-flex align-start align-md-center justify-center blue-gradient"
-      :style="{
-        minHeight: mdAndUp ? '100vh' : '50vh',
-        maxWidth: mdAndUp ? '50vw' : '100%',
-      }"
-    >
-      <!-- Logo mobile -->
-      <AppLogo class="mt-12 mb-10 d-flex d-md-none flex-0-0" />
-      <form @submit.prevent="submit">
-        <v-card
-          class="rounded-xl pa-4"
-          :class="mdAndUp ? 'position-relative' : 'position-absolute'"
-          :elevation="smAndDown ? 5 : 0"
-          :style="[
-            mdAndUp
-              ? { width: 'clamp(320px, 70%, 350px)' }
-              : {
-                width: '320px',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-              },
-          ]"
-        >
-          <v-card-title
-            class="text-h5 text-primary text-center font-weight-bold mt-2 mb-6"
-          >
-            Bem-vindo
-          </v-card-title>
+  <div class="auth">
+    <aside class="auth__brand blue-gradient">
+      <div class="auth__brand-inner">
+        <div class="auth__logo"><img alt="GPTER" src="@/assets/logo-gpter-wo-bg.png"></div>
+        <h1 class="auth__headline">Avaliação de força de preensão manual</h1>
+        <p class="auth__lead">Grupo de Pesquisa em Tecnologia, Esporte e Reabilitação.</p>
+        <ul class="auth__highlights">
+          <li v-for="item in highlights" :key="item.text">
+            <span class="auth__highlight-icon"><component :is="item.icon" :size="18" /></span>
+            {{ item.text }}
+          </li>
+        </ul>
+      </div>
+    </aside>
 
+    <main class="auth__panel">
+      <form class="auth__form" @submit.prevent="submit">
+        <img alt="GPTER" class="auth__mobile-logo" src="@/assets/logo-gpter-wo-bg.png">
+        <h2 class="auth__title">Entrar</h2>
+        <p class="auth__subtitle">Use o usuário e a senha fornecidos pela equipe.</p>
+
+        <v-alert
+          v-if="session.error"
+          class="mb-4"
+          density="compact"
+          role="alert"
+          type="error"
+        >{{ session.error }}</v-alert>
+        <v-alert
+          v-if="session.notice"
+          class="mb-4"
+          density="compact"
+          role="status"
+          type="warning"
+        >{{ session.notice }}</v-alert>
+
+        <div v-if="session.isAuthenticated && redirecting" class="d-flex flex-column align-center ga-3 py-6" role="status">
+          <v-progress-circular aria-label="Acessando sua área" color="primary" indeterminate />
+          <span class="text-body-2 text-muted">Acessando sua área…</span>
+        </div>
+
+        <template v-else-if="session.isAuthenticated">
           <v-alert
-            v-if="session.error"
+            v-if="!['paciente', 'profissional'].includes(session.user.profile)"
             class="mb-4"
-            role="alert"
-            type="error"
-            variant="tonal"
-          >{{ session.error }}</v-alert>
-          <v-alert
-            v-if="session.notice"
-            class="mb-4"
-            role="status"
             type="warning"
-            variant="tonal"
-          >{{ session.notice }}</v-alert>
-          <template v-if="session.isAuthenticated && redirecting">
-            <div class="d-flex flex-column align-center justify-center ga-4 py-6" role="status">
-              <v-progress-circular aria-label="Acessando sua área" color="primary" indeterminate />
-              <span class="text-body-2 text-grey-darken-1">Acessando sua área...</span>
-            </div>
-          </template>
-          <template v-else-if="session.isAuthenticated">
-            <v-alert v-if="!['paciente', 'profissional'].includes(session.user.profile)" class="mb-4" type="warning" variant="tonal">
-              Perfil não configurado. Entre em contato com o administrador.
-            </v-alert>
-            <v-btn
-              v-else
-              block
-              class="mb-3"
-              :disabled="session.loading"
-              @click="resume"
-            >Tentar acessar minha área</v-btn>
-            <v-btn block :loading="session.loading" @click="session.logout()">Sair</v-btn>
-          </template>
-          <template v-else>
-            <v-text-field
-              v-model="username"
-              autocomplete="username"
-              class="mb-3"
-              :disabled="session.loading || session.initializing"
-              label="Usuário"
-              required
-              rounded="lg"
-              variant="outlined"
-            />
-            <v-text-field
-              v-model="password"
-              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              autocomplete="current-password"
-              class="mb-5"
-              :disabled="session.loading || session.initializing"
-              label="Senha"
-              required
-              rounded="lg"
-              :type="showPassword ? 'text' : 'password'"
-              variant="outlined"
-              @click:append-inner="showPassword = !showPassword"
-            />
-            <v-btn
-              block
-              class="darken-blue-gradient text-white"
-              :disabled="session.initializing || !username.trim() || !password"
-              height="50px"
-              :loading="session.loading"
-              rounded="lg"
-              type="submit"
-            >
-              Login
-            </v-btn>
-          </template>
-        </v-card>
-      </form>
-    </v-container>
+          >Perfil não configurado. Entre em contato com o administrador.</v-alert>
+          <v-btn
+            v-else
+            block
+            class="mb-3"
+            color="primary"
+            :disabled="session.loading"
+            size="large"
+            @click="resume"
+          >Acessar minha área</v-btn>
+          <v-btn
+            block
+            :loading="session.loading"
+            size="large"
+            variant="outlined"
+            @click="session.logout()"
+          >Sair</v-btn>
+        </template>
 
-    <v-container
-      class="ma-0 pa-0 d-flex align-start align-md-center justify-center bg-white"
-      :style="{
-        minHeight: mdAndUp ? '100vh' : 'calc(50vh - 70px)',
-        maxWidth: mdAndUp ? '50vw' : '100%',
-      }"
-    >
-      <!-- Logo desktop -->
-      <AppLogo class="mt-10 d-none d-md-flex" />
-    </v-container>
-  </v-container>
+        <template v-else>
+          <v-text-field
+            v-model="username"
+            autocomplete="username"
+            autofocus
+            class="mb-2"
+            :disabled="session.loading || session.initializing"
+            label="Usuário"
+            prepend-inner-icon="mdi-account-outline"
+            required
+          />
+          <v-text-field
+            v-model="password"
+            :append-inner-icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+            autocomplete="current-password"
+            class="mb-4"
+            :disabled="session.loading || session.initializing"
+            label="Senha"
+            prepend-inner-icon="mdi-lock-outline"
+            required
+            :type="showPassword ? 'text' : 'password'"
+            @click:append-inner="showPassword = !showPassword"
+          />
+          <v-btn
+            block
+            color="primary"
+            :disabled="session.initializing || !username.trim() || !password"
+            :loading="session.loading"
+            size="x-large"
+            type="submit"
+          >Entrar</v-btn>
+        </template>
+      </form>
+    </main>
+  </div>
 </template>
+
 <style scoped>
-.blue-gradient {
-  background-image: linear-gradient(180deg, #4a8dde 0%, #0c4f9d 100%);
-}
-.darken-blue-gradient {
-  background-image: linear-gradient(90deg, #2877d7 0%, #0d519e 100%);
+.auth { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 100dvh; background: rgb(var(--v-theme-surface)); }
+.auth__brand { display: flex; align-items: center; justify-content: center; padding: 48px; color: #fff; }
+.auth__brand-inner { max-width: 440px; }
+.auth__logo { display: inline-flex; padding: 12px 16px; border-radius: 16px; background: #fff; margin-bottom: 40px; }
+.auth__logo img { height: 88px; margin: -12px; }
+.auth__headline { font-size: clamp(1.75rem, 2.6vw, 2.25rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin: 0 0 12px; }
+.auth__lead { opacity: 0.85; margin: 0 0 32px; }
+.auth__highlights { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.auth__highlights li { display: flex; align-items: center; gap: 12px; font-weight: 500; }
+.auth__highlight-icon { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(255, 255, 255, 0.16); }
+.auth__panel { display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+.auth__form { width: 100%; max-width: 380px; }
+.auth__mobile-logo { display: none; height: 96px; margin: -16px 0 12px -16px; }
+.auth__title { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 6px; }
+.auth__subtitle { color: var(--app-ink-muted); margin: 0 0 28px; }
+
+@media (max-width: 959px) {
+  .auth { grid-template-columns: minmax(0, 1fr); }
+  .auth__brand { display: none; }
+  .auth__panel { align-items: flex-start; padding-top: 56px; }
+  .auth__mobile-logo { display: block; }
 }
 </style>
