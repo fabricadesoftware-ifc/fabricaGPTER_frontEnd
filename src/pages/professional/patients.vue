@@ -1,25 +1,27 @@
 <script setup>
-  import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-  import { useDataStore } from '@/stores/data'
+  import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import { useDisplay } from 'vuetify'
-  import { useRouter } from 'vue-router'
-
-  import PageTitle from '@/components/ui/PageTitle.vue'
+  import { Plus, RefreshCw } from 'lucide-vue-next'
+  import { useDataStore } from '@/stores/data'
+  import PageHeader from '@/components/ui/PageHeader.vue'
   import RegistrationShare from '@/components/patients/RegistrationShare.vue'
   import PatientsList from '@/components/patients/PatientsList.vue'
 
-  import { CirclePlus } from 'lucide-vue-next'
-
   const data = useDataStore()
-  const router = useRouter()
-  const { mdAndUp, xs } = useDisplay()
+  const { xs } = useDisplay()
 
   const search = ref(data.patientsSearch)
   const currentPage = ref(data.patientsPage)
   let searchTimer
 
+  const subtitle = computed(() => {
+    if (data.patientsLoading && !data.patients.length) return 'Carregando pacientes…'
+    const total = data.patientsTotal
+    return total === 1 ? '1 paciente cadastrado' : `${total} pacientes cadastrados`
+  })
+
   function reload () {
-    return data.loadPatients({ page: currentPage.value, search: search.value.trim() })
+    return data.loadPatients({ page: currentPage.value, search: (search.value || '').trim() })
   }
 
   watch(search, () => {
@@ -35,7 +37,7 @@
 
   watch(currentPage, page => {
     if (page === data.patientsPage) return
-    data.loadPatients({ page, search: search.value.trim() })
+    data.loadPatients({ page, search: (search.value || '').trim() })
   })
 
   watch(() => data.patientsPage, page => {
@@ -47,103 +49,76 @@
 </script>
 
 <template>
-  <v-container :class="{ 'px-8 mt-6': mdAndUp }" max-width="none">
-    <v-row align="start" class="w-full" justify="space-between">
-      <v-col class="py-0 d-flex flex-column aligin-start">
-        <PageTitle :class="{ 'mb-7': xs }" title="Pacientes" />
-        <p
-          v-if="xs"
-          class="text-subtitle-1 font-weigh-medium"
-        >Lista de pacientes</p>
-      </v-col>
-      <v-col align-self="end" class="text-right d-flex justify-end align-end py-0 mb-2">
-        <v-btn
-          v-if="xs"
-          aria-label="Registrar paciente"
-          class="d-flex align-center"
-          icon
-          variant="text"
-          @click="router.push('/professional/register-patient')"
-        ><CirclePlus :size="24" /></v-btn>
-        <v-btn
-          v-else
-          class="text-none rounded-xl border border-md"
-          flat
-          height="60"
-          width="160"
-          @click="router.push('/professional/register-patient')"
-        >Registrar paciente</v-btn>
-      </v-col>
-    </v-row>
+  <div class="page">
+    <PageHeader :subtitle="subtitle" title="Pacientes">
+      <template #actions>
+        <RegistrationShare />
+        <v-btn color="primary" to="/professional/register-patient">
+          <Plus class="mr-1" :size="18" />{{ xs ? 'Novo' : 'Novo paciente' }}
+        </v-btn>
+      </template>
+    </PageHeader>
 
-    <div class="d-flex flex-wrap align-center ga-2 my-4">
-      <RegistrationShare />
-      <v-btn
-        class="text-none"
-        :disabled="data.patientsLoading"
-        prepend-icon="mdi-refresh"
-        variant="text"
-        @click="reload"
-      >
-        Atualizar lista
-      </v-btn>
-    </div>
-
-    <v-row justify="center">
-      <v-col v-if="mdAndUp" cols="auto">
+    <v-card>
+      <div class="toolbar">
         <v-text-field
           v-model="search"
-          class="mb-3"
-          label="Buscar paciente"
+          class="toolbar__search"
+          clearable
+          density="compact"
+          hide-details
+          placeholder="Buscar por nome"
           prepend-inner-icon="mdi-magnify"
-          rounded="xl"
-          variant="outlined"
-          width="200"
+          @click:clear="search = ''"
         />
-      </v-col>
-      <v-col>
-        <v-alert
-          v-if="data.patientsError"
-          class="mb-4"
-          role="alert"
-          type="error"
-          variant="tonal"
-        >
-          <div class="d-flex flex-column ga-3">
-            <span>{{ data.patientsError }}</span>
-            <v-btn size="small" variant="outlined" @click="reload">Tentar novamente</v-btn>
-          </div>
-        </v-alert>
+        <v-btn
+          aria-label="Atualizar lista"
+          :disabled="data.patientsLoading"
+          icon
+          size="small"
+          variant="text"
+          @click="reload"
+        ><RefreshCw :size="18" /></v-btn>
+      </div>
 
-        <v-progress-linear
-          v-if="data.patientsLoading"
-          aria-label="Carregando pacientes"
-          class="mb-3"
-          indeterminate
-          rounded
-        />
+      <v-progress-linear v-if="data.patientsLoading" aria-label="Carregando pacientes" indeterminate />
+      <v-divider v-else />
 
-        <PatientsList v-if="data.patients.length" :patients="data.patients" />
+      <v-alert
+        v-if="data.patientsError"
+        class="ma-4"
+        role="alert"
+        type="error"
+      >
+        {{ data.patientsError }}
+        <template #append>
+          <v-btn size="small" variant="outlined" @click="reload">Tentar novamente</v-btn>
+        </template>
+      </v-alert>
 
-        <v-alert
-          v-else-if="!data.patientsLoading && !data.patientsError"
-          type="info"
-          variant="tonal"
-        >Nenhum paciente encontrado.</v-alert>
+      <PatientsList v-else-if="data.patients.length" :patients="data.patients" />
 
-        <div v-if="!data.patientsLoading && !data.patientsError && data.patientsTotal > 0" class="text-caption text-grey-darken-1 mt-2">
-          {{ data.patientsTotal }} {{ data.patientsTotal === 1 ? 'paciente' : 'pacientes' }}
-        </div>
+      <div v-else-if="!data.patientsLoading" class="empty">
+        <p class="font-weight-semibold mb-1">Nenhum paciente encontrado</p>
+        <p class="text-muted text-body-2 mb-4">
+          {{ search ? 'Tente buscar por outro nome.' : 'Cadastre um paciente ou compartilhe o QR Code de cadastro.' }}
+        </p>
+        <v-btn v-if="!search" color="primary" to="/professional/register-patient" variant="tonal">Cadastrar paciente</v-btn>
+      </div>
+    </v-card>
 
-        <v-pagination
-          v-if="data.patientsTotalPages > 1"
-          v-model="currentPage"
-          class="mt-3"
-          :length="data.patientsTotalPages"
-        />
-      </v-col>
-    </v-row>
-
-    <v-row class="d-flex justify-center align-center" />
-  </v-container>
+    <v-pagination
+      v-if="data.patientsTotalPages > 1"
+      v-model="currentPage"
+      class="mt-4"
+      :length="data.patientsTotalPages"
+      :total-visible="xs ? 3 : 7"
+    />
+  </div>
 </template>
+
+<style scoped>
+.toolbar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; }
+.toolbar__search { max-width: 360px; }
+.empty { padding: 48px 24px; text-align: center; }
+</style>

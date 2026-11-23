@@ -1,100 +1,40 @@
 <script setup>
   import { computed } from 'vue'
-  import { useDisplay } from 'vuetify'
-  import { Calendar, Clock, Fingerprint, Mail, MapPinHouse, Phone, User } from 'lucide-vue-next'
+  import { Calendar, Fingerprint, Hand, MapPinHouse, Phone } from 'lucide-vue-next'
   import { formatDateBR } from '@/utils/date'
 
-  const { mdAndUp, smAndDown } = useDisplay()
-
   const props = defineProps({
-    address: {
-      type: String,
-    },
-    email: {
-      type: String,
-    },
-    status: {
-      type: String,
-    },
-    username: {
-      type: String,
-    },
-    phone: {
-      type: String,
-    },
-    dominantHand: String,
-    cpf: {
-      type: String,
-    },
-    birthDate: {
-      type: String,
-    },
+    address: { type: String, default: '' },
+    phone: { type: String, default: '' },
+    dominantHand: { type: String, default: '' },
+    cpf: { type: String, default: '' },
+    birthDate: { type: String, default: '' },
   })
 
-  const infos = computed(() => [
-    { name: 'Mão dominante', icon: Fingerprint, prop: props.dominantHand || 'Não informada' },
-    {
-      name: 'Usuário',
-      icon: User,
-      prop: props.username,
-    },
-    {
-      name: 'Endereço',
-      icon: MapPinHouse,
-      prop: props.address,
-    },
-    {
-      name: 'Email',
-      icon: Mail,
-      prop: props.email,
-    },
-    {
-      name: 'Telefone',
-      icon: Phone,
-      prop: props.phone,
-    },
-    {
-      name: 'CPF',
-      icon: Fingerprint,
-      prop: props.cpf,
-    },
-    {
-      name: 'Data de Nascimento',
-      icon: Calendar,
-      prop: formatDateBR(props.birthDate),
-    },
-    {
-      name: 'Status',
-      icon: Clock,
-      prop: props.status,
-    },
-  ].filter(info => info.prop || ['Endereço', 'Email', 'Status'].includes(info.name)))
-</script>
-<template>
-  <v-card
-    :class="['mx-auto', {'pa-4' : smAndDown, 'pa-6': mdAndUp}]"
-    elevation="2"
-    max-width="550"
-    :min-height="mdAndUp ? '349' : '300'"
-    rounded="xl"
-  >
-    <v-card-title class="font-weight-medium pa-0" :class="{ 'text-h6 mb-3' : smAndDown, 'text-h5 mb-6': mdAndUp }">
-      Informações do paciente
-    </v-card-title>
-    <v-divider color="grey-darken-4" length="100%" />
+  function formatCpf (value) {
+    const digits = String(value || '').replace(/\D/g, '')
+    return digits.length === 11 ? digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4') : value
+  }
 
-    <v-card-text :class="['pa-0', {'mt-6': mdAndUp, 'mt-4': smAndDown}]">
-      <div :class="['d-flex flex-column', {'ga-4' : mdAndUp, 'ga-3': smAndDown}]">
-        <div v-for="info in infos" :key="info.name" class="d-flex align-start ga-3">
-          <div>
-            <component :is="info.icon" class="text-blue" :size="20" />
-          </div>
-          <div>
-            <span class="font-weight-bold text-subtitle-1">{{ info.name }}:</span>
-            <span :class="info.name === 'Status' ? 'ml-1 text-subtitle-1 bg-blue-lighten-4 text-blue-darken-4 rounded-xl px-2 py-1' : 'ml-1 text-subtitle-1'">{{ info.prop || 'Não informado' }}</span>
-          </div>
+  const infos = computed(() => [
+    { name: 'Mão dominante', icon: Hand, value: props.dominantHand },
+    { name: 'CPF', icon: Fingerprint, value: formatCpf(props.cpf) },
+    { name: 'Telefone', icon: Phone, value: props.phone },
+    { name: 'Data de nascimento', icon: Calendar, value: props.birthDate ? formatDateBR(props.birthDate) : '' },
+    { name: 'Endereço', icon: MapPinHouse, value: props.address, wide: true },
+  ])
+</script>
+
+<template>
+  <v-card>
+    <div class="card-header"><h2>Dados do paciente</h2></div>
+    <div class="card-section">
+      <dl class="info-list">
+        <div v-for="info in infos" :key="info.name" :style="info.wide ? 'grid-column: 1 / -1' : ''">
+          <dt><component :is="info.icon" aria-hidden="true" :size="14" />{{ info.name }}</dt>
+          <dd :class="{ 'text-subtle': !info.value }">{{ info.value || 'Não informado' }}</dd>
         </div>
-      </div>
-    </v-card-text>
+      </dl>
+    </div>
   </v-card>
 </template>
