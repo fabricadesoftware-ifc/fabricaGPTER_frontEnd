@@ -1,4 +1,6 @@
 @use "vuetify/settings" with (
+    $body-font-family: ('Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif),
+    $heading-font-family: ('Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif),
     $utilities: (
         "fill-height": (
             property: height,

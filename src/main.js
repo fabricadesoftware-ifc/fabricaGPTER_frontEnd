@@ -15,6 +15,7 @@ import { createApp } from 'vue'
 
 // Styles
 import 'unfonts.css'
+import '@/styles/app.css'
 
 // Remove only data left by the discontinued local demonstration.
 try {

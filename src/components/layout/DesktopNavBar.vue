@@ -1,68 +1,87 @@
 <script setup>
   import { computed } from 'vue'
-  import { useTheme } from 'vuetify'
   import { useRoute } from 'vue-router'
+  import { BookOpen, ChevronDown, ClipboardList, LogOut, UserRound, Users } from 'lucide-vue-next'
   import { useDataStore } from '@/stores/data'
-  import { useSessionStore } from '@/stores/auth'
+  import { useLogout } from '@/composables/useLogout'
   import ProfileAvatar from '@/components/profile/ProfileAvatar.vue'
-  import { Moon } from 'lucide-vue-next'
 
-  const theme = useTheme()
-  const dark = computed({ get: () => theme.global.name.value === 'dark', set: value => { theme.global.name.value = value ? 'dark' : 'light' } })
   const route = useRoute()
   const data = useDataStore()
-  const session = useSessionStore()
+  const { session, selectSetting } = useLogout()
   const professional = computed(() => route.path.startsWith('/professional'))
   const base = computed(() => professional.value ? '/professional' : '/patient')
   const profile = computed(() => data.profile || session.user || {})
   const displayName = computed(() => profile.value.name || profile.value.displayName || profile.value.username || 'Perfil')
-</script>
-<template>
-  <v-app-bar class="px-6" :elevation="1" height="70">
-    <v-toolbar-items class="w-100 d-flex align-center ga-8">
-      <img
-        alt="GPTER"
-        src="@/assets/logo-gpter.png"
-        style="max-height: 100%; max-width: 100%; object-fit: contain"
-      >
-      <v-btn
-        class="text-none"
-        router
-        :to="professional ? '/professional/patients' : '/patient/test-history'"
-        value="Pacientes"
-        variant="text"
-      >
-        {{ professional ? 'Pacientes' : 'Histórico' }}</v-btn>
+  const roleLabel = computed(() => professional.value ? 'Profissional' : 'Paciente')
 
-      <v-btn
-        class="text-none"
-        router
-        :to="base + '/manual'"
-        value="Manual"
-        variant="text"
-      >Manual</v-btn>
+  const links = computed(() => [
+    professional.value
+      ? { title: 'Pacientes', to: '/professional/patients', icon: Users, match: /^\/professional\/(patients|patient-details|edit-patient|register-patient|new-test|test-|assessment)/ }
+      : { title: 'Histórico', to: '/patient/test-history', icon: ClipboardList, match: /^\/patient\/(test-|assessment)/ },
+    { title: 'Manual', to: `${base.value}/manual`, icon: BookOpen, match: /\/manual$/ },
+  ])
+</script>
+
+<template>
+  <v-app-bar class="app-bar" flat height="64">
+    <div class="app-bar__inner">
+      <router-link aria-label="Página inicial" class="app-bar__brand" :to="links[0].to">
+        <img alt="GPTER" height="56" src="@/assets/logo-gpter-wo-bg.png">
+      </router-link>
+
+      <nav aria-label="Principal" class="app-bar__nav">
+        <v-btn
+          v-for="link in links"
+          :key="link.to"
+          :active="link.match.test(route.path)"
+          class="app-bar__link"
+          :to="link.to"
+          variant="text"
+        >
+          <component :is="link.icon" class="mr-2" :size="18" />{{ link.title }}
+        </v-btn>
+      </nav>
 
       <v-spacer />
 
-      <v-row align="center" class="ga-2 flex-0-0">
-        <v-switch
-          v-model="dark"
-          aria-label="Modo escuro"
-          center-affix
-          class="toggle-btn"
-          flat
-          hide-details
-          inset
-        />
-        <Moon />
-      </v-row>
-
-      <v-btn aria-label="Perfil" class="pa-0 text-none" variant="text" @click="$router.push(base + '/profile/infos')">
-        <div class="d-flex align-center ga-2">
-          <ProfileAvatar :name="profile.name" :photo="profile.photo" :size="36" />
-          <span class="text-body-2">{{ displayName }}</span>
-        </div>
-      </v-btn>
-    </v-toolbar-items>
+      <v-menu location="bottom end" offset="8">
+        <template #activator="{ props }">
+          <v-btn v-bind="props" class="app-bar__user" height="44" variant="text">
+            <ProfileAvatar :name="profile.name || displayName" :photo="profile.photo" :size="32" />
+            <span class="app-bar__user-text">
+              <span class="app-bar__user-name">{{ displayName }}</span>
+              <span class="app-bar__user-role">{{ roleLabel }}</span>
+            </span>
+            <ChevronDown class="ml-1 text-subtle" :size="16" />
+          </v-btn>
+        </template>
+        <v-list min-width="200">
+          <v-list-item :to="`${base}/profile/infos`">
+            <template #prepend><UserRound class="mr-3" :size="18" /></template>
+            <v-list-item-title>Meu perfil</v-list-item-title>
+          </v-list-item>
+          <v-divider class="my-1" />
+          <v-list-item base-color="error" :disabled="session.loading" @click="selectSetting({ logout: true })">
+            <template #prepend><LogOut class="mr-3" :size="18" /></template>
+            <v-list-item-title>Sair</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
   </v-app-bar>
 </template>
+
+<style scoped>
+.app-bar { border-bottom: 1px solid var(--app-border) !important; background: rgba(255, 255, 255, 0.92) !important; backdrop-filter: blur(8px); }
+.app-bar__inner { display: flex; align-items: center; gap: 24px; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.app-bar__brand { display: flex; align-items: center; margin: 0 -8px; }
+.app-bar__nav { display: flex; gap: 4px; }
+.app-bar__link { color: var(--app-ink-muted); font-weight: 500; }
+.app-bar__link.v-btn--active { color: var(--app-primary); background: var(--app-primary-soft); }
+.app-bar__link.v-btn--active :deep(.v-btn__overlay) { opacity: 0; }
+.app-bar__user { padding: 0 8px; }
+.app-bar__user-text { display: flex; flex-direction: column; align-items: flex-start; margin-left: 10px; line-height: 1.2; }
+.app-bar__user-name { font-size: 0.875rem; font-weight: 600; }
+.app-bar__user-role { font-size: 0.75rem; font-weight: 500; color: var(--app-ink-subtle); }
+</style>

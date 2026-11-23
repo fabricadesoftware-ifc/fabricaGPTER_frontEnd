@@ -31,8 +31,8 @@ export default defineConfig({
     Fonts({
       google: {
         families: [{
-          name: 'Roboto',
-          styles: 'wght@100;300;400;500;700;900',
+          name: 'Inter',
+          styles: 'wght@400;500;600;700',
         }],
       },
     }),
