@@ -22,6 +22,8 @@ export function emptyPatientForm () {
     name: '',
     email: '',
     cpf: '',
+    phone: '',
+    birthDate: '',
     dominant_hand: '',
     password: '',
     confirmation: '',
@@ -45,7 +47,7 @@ export function patientFormFromRecord (patient) {
   }
 }
 
-export function validatePatient (values, { editing = false, usernameRequired = true, passwordRequired = !editing } = {}) {
+export function validatePatient (values, { editing = false, usernameRequired = true, passwordRequired = !editing, contactRequired = false } = {}) {
   const errors = {}
   if ((!editing || values.dominant_hand) && !dominantHands.includes(values.dominant_hand)) {
     errors.dominant_hand = 'Selecione a mão dominante.'
@@ -71,7 +73,17 @@ export function validatePatient (values, { editing = false, usernameRequired = t
     errors.cep = 'O CEP deve conter 8 dígitos.'
   }
 
-  return { ...errors, ...validatePatientPassword(values, passwordRequired) }
+  return { ...errors, ...validatePatientContact(values, contactRequired), ...validatePatientPassword(values, passwordRequired) }
+}
+
+function validatePatientContact (values, contactRequired) {
+  const errors = {}
+  const phoneDigits = String(values.phone || '').replace(/\D/g, '')
+  if (contactRequired && !phoneDigits) errors.phone = 'Informe o telefone.'
+  else if (phoneDigits && !/^\d{10,11}$/.test(phoneDigits)) errors.phone = 'Informe o telefone com DDD.'
+  if (contactRequired && !values.birthDate) errors.birthDate = 'Informe a data de nascimento.'
+  else if (values.birthDate && values.birthDate > todayISO()) errors.birthDate = 'A data de nascimento não pode ser futura.'
+  return errors
 }
 
 function validatePatientPassword (values, passwordRequired) {
@@ -87,6 +99,11 @@ function validatePatientPassword (values, passwordRequired) {
   }
 
   return errors
+}
+
+export function todayISO () {
+  const now = new Date()
+  return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10)
 }
 
 export function hasValidationErrors (errors) {

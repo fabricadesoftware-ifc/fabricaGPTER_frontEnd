@@ -12,6 +12,7 @@ declare module 'vue' {
     ChangePasswordForm: typeof import('./src/components/profile/ChangePasswordForm.vue')['default']
     DesktopNavBar: typeof import('./src/components/layout/DesktopNavBar.vue')['default']
     DynamometerPanel: typeof import('./src/components/tests/DynamometerPanel.vue')['default']
+    ForceCurvePreview: typeof import('./src/components/auth/ForceCurvePreview.vue')['default']
     ForceTimeChart: typeof import('./src/components/tests/ForceTimeChart.vue')['default']
     InfoCard: typeof import('./src/components/patients/InfoCard.vue')['default']
     ManualContent: typeof import('./src/components/ui/ManualContent.vue')['default']

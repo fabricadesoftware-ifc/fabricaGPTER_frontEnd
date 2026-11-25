@@ -53,8 +53,8 @@
     <v-card v-if="loading"><v-progress-linear aria-label="Carregando avaliações" indeterminate /><div class="pa-8" /></v-card>
     <v-alert v-else-if="error" role="alert" type="error">{{ error }}</v-alert>
     <v-card v-else-if="!pageTests.length" class="empty">
-      <p class="font-weight-semibold mb-1">Nenhuma avaliação ainda</p>
-      <p class="text-body-2 text-muted">Seus testes aparecerão aqui depois que o profissional finalizá-los.</p>
+      <p class="font-weight-medium mb-1">Nenhuma avaliação ainda</p>
+      <p class="text-body-2 text-muted">Seus testes aparecerão aqui depois que o profissional finalizá-los</p>
     </v-card>
     <template v-else>
       <v-card><TestHistoryList :tests="pageTests" /></v-card>

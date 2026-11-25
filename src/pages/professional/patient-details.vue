@@ -82,7 +82,7 @@
 
     <template v-else>
       <PageHeader back="/professional/patients" back-label="Pacientes" title="Paciente" />
-      <v-alert type="info">Nenhum registro disponível.</v-alert>
+      <v-alert type="info">Nenhum registro disponível</v-alert>
     </template>
   </div>
 </template>

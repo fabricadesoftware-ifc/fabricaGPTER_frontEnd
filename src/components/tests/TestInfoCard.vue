@@ -47,10 +47,10 @@
     <div class="card-header"><h2>Detalhes do teste</h2></div>
     <div class="card-section">
       <dl class="info-list">
-        <div><dt><User :size="14" />Paciente</dt><dd>{{ test.name || 'Não informado' }}</dd></div>
-        <div v-if="!compact"><dt><Clock :size="14" />Duração</dt><dd>{{ test.seconds ? `${test.seconds} segundos` : 'Não informada' }}</dd></div>
-        <div v-if="!compact"><dt><Hand :size="14" />Mão testada</dt><dd>{{ test.arm || 'Não informada' }}</dd></div>
-        <div><dt><Calendar :size="14" />Data</dt><dd>{{ test.date || 'Não informada' }}</dd></div>
+        <div><dt><User :size="16" />Paciente</dt><dd>{{ test.name || 'Não informado' }}</dd></div>
+        <div v-if="!compact"><dt><Clock :size="16" />Duração</dt><dd>{{ test.seconds ? `${test.seconds} segundos` : 'Não informada' }}</dd></div>
+        <div v-if="!compact"><dt><Hand :size="16" />Mão testada</dt><dd>{{ test.arm || 'Não informada' }}</dd></div>
+        <div><dt><Calendar :size="16" />Data</dt><dd>{{ test.date || 'Não informada' }}</dd></div>
       </dl>
     </div>
     <v-divider />
@@ -62,7 +62,7 @@
           size="small"
           variant="text"
           @click="startEditing"
-        ><Pencil class="mr-1" :size="14" />Editar</v-btn>
+        ><Pencil class="mr-1" :size="16" />Editar</v-btn>
       </div>
       <v-form v-if="editing" @submit.prevent="saveNotes">
         <v-textarea
@@ -87,13 +87,13 @@
         </div>
       </v-form>
       <p v-else class="notes" :class="{ 'text-subtle': !test.observations }">
-        {{ test.observations || 'Nenhuma observação registrada.' }}
+        {{ test.observations || 'Nenhuma observação registrada' }}
       </p>
     </div>
   </v-card>
 </template>
 
 <style scoped>
-.notes-title { font-size: 0.875rem; font-weight: 600; margin: 0; }
+.notes-title { font-size: 0.875rem; font-weight: 500; margin: 0; }
 .notes { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; font-size: 0.9375rem; }
 </style>

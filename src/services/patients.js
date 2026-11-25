@@ -8,6 +8,8 @@ export const PATIENT_WRITABLE_FIELDS = [
   'name',
   'email',
   'cpf',
+  'phone',
+  'birthDate',
   'dominant_hand',
   'password',
   'confirmation',
@@ -188,6 +190,8 @@ export function buildPatientPayload (values, { editing = false, usernameEditable
     }
     const value = typeof values[key] === 'string' ? values[key].trim() : values[key]
     if (value === undefined || value === null) continue
+    // Optional on the API; an empty date string would be rejected.
+    if (['phone', 'birthDate'].includes(key) && value === '') continue
     payload[key === 'dominant_hand' ? 'dominantHand' : key] = value
   }
   return payload

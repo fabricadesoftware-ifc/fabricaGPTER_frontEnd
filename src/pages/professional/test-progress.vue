@@ -40,7 +40,7 @@
       await panel.value?.disconnect()
       await data.updateTest(id, 'cancelled')
       confirmCancel.value = false
-      session.notice = 'Teste cancelado.'
+      session.notice = 'Teste cancelado'
       await router.replace(patientId
         ? { path: '/professional/patient-details', query: { id: patientId } }
         : { path: '/professional/patients' })
@@ -64,7 +64,7 @@
       <PageHeader
         :back="back"
         back-label="Paciente"
-        :subtitle="[testDetails.name, `${testDetails.seconds} segundos`, `mão ${(testDetails.arm || '').toLowerCase()}`].filter(Boolean).join(' · ')"
+        :subtitle="[testDetails.name, `${testDetails.seconds} s`, `mão ${(testDetails.arm || '').toLowerCase()}`].filter(Boolean).join(' · ')"
         title="Teste em andamento"
       >
         <template #badge><StatusChip :status="testDetails.status" /></template>
@@ -113,7 +113,7 @@
 
     <template v-else>
       <PageHeader back="/professional/patients" title="Teste em andamento" />
-      <v-alert type="info">Nenhum registro disponível.</v-alert>
+      <v-alert type="info">Nenhum registro disponível</v-alert>
     </template>
 
     <v-dialog v-model="confirmCancel" max-width="420">

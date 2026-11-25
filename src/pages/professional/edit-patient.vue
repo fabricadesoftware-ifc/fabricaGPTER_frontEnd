@@ -15,7 +15,7 @@
     <PageHeader
       :back="back"
       back-label="Paciente"
-      subtitle="A senha é alterada pelo próprio paciente, no perfil dele."
+      subtitle="A senha é alterada pelo próprio paciente, no perfil dele"
       title="Editar paciente"
     />
     <PatientForm />

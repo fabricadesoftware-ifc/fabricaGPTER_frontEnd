@@ -39,6 +39,6 @@
 <style scoped>
 .terms { max-width: 72ch; }
 .terms__section + .terms__section { margin-top: 24px; }
-.terms__section h3 { font-size: 1rem; font-weight: 600; margin: 0 0 6px; }
+.terms__section h3 { font-size: 1rem; font-weight: 500; margin: 0 0 8px; }
 .terms__section p { margin: 0; color: var(--app-ink-muted); line-height: 1.65; white-space: pre-wrap; }
 </style>

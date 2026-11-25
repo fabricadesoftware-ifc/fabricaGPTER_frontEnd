@@ -31,7 +31,7 @@
     <div class="card-section">
       <dl class="info-list">
         <div v-for="info in infos" :key="info.name" :style="info.wide ? 'grid-column: 1 / -1' : ''">
-          <dt><component :is="info.icon" aria-hidden="true" :size="14" />{{ info.name }}</dt>
+          <dt><component :is="info.icon" aria-hidden="true" :size="16" />{{ info.name }}</dt>
           <dd :class="{ 'text-subtle': !info.value }">{{ info.value || 'Não informado' }}</dd>
         </div>
       </dl>

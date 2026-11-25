@@ -34,9 +34,8 @@
 
 <style scoped>
 .profile-avatar {
-  background: var(--app-primary-soft);
-  color: var(--app-primary);
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  background: var(--app-raised);
+  color: var(--app-ink-muted);
+  font-weight: 500;
 }
 </style>

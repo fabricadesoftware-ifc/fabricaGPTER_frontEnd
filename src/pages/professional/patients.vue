@@ -1,7 +1,7 @@
 <script setup>
   import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import { useDisplay } from 'vuetify'
-  import { Plus, RefreshCw } from 'lucide-vue-next'
+  import { Plus, RefreshCw, Search } from 'lucide-vue-next'
   import { useDataStore } from '@/stores/data'
   import PageHeader from '@/components/ui/PageHeader.vue'
   import RegistrationShare from '@/components/patients/RegistrationShare.vue'
@@ -54,7 +54,7 @@
       <template #actions>
         <RegistrationShare />
         <v-btn color="primary" to="/professional/register-patient">
-          <Plus class="mr-1" :size="18" />{{ xs ? 'Novo' : 'Novo paciente' }}
+          <Plus class="mr-2" :size="16" />{{ xs ? 'Novo' : 'Novo paciente' }}
         </v-btn>
       </template>
     </PageHeader>
@@ -68,9 +68,10 @@
           density="compact"
           hide-details
           placeholder="Buscar por nome"
-          prepend-inner-icon="mdi-magnify"
           @click:clear="search = ''"
-        />
+        >
+          <template #prepend-inner><Search class="text-subtle" :size="16" /></template>
+        </v-text-field>
         <v-btn
           aria-label="Atualizar lista"
           :disabled="data.patientsLoading"
@@ -99,9 +100,9 @@
       <PatientsList v-else-if="data.patients.length" :patients="data.patients" />
 
       <div v-else-if="!data.patientsLoading" class="empty">
-        <p class="font-weight-semibold mb-1">Nenhum paciente encontrado</p>
+        <p class="font-weight-medium mb-1">Nenhum paciente encontrado</p>
         <p class="text-muted text-body-2 mb-4">
-          {{ search ? 'Tente buscar por outro nome.' : 'Cadastre um paciente ou compartilhe o QR Code de cadastro.' }}
+          {{ search ? 'Tente buscar por outro nome' : 'Cadastre um paciente ou compartilhe o QR Code de cadastro' }}
         </p>
         <v-btn v-if="!search" color="primary" to="/professional/register-patient" variant="tonal">Cadastrar paciente</v-btn>
       </div>

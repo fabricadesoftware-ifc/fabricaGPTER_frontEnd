@@ -26,7 +26,7 @@
 </script>
 
 <template>
-  <ProfileSubpage subtitle="Dados cadastrados na sua conta." title="Informações pessoais">
+  <ProfileSubpage subtitle="Dados cadastrados na sua conta" title="Informações pessoais">
     <v-alert
       v-if="error"
       class="mb-4"

@@ -82,22 +82,22 @@
         <v-btn size="small" variant="outlined" @click="load">Tentar novamente</v-btn>
       </template>
     </v-alert>
-    <v-alert v-else-if="!assessment" type="info">Nenhuma avaliação disponível.</v-alert>
+    <v-alert v-else-if="!assessment" type="info">Nenhuma avaliação disponível</v-alert>
 
     <v-card v-else>
       <div class="card-section">
         <dl class="info-list">
-          <div><dt><User :size="14" />Paciente</dt><dd>{{ patientName }}</dd></div>
-          <div><dt><Hash :size="14" />Identificação do paciente</dt><dd>{{ assessment.patientId ?? 'Não informada' }}</dd></div>
-          <div><dt><Calendar :size="14" />Início</dt><dd>{{ startedAt || 'Não informado' }}</dd></div>
-          <div><dt><Clock :size="14" />Duração</dt><dd>{{ assessment.seconds != null ? `${assessment.seconds} segundos` : 'Não informada' }}</dd></div>
-          <div><dt><Hand :size="14" />Mão testada</dt><dd>{{ assessment.arm || 'Não informada' }}</dd></div>
+          <div><dt><User :size="16" />Paciente</dt><dd>{{ patientName }}</dd></div>
+          <div><dt><Hash :size="16" />Identificação do paciente</dt><dd>{{ assessment.patientId ?? 'Não informada' }}</dd></div>
+          <div><dt><Calendar :size="16" />Início</dt><dd>{{ startedAt || 'Não informado' }}</dd></div>
+          <div><dt><Clock :size="16" />Duração</dt><dd>{{ assessment.seconds != null ? `${assessment.seconds} segundos` : 'Não informada' }}</dd></div>
+          <div><dt><Hand :size="16" />Mão testada</dt><dd>{{ assessment.arm || 'Não informada' }}</dd></div>
         </dl>
       </div>
       <v-divider />
       <div class="card-section">
         <h2 class="notes-title">Observações</h2>
-        <p class="notes" :class="{ 'text-subtle': !assessment.observations }">{{ assessment.observations || 'Nenhuma observação registrada.' }}</p>
+        <p class="notes" :class="{ 'text-subtle': !assessment.observations }">{{ assessment.observations || 'Nenhuma observação registrada' }}</p>
       </div>
       <template v-if="['finished', 'validated'].includes(assessment.status) || (professional && assessment.status === 'running')">
         <v-divider />
@@ -119,6 +119,6 @@
 </template>
 
 <style scoped>
-.notes-title { font-size: 0.875rem; font-weight: 600; margin: 0 0 8px; }
+.notes-title { font-size: 0.875rem; font-weight: 500; margin: 0 0 8px; }
 .notes { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
 </style>
