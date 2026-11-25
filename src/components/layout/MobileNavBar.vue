@@ -34,12 +34,12 @@
       :to="professional ? '/professional/patients' : '/patient/test-history'"
       value="home"
     >
-      <component :is="professional ? Users : ClipboardList" :size="22" />
+      <component :is="professional ? Users : ClipboardList" :size="20" />
       <span>{{ professional ? 'Pacientes' : 'Histórico' }}</span>
     </v-btn>
 
     <v-btn :to="base + '/manual'" value="manual">
-      <BookOpen :size="22" />
+      <BookOpen :size="20" />
       <span>Manual</span>
     </v-btn>
 
