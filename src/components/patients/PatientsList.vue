@@ -41,7 +41,7 @@
       dialog.value = false
       pending.value = null
     } catch (failure) {
-      deactivateError.value = failure.message || 'Não foi possível desativar o paciente.'
+      deactivateError.value = failure.message || 'Não foi possível desativar o paciente'
     }
   }
 </script>
@@ -50,7 +50,7 @@
   <ul class="patients">
     <li v-for="patient in patients" :key="patient.id">
       <div
-        class="patient-row"
+        class="list-row patient-row"
         :class="{ 'patient-row--inactive': isInactivePatient(patient) }"
         role="link"
         tabindex="0"
@@ -131,19 +131,9 @@
 <style scoped>
 .patients { list-style: none; margin: 0; padding: 0; }
 .patients li + li { border-top: 1px solid var(--app-border); }
-.patient-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-.patient-row:hover { background: #F8FAFC; }
-.patient-row:focus-visible { outline: 2px solid var(--app-primary); outline-offset: -2px; }
 .patient-row--inactive .patient-row__name { color: var(--app-ink-subtle); }
 .patient-row__main { display: flex; flex-direction: column; min-width: 0; flex: 1; }
-.patient-row__name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.patient-row__name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .patient-row__meta { font-size: 0.8125rem; color: var(--app-ink-subtle); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .patient-row__chevron { color: var(--app-ink-subtle); flex: none; }
 </style>

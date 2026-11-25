@@ -8,7 +8,7 @@
     <PageHeader
       back="/professional/patients"
       back-label="Pacientes"
-      subtitle="Preencha os dados de acesso, identificação e endereço."
+      subtitle="Preencha os dados de acesso, identificação e endereço"
       title="Novo paciente"
     />
     <PatientForm />
