@@ -33,6 +33,6 @@
 <style scoped>
 .subpage-header { margin-bottom: 16px; }
 .subpage-header__back { margin-left: -8px; margin-bottom: 8px; color: var(--app-ink-muted); }
-.subpage-header__title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+.subpage-header__title { font-size: 1.25rem; font-weight: 500; margin: 0; }
 .subpage-header__subtitle { margin: 4px 0 0; color: var(--app-ink-muted); font-size: 0.875rem; }
 </style>

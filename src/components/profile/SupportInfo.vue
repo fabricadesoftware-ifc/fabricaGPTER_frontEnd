@@ -38,7 +38,7 @@
       class="contact"
       :href="info.href"
     >
-      <span class="contact__icon"><component :is="info.icon" :size="20" /></span>
+      <component :is="info.icon" class="contact__icon" :size="18" />
       <span>
         <span class="contact__label">{{ info.name }}</span>
         <span class="contact__value">{{ info.info }}</span>
@@ -46,13 +46,13 @@
     </v-card>
   </div>
 
-  <v-card v-else class="pa-8 text-center text-muted">Nenhum contato de suporte disponível no momento.</v-card>
+  <v-card v-else class="pa-8 text-center text-muted">Nenhum contato de suporte disponível no momento</v-card>
 </template>
 
 <style scoped>
 .contacts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 16px; }
-.contact { display: flex; align-items: center; gap: 14px; padding: 18px 20px; }
-.contact__icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--app-primary-soft); color: var(--app-primary); flex: none; }
+.contact { display: flex; align-items: center; gap: 12px; padding: 20px; }
+.contact__icon { color: var(--app-ink-subtle); flex: none; }
 .contact__label { display: block; font-size: 0.8125rem; color: var(--app-ink-subtle); }
-.contact__value { display: block; font-weight: 600; overflow-wrap: anywhere; }
+.contact__value { display: block; font-weight: 500; overflow-wrap: anywhere; }
 </style>

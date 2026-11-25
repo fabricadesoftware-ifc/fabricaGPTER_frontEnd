@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <ProfileSubpage subtitle="Use pelo menos 8 caracteres e não reutilize a senha atual." title="Alterar senha">
+  <ProfileSubpage subtitle="Use pelo menos 8 caracteres e não reutilize a senha atual" title="Alterar senha">
     <ChangePasswordForm />
   </ProfileSubpage>
 </template>

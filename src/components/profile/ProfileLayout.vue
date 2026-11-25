@@ -101,12 +101,12 @@
 </template>
 
 <style scoped>
-.account-title { font-size: clamp(1.5rem, 2.2vw, 1.875rem); font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+.account-title { font-size: clamp(1.5rem, 2.2vw, 1.875rem); font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; margin: 0; }
 .account { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 24px; align-items: start; }
 .account--mobile { grid-template-columns: minmax(0, 1fr); }
-.account__identity { display: flex; align-items: center; gap: 14px; padding: 20px; }
+.account__identity { display: flex; align-items: center; gap: 12px; padding: 20px; }
 .account__identity p { margin: 0; }
-.account__name { font-weight: 700; font-size: 1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.account__name { font-weight: 500; font-size: 1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .account__role { font-size: 0.8125rem; color: var(--app-ink-subtle); }
 .account__link { font-weight: 500; }
 .min-w-0 { min-width: 0; }
