@@ -52,7 +52,7 @@ export default createVuetify({
     VSelect: { variant: 'outlined', density: 'comfortable', rounded: 'lg', color: 'primary' },
     VTextarea: { variant: 'outlined', density: 'comfortable', rounded: 'lg', color: 'primary' },
     VAlert: { variant: 'tonal', rounded: 'lg' },
-    VChip: { rounded: 'pill' },
+    VChip: { rounded: 'md' },
     VDialog: { VCard: { border: false, elevation: 8 } },
     VMenu: { VList: { density: 'compact', rounded: 'lg' } },
     VPagination: { rounded: 'lg', density: 'comfortable', activeColor: 'primary' },

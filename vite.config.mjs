@@ -30,10 +30,11 @@ export default defineConfig({
     Components(),
     Fonts({
       google: {
-        families: [{
-          name: 'Inter',
-          styles: 'wght@400;500;600;700',
-        }],
+        families: [
+          { name: 'Inter', styles: 'wght@400;500;600' },
+          // Measured values only (force, time): reads like an instrument display.
+          { name: 'IBM Plex Mono', styles: 'wght@400;500' },
+        ],
       },
     }),
     AutoImport({

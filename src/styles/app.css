@@ -8,10 +8,17 @@
   --app-ink-muted: #475569;
   --app-ink-subtle: #64748B;
   --app-border: rgba(15, 23, 42, 0.1);
+  --app-hover: #F8FAFC;
+  --app-raised: #EEF2F7;
   --app-primary: #1F6FD1;
   --app-primary-soft: #E8F0FB;
+  --app-success: #13795B;
+  --app-warning: #B45309;
+  --app-idle: #94A3B8;
   --app-radius: 16px;
   --app-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.04);
+  --app-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --app-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html, body {
@@ -28,7 +35,7 @@ html, body {
 .v-btn {
   text-transform: none;
   letter-spacing: 0;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .v-btn--variant-outlined {
@@ -41,7 +48,7 @@ html, body {
 
 .v-card-title {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0;
   line-height: 1.5;
 }
@@ -90,12 +97,12 @@ html, body {
 }
 
 @media (max-width: 599px) {
-  .card-header { padding: 14px 16px; }
+  .card-header { padding: 12px 16px; }
 }
 
 .card-header h2 {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   margin: 0;
 }
 
@@ -110,9 +117,9 @@ html, body {
 .info-list dt {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--app-ink-subtle);
   margin-bottom: 4px;
 }
@@ -127,19 +134,36 @@ html, body {
 .text-muted { color: var(--app-ink-muted); }
 .text-subtle { color: var(--app-ink-subtle); }
 
+/* Small label above a value. Sentence case, no tracking. */
 .eyebrow {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  font-weight: 400;
   color: var(--app-ink-subtle);
 }
 
-/* Brand gradients */
-.blue-gradient {
-  background-image: linear-gradient(160deg, #2A7DE1 0%, #0D4C96 100%);
+/* Measured values (N, s): instrument-style mono with tabular digits. */
+.figure {
+  font-family: var(--app-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
 }
 
-.darken-blue-gradient {
-  background-image: linear-gradient(90deg, #2877d7 0%, #0d519e 100%);
+/* Clickable list rows shared by patients and assessments. */
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px 24px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 160ms var(--app-ease);
+}
+
+.list-row:hover { background: var(--app-hover); }
+.list-row:focus-visible { outline: 2px solid var(--app-primary); outline-offset: -2px; }
+
+@media (max-width: 599px) {
+  .list-row { padding: 12px 16px; }
 }

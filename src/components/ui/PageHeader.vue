@@ -52,13 +52,13 @@
 .page-header__text { min-width: 0; }
 .page-header__title {
   font-size: clamp(1.5rem, 2.2vw, 1.875rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   line-height: 1.2;
   margin: 0;
 }
 .page-header__subtitle {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   color: var(--app-ink-muted);
   font-size: 0.9375rem;
 }
