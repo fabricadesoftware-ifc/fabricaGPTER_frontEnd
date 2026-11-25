@@ -8,6 +8,7 @@
     emptyPatientForm,
     hasValidationErrors,
     patientFormFromRecord,
+    todayISO,
     validatePatient,
   } from '@/utils/patient'
   import { formatCep, useCep } from '@/composables/useCep'
@@ -50,6 +51,14 @@
       .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
   }
 
+  function formatPhone (value) {
+    const digits = String(value ?? '').replace(/\D/g, '').slice(0, 11)
+    if (digits.length <= 2) return digits ? `(${digits}` : ''
+    if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`
+    if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
+  }
+
   function clearErrors () {
     for (const key of Object.keys(errors)) delete errors[key]
   }
@@ -66,6 +75,7 @@
     Object.assign(form, patientFormFromRecord(patient), {
       cpf: formatCpf(patient.cpf),
       cep: formatCep(patient.cep),
+      phone: formatPhone(patient.phone),
     })
     usernameEditable.value = patient.usernameEditable !== false
   }
@@ -99,6 +109,7 @@
   function updateField (key, value) {
     if (key === 'cep') form[key] = formatCep(value)
     else if (key === 'cpf') form[key] = formatCpf(value)
+    else if (key === 'phone') form[key] = formatPhone(value)
     else form[key] = value ?? ''
     if (errors[key]) delete errors[key]
     formError.value = ''
@@ -131,7 +142,7 @@
         typeof value === 'string' && !['password', 'confirmation'].includes(key) ? value.trim() : value,
       ]),
     )
-    const validation = validatePatient(values, { editing: editing.value })
+    const validation = validatePatient(values, { editing: editing.value, contactRequired: props.publicRegistration })
     Object.assign(errors, validation)
     if (hasValidationErrors(validation)) {
       await showError('Revise os campos destacados.')
@@ -160,6 +171,8 @@
     } catch (failure) {
       const aliases = {
         dominantHand: 'dominant_hand',
+        birth_date: 'birthDate',
+        telefone: 'phone',
         zip_code: 'cep',
         postal_code: 'cep',
         address: 'street',
@@ -279,6 +292,24 @@
             maxlength="14"
             placeholder="000.000.000-00"
           />
+          <template v-if="publicRegistration">
+            <v-text-field
+              v-bind="bind('phone')"
+              autocomplete="tel"
+              inputmode="tel"
+              label="Telefone"
+              maxlength="15"
+              placeholder="(00) 00000-0000"
+              type="tel"
+            />
+            <v-text-field
+              v-bind="bind('birthDate')"
+              autocomplete="bday"
+              label="Data de nascimento"
+              :max="todayISO()"
+              type="date"
+            />
+          </template>
           <div class="span-2">
             <p class="field-label">Mão dominante</p>
             <v-btn-toggle
