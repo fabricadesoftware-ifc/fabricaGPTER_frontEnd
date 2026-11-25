@@ -2,6 +2,7 @@
   import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import { Chart, Filler, LinearScale, LineController, LineElement, PointElement, Tooltip } from 'chart.js'
   import { measurementSummary } from '@/services/assessments'
+  import { formatMeasure } from '@/utils/number'
 
   Chart.register(LineController, LineElement, PointElement, LinearScale, Tooltip, Filler)
 
@@ -18,6 +19,7 @@
   const INK_MUTED = '#64748B'
   const GRID = 'rgba(15, 23, 42, 0.06)'
   const SURFACE = '#FFFFFF'
+  const MONO = "'IBM Plex Mono', ui-monospace, monospace"
 
   const canvas = ref(null)
   const tableOpen = ref(false)
@@ -66,9 +68,9 @@
       const point = instance.getDatasetMeta(1)?.data?.[0]
       if (!peak || !point) return
       const { ctx, chartArea } = instance
-      const text = `Pico ${peak.y.toFixed(1)} N`
+      const text = `Pico ${formatMeasure(peak.y)} N`
       ctx.save()
-      ctx.font = '600 12px Inter, system-ui, sans-serif'
+      ctx.font = `500 12px ${MONO}`
       const width = ctx.measureText(text).width
       let x = point.x + 10
       if (x + width > chartArea.right) x = point.x - 10 - width
@@ -127,6 +129,7 @@
       data: { datasets: datasets() },
       plugins: [crosshair, peakLabel],
       options: {
+        locale: 'pt-BR',
         responsive: true,
         maintainAspectRatio: false,
         parsing: false,
@@ -140,11 +143,11 @@
             backgroundColor: '#0F172A',
             padding: 10,
             cornerRadius: 8,
-            titleFont: { family: 'Inter', weight: '600', size: 12 },
-            bodyFont: { family: 'Inter', size: 12 },
+            titleFont: { family: MONO, weight: '500', size: 12 },
+            bodyFont: { family: MONO, size: 12 },
             callbacks: {
-              title: items => `${Number(items[0].parsed.x).toFixed(2)} s`,
-              label: item => `Força: ${Number(item.parsed.y).toFixed(1)} N`,
+              title: items => `${formatMeasure(items[0].parsed.x, 2)} s`,
+              label: item => `Força ${formatMeasure(item.parsed.y)} N`,
             },
           },
         },
@@ -156,14 +159,14 @@
             title: { display: true, text: 'Tempo (s)', color: INK_MUTED, font: { family: 'Inter', size: 12 } },
             grid: { display: false },
             border: { color: 'rgba(15, 23, 42, 0.16)' },
-            ticks: { color: INK_MUTED, font: { family: 'Inter', size: 11 }, maxTicksLimit: 8 },
+            ticks: { color: INK_MUTED, font: { family: MONO, size: 11 }, maxTicksLimit: 8 },
           },
           y: {
             beginAtZero: true,
             title: { display: true, text: 'Força (N)', color: INK_MUTED, font: { family: 'Inter', size: 12 } },
             grid: { color: GRID },
             border: { display: false },
-            ticks: { color: INK_MUTED, font: { family: 'Inter', size: 11 }, maxTicksLimit: 6 },
+            ticks: { color: INK_MUTED, font: { family: MONO, size: 11 }, maxTicksLimit: 6 },
           },
         },
       },
@@ -184,7 +187,7 @@
     </div>
     <div class="chart-area">
       <canvas ref="canvas" aria-label="Força em newtons ao longo do tempo em segundos" role="img" />
-      <div v-if="!samples.length" class="chart-empty"><span>Nenhuma medição registrada ainda.</span></div>
+      <div v-if="!samples.length" class="chart-empty"><span>Nenhuma medição registrada ainda</span></div>
     </div>
     <template v-if="showTable && samples.length">
       <v-divider />
@@ -201,8 +204,8 @@
           <thead><tr><th>Tempo (s)</th><th class="text-right">Força (N)</th></tr></thead>
           <tbody>
             <tr v-for="row in tableRows" :key="row.t">
-              <td>{{ row.t.toFixed(1) }}</td>
-              <td class="text-right">{{ row.f.toFixed(1) }}</td>
+              <td>{{ formatMeasure(row.t) }}</td>
+              <td class="text-right">{{ formatMeasure(row.f) }}</td>
             </tr>
           </tbody>
         </v-table>
@@ -214,6 +217,7 @@
 <style scoped>
 .chart-area { position: relative; height: clamp(240px, 28vw, 340px); padding: 16px 16px 8px; }
 .chart-empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--app-ink-subtle); font-size: 0.875rem; pointer-events: none; }
-.chart-empty span { padding: 6px 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid var(--app-border); }
-.chart-table { padding: 0 16px 16px; font-variant-numeric: tabular-nums; }
+.chart-empty span { padding: 4px 12px; border-radius: 8px; background: rgb(var(--v-theme-surface)); border: 1px solid var(--app-border); }
+.chart-table { padding: 0 16px 16px; }
+.chart-table td { font-family: var(--app-mono); font-variant-numeric: tabular-nums; }
 </style>

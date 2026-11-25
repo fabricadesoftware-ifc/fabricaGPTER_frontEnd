@@ -3,6 +3,7 @@
   import { Play, Plug, Square, Unplug } from 'lucide-vue-next'
   import { createDynamometer, takeTestPort } from '@/services/dynamometer'
   import ForceTimeChart from '@/components/tests/ForceTimeChart.vue'
+  import { formatMeasure } from '@/utils/number'
 
   const emit = defineEmits(['complete'])
   const props = defineProps({ locked: Boolean, seconds: { type: Number, required: true }, testId: { type: [Number, String], required: true } })
@@ -24,7 +25,7 @@
       active.value = false
       stopping.value = false
       if (samples.length) emit('complete', samples)
-      else error.value = 'Coleta encerrada sem medições.'
+      else error.value = 'Coleta encerrada sem medições'
     },
     onSample (sample) {
       samples.push(sample)
@@ -70,11 +71,11 @@
       <div class="live">
         <div>
           <p class="eyebrow">Força atual</p>
-          <p class="live__value" :class="{ 'text-subtle': !last }">{{ last ? last.f.toFixed(1) : '0.0' }}<span class="live__unit">N</span></p>
+          <p class="live__value figure" :class="{ 'text-subtle': !last }">{{ formatMeasure(last ? last.f : 0) }}<span class="live__unit">N</span></p>
         </div>
         <div class="text-right">
           <p class="eyebrow">Tempo</p>
-          <p class="live__time">{{ elapsed.toFixed(1) }} / {{ seconds }} s</p>
+          <p class="live__time figure">{{ formatMeasure(elapsed) }} / {{ seconds }}<span class="live__unit">s</span></p>
         </div>
       </div>
       <v-progress-linear
@@ -122,9 +123,9 @@
         density="compact"
         :disabled="active"
         hide-details
-        label="Zerar no início (tara) — mantenha o equipamento sem carga"
+        label="Zerar no início (tara), com o equipamento sem carga"
       />
-      <v-alert v-if="!supported" density="compact" type="info">O dinamômetro suporta coletas de 30 ou 60 segundos.</v-alert>
+      <v-alert v-if="!supported" density="compact" type="info">O dinamômetro suporta coletas de 30 ou 60 segundos</v-alert>
       <v-alert v-if="error" density="compact" role="alert" type="error">{{ error }}</v-alert>
     </div>
   </v-card>
@@ -139,15 +140,19 @@
 </template>
 
 <style scoped>
-.device-status { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8125rem; font-weight: 600; color: var(--app-ink-muted); }
-.device-status__dot { width: 8px; height: 8px; border-radius: 50%; background: #94A3B8; }
-.device-status--ok .device-status__dot { background: #13795B; box-shadow: 0 0 0 3px rgba(19, 121, 91, 0.16); }
-.device-status--busy .device-status__dot { background: #B45309; }
+.device-status { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8125rem; font-weight: 500; color: var(--app-ink-muted); }
+.device-status__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--app-idle); }
+.device-status--ok .device-status__dot { background: var(--app-success); box-shadow: 0 0 0 3px rgba(19, 121, 91, 0.16); }
+.device-status--busy .device-status__dot { background: var(--app-warning); }
 .live { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
 .live p { margin: 0; }
-.live__value { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.live__unit { font-size: 1rem; font-weight: 500; color: var(--app-ink-muted); margin-left: 6px; }
-.live__time { font-size: 1.125rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.live p.eyebrow { margin-bottom: 4px; }
+.live__value { font-size: 3rem; font-weight: 500; line-height: 1; }
+.live__unit { font-family: 'Inter', system-ui, sans-serif; font-size: 1rem; font-weight: 400; color: var(--app-ink-muted); margin-left: 4px; }
+.live__time { font-size: 1.125rem; font-weight: 400; color: var(--app-ink-muted); }
 .actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-@media (max-width: 599px) { .actions { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 599px) {
+  .actions { grid-template-columns: minmax(0, 1fr); }
+  .live__value { font-size: 2.5rem; }
+}
 </style>

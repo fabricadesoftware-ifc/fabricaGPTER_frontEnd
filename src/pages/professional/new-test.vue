@@ -74,7 +74,7 @@
     <PageHeader
       :back="back"
       :back-label="patientId ? 'Paciente' : 'Pacientes'"
-      subtitle="Configure a coleta antes de conectar o dinamômetro."
+      subtitle="Configure a coleta antes de conectar o dinamômetro"
       title="Novo teste"
     />
 
@@ -95,7 +95,7 @@
           <ProfileAvatar :name="patient.name" :photo="patient.photo" :size="40" />
           <div>
             <p class="eyebrow">Paciente</p>
-            <p class="font-weight-semibold">{{ patient.name }}</p>
+            <p class="font-weight-medium">{{ patient.name }}</p>
           </div>
         </div>
         <v-divider v-if="patient" />
@@ -123,13 +123,7 @@
             >
               <v-btn v-for="hand in dominantHands" :key="hand" :value="hand">
                 {{ hand }}
-                <v-chip
-                  v-if="hand === recommendedHand"
-                  class="ml-2"
-                  color="primary"
-                  size="x-small"
-                  variant="tonal"
-                >dominante</v-chip>
+                <span v-if="hand === recommendedHand" class="toggle__note">· dominante</span>
               </v-btn>
             </v-btn-toggle>
           </div>
@@ -148,7 +142,7 @@
             type="warning"
           >Este navegador não acessa o dinamômetro USB. Use o Chrome ou o Edge em um computador.</v-alert>
           <div v-else class="hint">
-            <Usb :size="18" />
+            <Usb class="flex-shrink-0" :size="16" />
             <span>Ao iniciar, o navegador pedirá para escolher a porta do dinamômetro.</span>
           </div>
 
@@ -177,10 +171,11 @@
 .field-label { font-size: 0.875rem; font-weight: 500; color: var(--app-ink-muted); margin: 0 0 8px; }
 .toggle { width: 100%; height: 48px !important; }
 .toggle :deep(.v-btn) { flex: 1 1 0; }
-.hint { display: flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--app-ink-muted); }
+.toggle__note { margin-left: 4px; font-weight: 400; color: var(--app-ink-subtle); }
+.hint { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: var(--app-ink-muted); }
 .form-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 16px 24px; }
 @media (max-width: 599px) {
-  .patient-strip, .form-actions { padding: 14px 16px; }
+  .patient-strip, .form-actions { padding: 16px; }
   .form-actions .v-btn { flex: 1 1 0; }
 }
 </style>

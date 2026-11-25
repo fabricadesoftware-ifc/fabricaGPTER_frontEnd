@@ -1,9 +1,10 @@
 <script setup>
   import { computed, ref } from 'vue'
   import { useRouter } from 'vue-router'
-  import { Activity, Check, Clock, Hand, RotateCcw, Timer } from 'lucide-vue-next'
+  import { Check, RotateCcw } from 'lucide-vue-next'
   import { useTest } from '@/composables/useTest'
   import { measurementSummary } from '@/services/assessments'
+  import { formatMeasure } from '@/utils/number'
   import PageHeader from '@/components/ui/PageHeader.vue'
   import StatTile from '@/components/ui/StatTile.vue'
   import StatusChip from '@/components/ui/StatusChip.vue'
@@ -33,7 +34,7 @@
     actionMessage.value = { type: '', text: '' }
     try {
       await data.updateTest(test.value.id, 'validated')
-      actionMessage.value = { type: 'success', text: 'Teste validado.' }
+      actionMessage.value = { type: 'success', text: 'Teste validado' }
     } catch (failure) {
       actionMessage.value = { type: 'error', text: Object.values(failure.fields || {}).flat().join(' ') || failure.message }
     } finally {
@@ -59,7 +60,7 @@
         :back="back"
         :back-label="actions ? 'Paciente' : 'Histórico'"
         :subtitle="subtitle"
-        :title="`Teste de ${details.seconds}s`"
+        :title="`Teste de ${details.seconds} s`"
       >
         <template #badge><StatusChip :status="details.status" /></template>
         <template v-if="actions" #actions>
@@ -83,10 +84,10 @@
       >{{ actionMessage.text }}</v-alert>
 
       <div class="stats">
-        <StatTile :icon="Activity" label="Pico de contração" unit="N" :value="summary ? summary.peak.toFixed(1) : '—'" />
-        <StatTile :icon="Timer" label="Tempo até o pico" unit="s" :value="summary ? summary.peakTime.toFixed(2) : '—'" />
-        <StatTile :icon="Clock" label="Duração" unit="s" :value="details.seconds ?? '—'" />
-        <StatTile :icon="Hand" label="Mão testada" :value="details.arm || '—'" />
+        <StatTile label="Pico de contração" lead unit="N" :value="summary ? formatMeasure(summary.peak) : '—'" />
+        <StatTile label="Tempo até o pico" unit="s" :value="summary ? formatMeasure(summary.peakTime, 2) : '—'" />
+        <StatTile label="Duração" unit="s" :value="details.seconds ?? '—'" />
+        <StatTile label="Mão testada" text :value="details.arm || '—'" />
       </div>
 
       <div class="result-grid">
@@ -97,14 +98,21 @@
 
     <template v-else>
       <PageHeader :back="back" title="Resultado do teste" />
-      <v-alert type="info">Nenhum registro disponível.</v-alert>
+      <v-alert type="info">Nenhum registro disponível</v-alert>
     </template>
   </div>
 </template>
 
 <style scoped>
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stats { display: grid; grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
 .result-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 24px; align-items: start; }
 @media (max-width: 1099px) { .result-grid { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 799px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; } }
+@media (max-width: 799px) {
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .stats > :first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 599px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stats > :last-child { grid-column: 1 / -1; }
+}
 </style>
